@@ -1,0 +1,208 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[spanish]{babel}
+\usepackage[left=1cm, right=1cm, top=1.5cm, bottom=1.5cm]{geometry}
+
+\title{Formulario de Fórmulas de Estadística}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Teoría de Conjuntos}
+Estos son los conceptos básicos para manejar colecciones de elementos.
+
+\subsection{Pertenencia y Subconjunto}
+\( x \in A \): Indica que \( x \) es un elemento de \( A \). \\
+\( A \subseteq B \): \( A \) es un subconjunto de \( B \) (todos los elementos de \( A \) están en \( B \)). \\
+\textit{Explicación}: Define relaciones básicas entre elementos y conjuntos. El conjunto vacío \( \emptyset \subseteq A \) para cualquier \( A \).
+
+\subsection{Cardinal de un Conjunto}
+\( |A| \) o \( \#(A) \): Número de elementos en \( A \). \\
+\textit{Explicación}: Mide el tamaño finito de un conjunto. Ejemplo: \( |\{1, 2, 3\}| = 3 \).
+
+\subsection{Conjunto Potencia (Partes)}
+\( \mathcal{P}(A) \): Conjunto de todos los subconjuntos de \( A \). \\
+\( |\mathcal{P}(A)| = 2^{|A|} \): Cardinal del conjunto potencia. \\
+\textit{Explicación}: Incluye todos los subconjuntos posibles, incluyendo \( \emptyset \) y \( A \). Ejemplo: Para \( A = \{1, 2\} \), \( |\mathcal{P}(A)| = 4 \).
+
+\subsection{Función Característica}
+\[
+\chi_A(\omega) = 
+\begin{cases} 
+1 & \text{si } \omega \in A \\ 
+0 & \text{si } \omega \notin A 
+\end{cases}
+\]
+\textit{Explicación}: Asigna 1 si el elemento está en \( A \), 0 en caso contrario. Útil para operaciones booleanas.
+
+\subsection{Operaciones Básicas}
+\begin{itemize}
+    \item Intersección: \( A \cap B = \{ x \in \Omega \mid x \in A \ y \ x \in B \} \). (Elementos comunes).
+    \item Unión: \( A \cup B = \{ x \in \Omega \mid x \in A \ o \ x \in B \} \). (Elementos en al menos uno).
+    \item Diferencia: \( A - B = \{ x \in \Omega \mid x \in A \ y \ x \notin B \} \). (Elementos en \( A \) pero no en \( B \)).
+    \item Complemento: \( A^c = \Omega - A = \{ x \in \Omega \mid x \notin A \} \). (Elementos no en \( A \)).
+\end{itemize}
+\textit{Explicación}: Operaciones fundamentales para manipular conjuntos. Propiedades: conmutativas (\( A \cup B = B \cup A \)), asociativas, distributivas.
+
+\subsection{Leyes de De Morgan}
+\( {(A \cup B)}^c = A^c \cap B^c \). \\
+\( {(A \cap B)}^c = A^c \cup B^c \). \\
+\textit{Explicación}: Relacionan complementos con uniones e intersecciones. Útil para simplificar expresiones.
+
+\subsection{Propiedades Adicionales}
+Dos conjuntos son disjuntos si \( A \cap B = \emptyset \). \\
+\( \emptyset^c = \Omega \), \( \Omega^c = \emptyset \). \\
+\textit{Explicación}: Reglas básicas para conjuntos vacíos y universales.
+
+\section{Combinatoria}
+Se enfoca en contar configuraciones de elementos.
+
+\subsection{Número Binomial (Combinaciones sin Repetición)}
+\[
+\binom{n}{k} = C_k^n = \frac{n!}{k! \cdot (n-k)!}
+\]
+\textit{Explicación}: Número de subconjuntos de tamaño \( k \) en un conjunto de \( n \) elementos (orden no importa, sin repetición). Ejemplo: \( \binom{7}{5} = 21 \) (equipos de 5 con 7 posibles jugadores).
+
+\subsection{Combinaciones con Repetición}
+\[
+CR_k^n = \binom{n + k - 1}{k} = \frac{(n + k - 1)!}{k! \cdot (n-1)!}
+\]
+\textit{Explicación}: Número de formas de elegir \( k \) elementos de \( n \) tipos permitiendo repeticiones (multiconjuntos). Ejemplo: Repartir 12 caramelos en 4 personas: \( \binom{4 + 12 - 1}{12} = 455 \).
+
+\subsection{Variaciones sin Repetición}
+\[
+V_k^n = \frac{n!}{(n-k)!} = (n - k + 1) \cdot (n - k + 2) \cdots n
+\]
+\textit{Explicación}: Número de formas de elegir y ordenar \( k \) elementos de \( n \) sin repetir (permutaciones parciales). Ejemplo: Números de 2 cifras de \{1,2,3\}: \( V_2^3 = 6 \).
+
+\subsection{Variaciones con Repetición}
+\( VR_k^n = n^k \). \\
+\textit{Explicación}: Similar a variaciones, pero permitiendo repeticiones. Ejemplo: Números de 2 cifras de \{1,2,3\} con repetición: \( 3^2 = 9 \).
+
+\subsection{Permutaciones (sin Repetición)}
+\( P_n = n! \). \\
+\textit{Explicación}: Número de formas de ordenar todos los \( n \) elementos de un conjunto. Ejemplo: Permutaciones de \{1,2,3\}: \( 3! = 6 \).
+
+\subsection{Permutaciones con Repetición (Multinomial)}
+\[
+PR_{n_1, n_2, \dots, n_k}^n = \binom{n}{n_1 n_2 \dots n_k} = \frac{n!}{n_1! \cdot n_2! \cdots n_k!}, \quad \text{donde } n = n_1 + \cdots + n_k
+\]
+\textit{Explicación}: Número de permutaciones cuando hay elementos repetidos. Ejemplo: Palabras con letras de ``PROBABILIDAD'' (12 letras, repeticiones específicas): \( \frac{12!}{{2!}^4 {1!}^4} = 29,937,600 \).
+
+\subsection{Principio de la Suma}
+Si \( A_1, \dots, A_n \) son disjuntos: \( \#(\cup_{i=1}^n A_i) = \sum_{i=1}^n \#(A_i) \). \\
+\textit{Explicación}: Suma los cardinales de conjuntos mutuamente exclusivos.
+
+\subsection{Principio de Inclusión-Exclusión (para 2 Conjuntos)}
+\( \#(A_1 \cup A_2) = \#(A_1) + \#(A_2) - \#(A_1 \cap A_2) \). \\
+\textit{Explicación}: Corrige el solapamiento al contar uniones de conjuntos no disjuntos.
+
+\subsection{Principio del Producto}
+\( \#(A_1 \times A_2 \times \cdots \times A_n) = \prod_{i=1}^n \#(A_i) \). \\
+\textit{Explicación}: Cardinal de un producto cartesiano (selecciones independientes).
+
+\section{Conceptos Básicos y Operaciones con Sucesos}
+
+\subsection{Definiciones Básicas}
+\begin{itemize}
+    \item \textbf{Experimento aleatorio}: Experimento que, repetido en las mismas condiciones, puede dar resultados diferentes, pero predecibles a largo plazo.
+    \item \textbf{Suceso elemental}: Cada posible resultado del experimento.
+    \item \textbf{Espacio muestral} \(\Omega\): Conjunto de todos los sucesos elementales.
+    \item \textbf{Suceso}: Cualquier subconjunto de \(\Omega\).
+    \item \textbf{Suceso seguro}: \(\Omega\), \(P(\Omega) = 1\).
+    \item \textbf{Suceso imposible}: \(\emptyset\), \(P(\emptyset) = 0\).
+    \item \textbf{Conjunto de partes} \(\mathcal{P}(\Omega)\): Todos los subconjuntos de \(\Omega\). Si \(|\Omega| = n\), entonces \(|\mathcal{P}(\Omega)| = 2^n\).
+\end{itemize}
+
+\subsection{Operaciones con Sucesos}
+Sea \(A, B \subseteq \Omega\):
+\begin{itemize}
+    \item \textbf{Unión}: \(A \cup B\) (ocurre si sucede \(A\) o \(B\)).
+    \item \textbf{Intersección}: \(A \cap B\) (ocurre si sucede \(A\) y \(B\)).
+    \item \textbf{Complementario}: \(A^c\) (ocurre si no sucede \(A\)).
+    \item \textbf{Diferencia}: \(A - B = A \cap B^c\) (ocurre si sucede \(A\) y no \(B\)).
+    \item \textbf{Sucesos incompatibles (disjuntos)}: \(A \cap B = \emptyset\).
+\end{itemize}
+
+\subsection{Propiedades de Operaciones con Sucesos}
+\begin{itemize}
+    \item \textbf{Conmutativas}: \(A \cup B = B \cup A\), \(A \cap B = B \cap A\).
+    \item \textbf{Asociativas}: \(A \cup (B \cup C) = (A \cup B) \cup C\), \(A \cap (B \cap C) = (A \cap B) \cap C\).
+    \item \textbf{Distributivas}: \(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\), \(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\).
+    \item \textbf{Complementario del complementario}: \({(A^c)}^c = A\).
+    \item \textbf{Leyes de De Morgan}: \({(A \cup B)}^c = A^c \cap B^c\), \({(A \cap B)}^c = A^c \cup B^c\).
+\end{itemize}
+
+\subsection{Definición de Probabilidad}
+Para un espacio muestral finito \(\Omega\), una probabilidad \(P: \mathcal{P}(\Omega) \to [0,1]\) satisface:
+\begin{enumerate}
+    \item \(0 \leq P(A) \leq 1\) para todo suceso \(A\).
+    \item \(P(\Omega) = 1\).
+    \item Si \(A_1, \dots, A_n\) disjuntos, \(P(A_1 \cup \cdots \cup A_n) = P(A_1) + \cdots + P(A_n)\).
+\end{enumerate}
+Si todos los elementales son equiprobables, \(P(A) = \frac{|A|}{|\Omega|}\).
+
+\section{Probabilidad}
+
+\subsection{Propiedades}
+\begin{itemize}
+    \item \(P(\emptyset) = 0\).
+    \item \(P(A^c) = 1 - P(A)\).
+    \item Si \(B \subseteq A\), entonces \(0 \leq P(B) \leq P(A)\).
+    \item \(P(A - B) = P(A) - P(A \cap B)\).
+    \item \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\).
+    \item Para tres conjuntos: \(P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\).
+\end{itemize}
+
+\subsection{Probabilidad Condicionada}
+Dado \(A, B\) con \(P(A) > 0\):
+\[
+P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
+\]
+Propiedades (similar a probabilidad estándar):
+\begin{itemize}
+    \item \(P(B^c \mid A) = 1 - P(B \mid A)\).
+    \item \(P(B_1 \cup B_2 \mid A) = P(B_1 \mid A) + P(B_2 \mid A) - P(B_1 \cap B_2 \mid A)\).
+\end{itemize}
+
+\subsection{Teorema de la Probabilidad Total}
+Para \(A, B\):
+\[
+P(B) = P(B \cap A) + P(B \cap A^c) = P(A) \cdot P(B \mid A) + P(A^c) \cdot P(B \mid A^c).
+\]
+Para partición \(\{A_1, \dots, A_n\}\) de \(\Omega\):
+\[
+P(B) = \sum_{i=1}^n P(A_i) \cdot P(B \mid A_i).
+\]
+
+\subsection{Teorema de Bayes}
+Para \(A, B\) con \(P(B) > 0\):
+\[
+P(A \mid B) = \frac{P(A) \cdot P(B \mid A)}{P(B)} = \frac{P(A) \cdot P(B \mid A)}{P(A) \cdot P(B \mid A) + P(A^c) \cdot P(B \mid A^c)}.
+\]
+Para partición \(\{A_1, \dots, A_n\}\):
+\[
+P(A_i \mid B) = \frac{P(A_i) \cdot P(B \mid A_i)}{\sum_{j=1}^n P(A_j) \cdot P(B \mid A_j)}.
+\]
+
+\subsection{Independencia de Sucesos}
+\(A\) y \(B\) son independientes si:
+\[
+P(A \cap B) = P(A) \cdot P(B).
+\]
+Equivalentes (si \(P(A), P(B) > 0\)):
+\begin{itemize}
+    \item \(P(A \mid B) = P(A)\).
+    \item \(P(B \mid A) = P(B)\).
+\end{itemize}
+Para familia \(\{A_1, \dots, A_n\}\): Para toda subfamilia, el producto de probabilidades individuales iguala la probabilidad de la intersección.
+
+También: Independencia se preserva con complementarios (e.g., \(A^c\) y \(B\) independientes si \(A\) y \(B\) lo son).
+
+\end{document}

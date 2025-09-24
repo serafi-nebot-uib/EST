@@ -1,0 +1,168 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[margin=0.1cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} % latest stable
+
+% compact lists
+\setlist{nosep}
+
+% compact sections
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Estadística}} \\[4pt]
+    \small % small subtitle here
+\end{center}
+
+\section{Conjuntos}
+
+\tcbset{colback=gray!10, colframe=black, left=2pt, right=2pt, top=2pt, bottom=2pt, boxsep=2pt}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Teoría de Conjuntos, equal height group=CONJ1]
+        \begin{tabular}{rl}
+            $x \in A$: & $x$ es un elemento de $A$ \\
+            $A \subseteq B$: & todos los elementos de A están en B \\
+            $|A| = \#(A)$: & número de elementos de A (cardinal) \\
+            $\mathcal{P}(A)$: & conjunto de todos los subconjuntos de $A$ \\
+            $|\mathcal{P}(A)| = 2^{|A|}$: & cardinal del conjunto de potencia \\
+        \end{tabular}
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[title=Función Característica, equal height group=CONJ1]
+        Asigna 1 si el elemento está en $A$, 0 en caso contrario. Útil para operaciones booleanas. \\
+        $ \chi_A(\omega) = \begin{cases} 1 & \text{si } \omega \in A \\ 0 & \text{si } \omega \notin A \end{cases}$
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Operaciones Básicas]
+        \begin{tabular}{rl}
+            Intersección: & $A \cap B = \{ x \in \Omega \mid x \in A \land x \in B \}$ \\
+            Unión: & $A \cup B = \{ x \in \Omega \mid x \in A \lor x \in B \}$ \\
+            Diferencia: & $A - B = \{x \in \Omega \mid x \in A \land x \notin B \}$ \\
+            Complemento: & $A^c = \Omega - A = \{x \in \Omega \mid x \notin A \}$
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Leyes de De Morgan]
+        \begin{tabular}{rl}
+            ${\left( A \cup B \right)}^c = A^c \cap B^c$ \\
+            ${\left( A \cap B \right)}^c = A^c \cup B^c$
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Propiedades adicionales]
+        Dos conjuntos son disjuntos si $A \cap B = \emptyset$ \\
+        $\emptyset^c = \Omega, \Omega^c = \emptyset$
+    \end{tcolorbox}
+\end{multicols}
+
+\section{Combinatoria}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Número Binomial (Combinaciones sin Repetición), equal height group=COMB1]
+        Número de subconjuntos de tamaño \( k \) en un conjunto de \( n \) elementos (orden no importa, sin repetición).
+        \[
+            \binom{n}{k} = C_k^n = \frac{n!}{k! \cdot (n-k)!}
+        \] \\
+        Ejemplo: \( \binom{7}{5} = 21 \) (equipos de 5 con 7 posibles jugadores).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Número Binomial (Combinaciones sin Repetición), equal height group=COMB1]
+        Número de formas de elegir \( k \) elementos de \( n \) tipos permitiendo repeticiones (multiconjuntos). \\
+        \[
+            CR_k^n = \binom{n + k - 1}{k} = \frac{(n + k - 1)!}{k! \cdot (n-1)!}
+        \] \\
+        Ejemplo: Repartir 12 caramelos en 4 personas: \( \binom{4 + 12 - 1}{12} = 455 \).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Variaciones sin Repetición, equal height group=COMB2]
+        Número de formas de elegir y ordenar \( k \) elementos de \( n \) sin repetir (permutaciones parciales). \\
+        \[
+            V_k^n = \frac{n!}{(n-k)!} = (n - k + 1) \cdot (n - k + 2) \cdots n
+        \] \\
+        Ejemplo: Números de 2 cifras de \{1,2,3\}: \( V_2^3 = 6 \).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Variaciones con Repetición, equal height group=COMB2]
+        Similar a variaciones, pero permitiendo repeticiones. \\
+        \[
+            VR_k^n = n^k
+        \] \\
+        Ejemplo: Números de 2 cifras de \{1,2,3\} con repetición: \( 3^2 = 9 \).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Permutaciones sin Repetición, equal height group=COMB3]
+        Número de formas de ordenar todos los \( n \) elementos de un conjunto. 
+        \[
+            P_n = n!
+        \] \\
+        Ejemplo: Permutaciones de \{1,2,3\}: \( 3! = 6 \).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Permutaciones con Repetición, equal height group=COMB3]
+        Número de permutaciones cuando hay elementos repetidos. \\
+        \begin{align*}
+            PR_{n_1, n_2, \dots, n_k}^n = \binom{n}{n_1 n_2 \dots n_k} = \frac{n!}{n_1! \cdot n_2! \cdots n_k!}, \\
+            \quad \text{donde } n = n_1 + \cdots + n_k
+        \end{align*} \\
+        Ejemplo: Palabras con letras de ``PROBABILIDAD'' (12 letras, repeticiones específicas): \( \frac{12!}{{2!}^4 {1!}^4} = 29,937,600 \).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Principio de la Suma, equal height group=COMB4]
+        Suma los cardinales de conjuntos mutuamente exclusivos. \\
+        Si \( A_1, \dots, A_n \) son disjuntos: \( \#(\cup_{i=1}^n A_i) = \sum_{i=1}^n \#(A_i) \).
+        
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Principio del Producto, equal height group=COMB4]
+        Corrige el solapamiento al contar uniones de conjuntos no disjuntos. \\
+        \( \#(A_1 \cup A_2) = \#(A_1) + \#(A_2) - \#(A_1 \cap A_2) \).
+    \end{tcolorbox}
+\end{multicols}
+
+\section{Sucesos}
+
+% \begin{tcolorbox}[title=Enfoque probabilístico]
+%     \begin{tabularx}{\linewidth}{X X}
+%         \begin{tabular}{rl}
+%             \multicolumn{2}{l}{\bfseries Probabilidades absolutas} \\
+%             $p(x_i)$: & probabilidad fuente envíe símbolo $x_i$ \\
+%             $p(y_j)$: & probabilidad destinatario reciba el símbolo $y_j$
+%         \end{tabular}
+%         &
+%         \begin{tabular}{rl}
+%             \multicolumn{2}{l}{\bfseries Probabilidades condicionadas} \\
+%             $p(y_j \vert x_i)$: & probabilidad transición hacia delante \\
+%             $p(x_i \vert y_j)$: & probabilidad transición hacia atrás
+%         \end{tabular}
+%         \\\vspace{1pt}
+%         \begin{tabular}{rl}
+%             \multicolumn{2}{l}{\bfseries Aplicación teoremas básicos} \\
+%             Bayes: & $p(x_i,y_j) = p(y_j \vert x_i) \cdot p(x_i) = p(x_i \vert y_j) \cdot p(y_j)$ \\
+%             Prob.\ total: & $p(y_j) = \sum_{i=1}^{S}{p(y_j \vert x_i) \cdot p(x_i)}$ \\
+%                           & $p(x_i) = \sum_{i=1}^{N}{p(x_i \vert y_j) \cdot p(y_j)}$
+%         \end{tabular}
+%     \end{tabularx}
+% \end{tcolorbox}
+
+% \begin{tcolorbox}[title=Cantidad de información transmitida por el canal]
+%     \begin{tabular}{rl}
+%         Información mútua: & $I(x_i;y_j) = \log_2{\frac{1}{p(x_i)}} - \log_2{\frac{1}{p(x_i \vert y_j)}} = \log_2{\frac{p(x_i \vert y_j)}{p(x_i)}} = \log_2{\frac{p(y_j \vert x_i)}{p(y_j)}}$ \\
+%         Información mútua media: & $I(X;Y) = \sum_{i=1}^{S}\sum_{j=1}^{N}{p(x_i,y_j) \cdot I(x_i;y_j)}$
+%     \end{tabular}
+% \end{tcolorbox}
+
+\end{document}
