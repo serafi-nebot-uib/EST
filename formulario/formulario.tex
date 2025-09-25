@@ -25,7 +25,9 @@
     \small % small subtitle here
 \end{center}
 
-\section{Conjuntos}
+\newcommand{\sectiontitle}[1]{\par\hrule\vspace{10pt}{\Large\bfseries #1}\par}
+
+\sectiontitle{Conjuntos}
 
 \tcbset{colback=gray!10, colframe=black, left=2pt, right=2pt, top=2pt, bottom=2pt, boxsep=2pt}
 
@@ -49,10 +51,10 @@
 \begin{multicols}{2}
     \begin{tcolorbox}[title=Operaciones Básicas]
         \begin{tabular}{rl}
-            Intersección: & $A \cap B = \{ x \in \Omega \mid x \in A \land x \in B \}$ \\
-            Unión: & $A \cup B = \{ x \in \Omega \mid x \in A \lor x \in B \}$ \\
-            Diferencia: & $A - B = \{x \in \Omega \mid x \in A \land x \notin B \}$ \\
-            Complemento: & $A^c = \Omega - A = \{x \in \Omega \mid x \notin A \}$
+            \textbf{Intersección}: & $A \cap B = \{ x \in \Omega \mid x \in A \land x \in B \}$ \\
+            \textbf{Unión}: & $A \cup B = \{ x \in \Omega \mid x \in A \lor x \in B \}$ \\
+            \textbf{Diferencia}: & $A - B = \{x \in \Omega \mid x \in A \land x \notin B \}$ \\
+            \textbf{Complemento}: & $A^c = \Omega - A = \{x \in \Omega \mid x \notin A \}$
         \end{tabular}
     \end{tcolorbox}
     \begin{tcolorbox}[title=Leyes de De Morgan]
@@ -67,7 +69,7 @@
     \end{tcolorbox}
 \end{multicols}
 
-\section{Combinatoria}
+\sectiontitle{Combinatoria}
 
 \begin{multicols}{2}
     \begin{tcolorbox}[title=Número Binomial (Combinaciones sin Repetición), equal height group=COMB1]
@@ -133,36 +135,118 @@
     \end{tcolorbox}
 \end{multicols}
 
-\section{Sucesos}
+\pagebreak
+\sectiontitle{Sucesos}
 
-% \begin{tcolorbox}[title=Enfoque probabilístico]
-%     \begin{tabularx}{\linewidth}{X X}
-%         \begin{tabular}{rl}
-%             \multicolumn{2}{l}{\bfseries Probabilidades absolutas} \\
-%             $p(x_i)$: & probabilidad fuente envíe símbolo $x_i$ \\
-%             $p(y_j)$: & probabilidad destinatario reciba el símbolo $y_j$
-%         \end{tabular}
-%         &
-%         \begin{tabular}{rl}
-%             \multicolumn{2}{l}{\bfseries Probabilidades condicionadas} \\
-%             $p(y_j \vert x_i)$: & probabilidad transición hacia delante \\
-%             $p(x_i \vert y_j)$: & probabilidad transición hacia atrás
-%         \end{tabular}
-%         \\\vspace{1pt}
-%         \begin{tabular}{rl}
-%             \multicolumn{2}{l}{\bfseries Aplicación teoremas básicos} \\
-%             Bayes: & $p(x_i,y_j) = p(y_j \vert x_i) \cdot p(x_i) = p(x_i \vert y_j) \cdot p(y_j)$ \\
-%             Prob.\ total: & $p(y_j) = \sum_{i=1}^{S}{p(y_j \vert x_i) \cdot p(x_i)}$ \\
-%                           & $p(x_i) = \sum_{i=1}^{N}{p(x_i \vert y_j) \cdot p(y_j)}$
-%         \end{tabular}
-%     \end{tabularx}
-% \end{tcolorbox}
+\begin{tcolorbox}[title=Definiciones, equal height group=SUC1]
+    \begin{tabular}{rl}
+        \textbf{Experimento aleatorio}: & Experimento que, repetido en las mismas condiciones, puede dar resultados diferentes, \\
+                                        & pero predecibles a largo plazo. \\
+        \textbf{Suceso elemental}: & Cada posible resultado del experimento. \\
+        \textbf{Espacio muestral \(\Omega\)}: & Conjunto de todos los sucesos elementales. \\
+        \textbf{Suceso}: & Cualquier subconjunto de \(\Omega\). \\
+        \textbf{Suceso seguro}: & \(\Omega\), \(P(\Omega) = 1\). \\
+        \textbf{Suceso imposible}: & \(\emptyset\), \(P(\emptyset) = 0\).
+    \end{tabular}
+\end{tcolorbox}
 
-% \begin{tcolorbox}[title=Cantidad de información transmitida por el canal]
-%     \begin{tabular}{rl}
-%         Información mútua: & $I(x_i;y_j) = \log_2{\frac{1}{p(x_i)}} - \log_2{\frac{1}{p(x_i \vert y_j)}} = \log_2{\frac{p(x_i \vert y_j)}{p(x_i)}} = \log_2{\frac{p(y_j \vert x_i)}{p(y_j)}}$ \\
-%         Información mútua media: & $I(X;Y) = \sum_{i=1}^{S}\sum_{j=1}^{N}{p(x_i,y_j) \cdot I(x_i;y_j)}$
-%     \end{tabular}
-% \end{tcolorbox}
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Operaciones, equal height group=SUC2]
+        \begin{tabular}{rl}
+            \textbf{Unión}: & \(A \cup B\) (si sucede \(A\) o \(B\)) \\
+            \textbf{Intersección}: & \(A \cap B\) (si sucede \(A\) y \(B\)) \\
+            \textbf{Complementario}: & \(A^c\) (si no sucede \(A\)) \\
+            \textbf{Diferencia}: & \(A - B = A \cap B^c\) (sucede \(A\) y no \(B\)) \\
+            \textbf{Incompatibles}: & \(A \cap B = \emptyset\)
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Propiedades Operaciones, equal height group=SUC2]
+        \begin{tabular}{rl}
+            \textbf{Conmutativas}: & \(A \cup B = B \cup A\), \(A \cap B = B \cap A\) \\
+            \textbf{Asociativas}: & \(A \cup (B \cup C) = (A \cup B) \cup C\) \\
+                                  & \(A \cap (B \cap C) = (A \cap B) \cap C\) \\
+            \textbf{Distributivas}: & \(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\) \\
+                                    & \(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\) \\
+            \textbf{Complementario}: & \({(A^c)}^c = A\) \\
+            \textbf{De Morgan}: & \({(A \cup B)}^c = A^c \cap B^c\) \\
+                                & \({(A \cap B)}^c = A^c \cup B^c\)
+        \end{tabular}
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Probabilidad}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Definición, equal height group=PROB1]
+        Para un espacio muestral finito \(\Omega\), una probabilidad \\
+        \(P: \mathcal{P}(\Omega) \to [0,1]\) satisface: \\
+        \begin{enumerate}[topsep=0pt]
+            \item \(0 \leq P(A) \leq 1\) para todo suceso \(A\)
+            \item \(P(\Omega) = 1\)
+            \item Si \(A_1, \dots, A_n\) disjuntos, \\ \(P(A_1 \cup \cdots \cup A_n) = P(A_1) + \cdots + P(A_n)\)
+        \end{enumerate}
+        Si todos los elementales son equiprobables, \(P(A) = \frac{|A|}{|\Omega|}\).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Propiedades, equal height group=PROB1]
+        \begin{itemize}
+            \item \(P(\emptyset) = 0\)
+            \item \(P(A^c) = 1 - P(A)\)
+            \item Si \(B \subseteq A\), entonces \(0 \leq P(B) \leq P(A)\)
+            \item \(P(A - B) = P(A) - P(A \cap B)\)
+            \item \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
+            \item Para tres conjuntos: \(P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\)
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Probabilidad Condicionada, equal height group=PROB2]
+        Dado \(A, B\) con \(P(A) > 0\):
+        \[
+            P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
+        \]
+        Propiedades (similar a probabilidad estándar):
+        \begin{itemize}
+            \item \(P(B^c \mid A) = 1 - P(B \mid A)\).
+            \item \(P(B_1 \cup B_2 \mid A) = P(B_1 \mid A) + P(B_2 \mid A) - P(B_1 \cap B_2 \mid A)\).
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Independencia, equal height group=PROB2]
+        \(A\) y \(B\) son independientes si:
+        \[
+            P(A \cap B) = P(A) \cdot P(B)
+        \]
+        Equivalentes (si \(P(A), P(B) > 0\)):
+        \begin{itemize}
+            \item \(P(A \mid B) = P(A)\)
+            \item \(P(B \mid A) = P(B)\)
+        \end{itemize}
+        Para familia \(\{A_1, \dots, A_n\}\): Para toda subfamilia, el producto de probabilidades individuales iguala la probabilidad de la intersección.
+        También: Independencia se preserva con complementarios (e.g., \(A^c\) y \(B\) independientes si \(A\) y \(B\) lo son).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Probabilidad Total]
+    Para \(A, B\):
+    \[
+        P(B) = P(B \cap A) + P(B \cap A^c) = P(A) \cdot P(B \mid A) + P(A^c) \cdot P(B \mid A^c).
+    \]
+    Para partición \(\{A_1, \dots, A_n\}\) de \(\Omega\):
+    \[
+        P(B) = \sum_{i=1}^n P(A_i) \cdot P(B \mid A_i).
+    \]
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Teorema de Bayes]
+    Para \(A, B\) con \(P(B) > 0\):
+    \[
+        P(A \mid B) = \frac{P(A) \cdot P(B \mid A)}{P(B)} = \frac{P(A) \cdot P(B \mid A)}{P(A) \cdot P(B \mid A) + P(A^c) \cdot P(B \mid A^c)}.
+    \]
+    Para partición \(\{A_1, \dots, A_n\}\):
+    \[
+        P(A_i \mid B) = \frac{P(A_i) \cdot P(B \mid A_i)}{\sum_{j=1}^n P(A_j) \cdot P(B \mid A_j)}.
+    \]
+\end{tcolorbox}
+
 
 \end{document}
