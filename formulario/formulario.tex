@@ -135,7 +135,40 @@
     \end{tcolorbox}
 \end{multicols}
 
-\pagebreak
+\begin{tcolorbox}[title=Problema de las estrellas y barras]
+Queremos encontrar el número de soluciones no negativas de $x_1 + x_2 + \cdots + x_k = n$, $x_i \geq 0$
+
+Imaginamos que tenemos $n$ objetos idénticos que queremos repartir en $k$ cajones. Alineamos los $n$ objetos $\bigstar$ en fila:
+
+\[
+\bigstar \bigstar \bigstar \cdots \bigstar
+\]
+
+para separar estos objetos en $k$ cajones colocamos $k-1$ barras que marcan dónde termina cada grupo y empieza el siguiente.
+Por ejemplo, $n = 7$ y $k = 3$:
+
+\[
+\bigstar \bigstar \bigstar \bigstar \mid \bigstar \bigstar \mid \bigstar
+\]
+
+Esto representa cada cajón $x_1 = 4, x_2 = 2, x_3 = 1$.
+
+Cada solución corresponde a una secuencia de $n$ estrellas y $k-1$ barras en fila.
+
+\begin{itemize}
+    \item Número total de estrellas: $n$
+    \item Número total de barras: $k-1$
+    \item Número total de símbolos: $n + k - 1$
+\end{itemize}
+
+Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posiciones de las $k-1$ barras entre $n+k-1$ lugares posibles?
+
+\[
+\binom{n+k-1}{k-1}
+\]
+
+\end{tcolorbox}
+
 \sectiontitle{Sucesos}
 
 \begin{tcolorbox}[title=Definiciones, equal height group=SUC1]

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1758795400.85097 "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" "formulario.pdf" "formulario" 1758795401.41989 0
-  "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" 1758795400.09408 10813 5e4cfb27f83a127e6aecd6a0a1c74234 ""
+["pdflatex"] 1759137650.50059 "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" "formulario.pdf" "formulario" 1759137651.09302 0
+  "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" 1759137649.99139 11876 d92e796df05df75c09fb4ad17a3a92bf ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -26,6 +26,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb" 1215737283 138258 6525c253f16cededa14c7fd0da7f67b2 ""
   "/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty" 1734129479 7984 7dbb9280f03c0a315425f1b4f35d43ee ""
@@ -174,8 +175,8 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1743237580 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1743237537 3345739 7da140f55beb7e0878cefe3b9a895bb4 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "formulario.aux" 1758795401.37498 413 2853d8e645225c5d15f38364a60cfd9f "pdflatex"
-  "formulario.tex" 1758795400.09408 10813 5e4cfb27f83a127e6aecd6a0a1c74234 ""
+  "formulario.aux" 1759137651.04054 413 7968190b1ec8c0cbd2bafd229e3dfc7a "pdflatex"
+  "formulario.tex" 1759137649.99139 11876 d92e796df05df75c09fb4ad17a3a92bf ""
   (generated)
   "formulario.aux"
   "formulario.log"
