@@ -1,0 +1,664 @@
+---
+title:  'SOLUCIONES. Taller NO EVALUABLE 1. Entrega problema en grupo. MAT3 (estadística) GIN 2023-2024  - Probabilidad, Variables Aleatorias, R-básico.'
+author: "MAT3"
+date: '`r format(Sys.time(), "%a %b %d %X %Y")`'
+output:
+      html_document: 
+        toc: yes
+      pdf_document: 
+        toc: yes
+        number_sections: yes
+      word_document: default
+urlcolor: blue
+toccolor: DarkBlue
+header-includes: 
+       \usepackage{graphicx}
+       \usepackage{fancyhdr}
+       \pagestyle{fancy}
+       \setlength\headheight{28pt}
+       \fancyhead[L]{\includegraphics[width=1cm]{logoM3.png}}
+       \fancyfoot[L,RO]{M3,GIN 2022-2023}
+       \renewcommand{\contentsname}{Contenidos}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+count=0
+```
+
+->![](logoM3.png)<-
+
+
+
+#  Taller NO EVALUABLE 1. 
+
+Taller en grupo entregad las soluciones en .Rmd y .html o .pdf. o  escribidlas de forma manual y escanear el resultado, en un solo fichero.
+
+## Problema `r count=count+1;count`
+
+Sean $A$ , $B$ y $C$ tres sucesos tales que $P(A)=0.4$, $P(B)=0.4$ y $P(A\cup B)=0.6$. Calcular $P(A\cap B)$.
+
+
+###  Solución
+
+$P(A\cap B)=P(A)+P(B)-P(A\cup B)=0.4+0.4-0.6=0.2.$
+
+
+## Problema `r count=count+1;count`
+
+Sea $Y$ una variable discreta con función de  probabilidad :
+
+$$
+P_Y(y)=
+\left\{\begin{array}{ll}
+\alpha\cdot\frac{1}{y^2} & \mbox{, si } y=-2,-1,1,2,
+ \\
+0 & \mbox{ en otro caso}.
+\end{array}\right. 
+$$
+
+1. Hallad $\alpha$ para que $P_Y$ sea función de probabilidad.
+2. Hallad la función de distribución $F_Y(y)=P(Y\leq Y)$.
+3. Calculad $E(Y)$ y $Var(Y)$.
+4. Calculad el cuantil 0.5 de de $Y$ que es el primer valor $y_{0.5}$ del dominio de $Y$ tal que $P(Y\leq y_{0.5})\geq 0.5$.
+
+###  Solución
+
+**Apartado 1**
+
+\begin{eqnarray*}
+1=\displaystyle\sum_{y=-2,-1,1,2} P(Y=y) &=&  \sum_{y=-2,-1,1,2} \alpha\frac{1}{y^2}=
+\alpha\sum_{y=-2,-1,1,2} \frac{1}{y^2}
+\\ &=&
+\alpha\left(\frac{1}{(-2)^2}+\frac{1}{(-1)^2}+\frac{1}{1^2}+\frac{1}{2^2}\right)
+\\ &=&
+\alpha\left(\frac12+2\right)=\alpha\cdot \frac52.
+\end{eqnarray*}
+
+
+Luego   $\alpha =\frac25=0.4$ y la función de probabilidad es 
+
+$$
+P_Y(y)=P(Y=y)=\left\{\begin{array}{ll}
+0.4\cdot\frac{1}{(-2)^2}=0.1 & \mbox{, si } y=-2,
+ \\
+0.4\cdot\frac{1}{(-1)^2}=0.4 & \mbox{, si } y=-1,
+ \\
+0.4\cdot\frac{1}{1^2}=0.4 & \mbox{, si } y=1,
+ \\
+0.4\cdot\frac{1}{2^2}=0.1 & \mbox{, si } y=2,
+ \\
+0 & \mbox{ en otro caso}.
+\end{array}\right. 
+$$
+
+**Apartado 2**
+
+$$
+F_Y(y)=P(Y\leq y )=
+\left\{\begin{array}{ll}
+0 &  \mbox{, si } y< -2,\\
+0.1 & \mbox{, si }  -2 \leq y < -1 ,
+ \\
+ 0.1+0.4=0.5 & \mbox{, si }  -1 \leq y < 1 ,
+ \\
+0.5+0.4=0.9 & \mbox{, si }  1 \leq y < 2 ,
+ \\
+0.9+0.1=1 & \mbox{, si }  2 \leq y.
+\end{array}\right. 
+$$
+
+**Apartado 3**
+
+
+
+$$
+E(Y)=\sum_{y=-2,-1,1,2} y\cdot P(Y=y)= -2 \cdot 0.1+(-1)\cdot 0.4+ 1\cdot 0.4+ 2\cdot 0.1
+=0.
+$$
+
+$$
+E(Y^2)=\sum_{y=-2,-1,1,2} y^2\cdot P(Y=y)= (-2)^2 \cdot 0.1+(-1)^2\cdot 0.4+ 1^2\cdot 0.4+ 2^2\cdot 0.1
+=1.6.
+$$
+$$Var(Y)=E(Y^2)-E(Y)^2=1.6-0^2=1.6.$$
+
+**Apartado 4**
+
+En este caso como $F_Y(1)=P(Y\leq -1)=0.5>=0.5$ es el primer valor del dominio de $Y$ que cumple la condición luego $y_{0.5}=-1$.
+
+
+Podemos definir  las funciones anteriores  con R
+
+```{r}
+P_Y=function(y){
+  sapply(y,FUN=function(x){
+  if(x %in% c(-2,-1,1,2)){
+    return(0.4/x^2)
+  }else{
+    return(0)
+  }})
+}
+
+F_Y=function(y){
+sapply(y,FUN=function(x)
+  {if(x< -2){
+    return(0)
+  }else if(x< -1){
+    return(0.1)
+  }else if(x< 1){
+    return(0.5)
+  }else if(x< 2){
+    return(0.9)
+  }else{
+    return(1)
+  }
+})
+}
+
+P_Y(c(-2.5,-2,-1,-0.5,0.5,1,2,2.5))
+F_Y(c(-2.5,-2,-1,-0.5,0.5,1,2,2.5))
+
+```
+
+Y podemos dibujarlas (con algún paraámetro extra para la primera función)
+
+
+```{r}
+par(mfrow=c(1,2))
+plot(P_Y,col="blue",from=-2.5,to=2.5,
+      ylab="P(Y=y)",xlab="y",type='h',
+      main="Función de probabilidad P_Y(y)")
+
+plot(F_Y,col="blue",from=-2.5,to=2.5,
+      ylab="P(Y=y)",xlab="y",
+      main="Función de distribución F_Y(y)")
+par(mfrow=c(1,1))
+
+```
+
+
+
+
+## Problema `r count=count+1;count`
+
+Tenemos un dado, bien equilibrado,  de doce caras numeradas del 1 al 12  ([dodecaedro  dados  de rol](https://es.wikipedia.org/wiki/Dados_de_rol)).
+
+1. Calcular la función de probabilidad de la variables $X=$ número de la cara superior del dado en un lanzamiento, calcular E(X) y $Var(X)$.
+2. Calcular la función de distribución de $X$ y el cuantil $0.4$ que para una variable aleatoria discreta es el primer valor $x_{0.4}$ del dominio de $X$  tal que $P(X\leq x_{0.4})\geq 0.4$.
+3. Si $Y$ es al v.a. que cuenta el número de veces que tiramos el dado hasta obtener el primer $5$ calcular la función de distribución de $Y$.
+
+
+###  Solución
+
+**Apartado 1**
+
+
+$$
+P_X(x)=P(X=x)=\left\{\begin{array}{ll}
+\frac1{12}  & \mbox{, si } x=1,2,3,\ldots,11,12,
+ \\
+0 & \mbox{ en otro caso}.
+\end{array}\right. 
+$$
+El dominio de $X$ es $D_X=\{x\in \mathbb{R} | P_X(x)=P(X=x)>0\}=\{1,2,\ldots 12\}$
+
+**Apartado 2**
+
+$$
+F_X(x)=P(X\leq x)=
+\left\{\begin{array}{ll}
+0 &  \mbox{, si } x< 1,\\
+\frac{k}{12}& \mbox{, si }  k \leq x < k+1 \mbox{ para } k=1,2,\ldots,11\\
+1 &  \mbox{, si } 12\leq x.
+\end{array}\right. 
+$$
+
+
+```{r}
+distribucion=c(1:12)/12
+distribucion
+which(distribucion>=0.4)
+which(distribucion>=0.4)[1]
+distribucion[which(distribucion>=0.4)]
+distribucion[which(distribucion>=0.4)][1]
+```
+Como se ve en $P(X\leq 5)=\frac{5}{12}=`r 5/12`>0.4$ luego  $x_{0.4}=5$ pues es el primer valor del dominio de $X$ que cumple la condición $P(X\leq x_{0.4})\geq 0.4$. 
+
+
+**Apartado 3**
+
+$$\mu_X=E(X)=\displaystyle\sum_{x=1}^{12} x\cdot P_X(x)=\sum_{x=1}^{12} x\cdot \frac{1}{12}=
+\frac{1}{12}\sum_{x=1}^{12} x=\frac{1}{12}\cdot \frac{12\cdot(12+1)}{2}=6.5.
+$$
+
+Ahora calculamos la esperanza de $X^2$.
+
+$$E(X^2)=\displaystyle\sum_{x=1}^{12} x^2\cdot P_X(x)=\sum_{x=1}^{12} x^2\cdot \frac{1}{12}=
+\frac{1}{12}\sum_{x=1}^{12} x^2=\frac{1}{12}\cdot \frac{12\cdot(12+1)\cdot (2\cdot 12+1)}{6}=\frac{13\cdot25}{6}=54.16667.
+$$
+
+Con los dos últimos resultados podemos calcular la varianza de $X$
+
+$$\sigma_X^2=Var(X)=E(X^2)-E(X)^2=54.16667-6.5^2=`r 54.16667-6.5^2`.$$
+La desviación típica de $X$ es $\sigma_X=+\sqrt{Var(x)}=+\sqrt{`r 54.16667-6.5^2`}=`r sqrt(54.16667-6.5^2)`$
+
+
+
+
+## Problema `r count=count+1;count`
+
+Consideremos la v.a.   continua $X$ que  tiene por función de densidad para a alguna constante $\alpha\in \mathbb{R}$:
+
+$$
+f_X (t)=
+\left\{\begin{array}{ll}
+\alpha \cdot t^4, & \mbox{si } -1 < t <1,
+ \\
+0 & \mbox{ en otro caso}.
+\end{array}\right.
+$$
+
+1. Calculad $\alpha$ para que $f_X$ sea densidad y especificad su dominio $D_X$.
+2. Calculad la función de  distribución de la v.a. $X$; $F_X(x)=P(X\leq x)$.
+3. Calculad $E(X)$ y $Var(X)$.
+4. Calcula en cuantil $0.9$ de $X$ que, para v.a. continuas, es el primer valor de $x_{0.95}$ tal que $P(X\leq x_{0.95})=0.95$.
+
+###  Solución
+
+
+**Apartado 1**
+
+$1=\int_{-1}^1 \alpha\cdot t^4 dt= \left. \alpha \frac{t^5}{5} \right|_{-1}^1=
+\alpha\left( \frac{1^5}{5}-\frac{(-1)^5}{5} \right)=\alpha\cdot \frac25.$
+
+luego tenemos que $\alpha=\frac52.$ y 
+
+
+
+$$
+f_X (t)=
+\left\{\begin{array}{ll}
+\frac52 \cdot t^4, & \mbox{si } -1 < t <1,
+ \\
+0 & \mbox{ en otro caso}.
+\end{array}\right.
+$$
+
+**Apartado 2**
+
+
+
+$$
+F_X(x)=P(X\leq x)=
+\left\{\begin{array}{ll}
+0 & \mbox{, si } x\leq -1\\
+\displaystyle\int_{-1}^x \frac52 \cdot t^4 dt=\left[\frac52\cdot \frac{t^5}{5}\right]_{t=-1}^{t=x}=\frac52\left(\frac{x^5}{5}+\frac15\right)  & \mbox{, si } -1 < x <1,
+ \\
+1 & \mbox{, si } 1\leq x.
+\end{array}\right.
+$$
+$$
+F_X(x)=P(X\leq x)=
+\left\{\begin{array}{ll}
+0 & \mbox{, si } x\leq -1\\
+\frac{x^5+1}{2}  & \mbox{, si } -1 < x <1,
+ \\
+1 & \mbox{, si } 1\leq x.
+\end{array}\right.
+$$
+
+**Apartado 3**
+
+$$E(X)=\displaystyle\int_{-1}^1 x\frac52 \cdot x^4 dx=\int_{-1}^1 \frac52 \cdot x^5 dx
+=\left[\frac52\cdot \frac{x^6}{6}\right]_{-1}^1=\frac52\left(\frac{1}{6}-\frac{1}{6}\right)=0.
+$$
+
+
+$$E(X^2)=\displaystyle\int_{-1}^1 x^2\cdot \frac52 \cdot x^4 dx=
+\int_{_1}^1 \frac52 \cdot x^6 dx
+=\left[\frac52\cdot \frac{x^7}{7}\right]_{x=-1}^{x=1}=\frac52\cdot \left(\frac{1}{7}+\frac17\right)=\frac57.
+$$
+
+$$Var(X)=E(X^2)-E(X)^2=\frac57-0^2=\frac57.$$
+
+
+**Apartado 4**
+
+Nos piden $x_{0.9}$ el cuantil $0.9$
+
+$$0.9=F_X(x_{0.9})=\frac{x_{0.9}^5+1}{2},$$
+
+
+despejando de la ecuación 
+$$x_{0.9}^5=2\cdot 0.9-1=`r 2*0.9-1`,$$
+finalmente 
+
+$$x_{0.9}=\sqrt[5]{1.8}=`r (1.8)^(1/5)`.$$
+
+En el $90\%$  de los casos los valores de la v.a. $X$ son  menores que `r  (1.8)^(1/5)
+`, efectivamente 
+$$F_X\left( \sqrt[5]{1.8}\right)=P\left(X\leq \sqrt[5]{1.8}\right)=  \frac{\left(\sqrt[5]{1.8}\right)^5+1}{2}=\frac{1.8}{2}=0.9.$$
+
+
+
+
+# Estructuras de datos
+
+## Problema `r count=count+1;count`
+Genera la matriz identidad de orden 4 y modifica sus entradas para obtener la matriz $I$.
+$$I=\left( \begin{array}{cccc} 0&0&0&0 \\ 0&2&0&0 \\ 0&0&3&0 \\  0&0&0&4 \end{array} \right)$$
+
+### Solución
+
+Creamos la matriz
+
+
+```{r}
+I=diag(c(1,1,1,1))
+I
+diag(I)=c(0,2,3,4)
+I
+```
+
+## Problema `r count=count+1;count`
+
+Realizar las siguientes operaciones $A+B$, $A-B$, $3B$ y $BA^{t}$ siendo:
+
+$$A=\left( \begin{array}{cccc} 1&2&3&0 \\ 2&4&6&0 \\ 3&6&9&0 \\  4&8&12&0 \end{array} \right)\text{ y  } B=\left( \begin{array}{cccc} 0&2&0&0 \\ 0&0&3&0 \\ 0&0&0&0 \\  0&0&0&4 \end{array} \right)$$
+
+### Solución
+
+
+```{r}
+A=matrix(c(1,2,3,0,2,4,6,0,3,6,9,0,4,8,12,0),ncol=4,byrow = TRUE)
+A
+# La B la construimos de otra forma
+B=rbind(c(0,2,0,0),c(0,0,3,0),c(0,0,0,0),c(0,0,0,4))
+B
+```
+
+Operamos 
+
+```{r}
+A+B
+A-B
+3*B
+B%*%t(A)
+#notemos que es distinto de 
+B*t(A)
+```
+
+
+## Problema `r count=count+1;count`
+
+Resolver el sistema de ecuaciones:
+
+$$\left\{\begin{array}{llll} 3x-y+z=-1\\ 9x-2y+z=-9\\ 3x+y-2z=-9 \end{array}\right.$$
+
+### Solución
+
+
+```{r}
+A=matrix(c(3,-1,1,9,-2,1,3,1,-2),ncol=3,byrow=TRUE)
+A
+b=matrix(c(-1,-9,-9),ncol=1)
+b
+solve(A,b)
+```
+
+
+
+## Problema `r count=count+1;count`
+
+1. Crea la siguiente lista:
+
+```
+$padre
+[1] "juan"
+
+$madre
+[1] "maria"
+
+$numero.hijos
+[1] 3
+
+$nombre.hijos
+[1] "luis"   "carlos" "eva"   
+
+$ciudad
+[1] "lugo"
+```
+2. Calcula el número de elementos de la lista, y el número de elementos del tercer componente.
+3. Añade un nuevo componente llamado edades.hijos con las edades de los tres hijo. Las edades han de estar ordenadas de mayor a menor, y comprendidas entre los 17 y 29 años.
+4.  Elimina el componente numero.hijos
+
+### Solución
+
+**Apartado 1**
+
+```{r}
+lista=list(
+  padre="juan",
+  madre="maria",
+  numero.hijos=3,
+  nombre.hijos=c("luis","carlos","eva"),
+  ciudad="lugo")
+lista
+```
+
+
+
+
+
+**Apartado 2**
+
+Número de elementos de la lista
+```{r}
+length(lista)
+str(lista)
+names(lista)
+```
+
+Número de elemento del tercer componente
+
+```{r}
+length(lista[[3]])
+```
+```{r}
+lista1=lista[-3]
+lista1
+# O también
+lista2=lista[-which(names(lista)=="numero.hijos")]
+lista2
+```
+
+
+**Apartado 3**
+
+```{r}
+lista$edades.hijos=c(17,20,29)
+lista
+lista$edades.hijos
+```
+
+**Apartado 4**
+
+
+
+
+# Data frames 
+
+## Problema `r count=count+1;count`
+
+Crea un data frame con los siguientes datos:
+
+nombre | apellido | fecha_nacimiento | lugar_nacimiento  | nro_hijos
+-- | -- | -- | -- | --
+Juan | Sánchez | 1976-06-14 | Madrid  | 1
+Margarita | García | 1974-05-07 | Gijón  | 2
+Rubén | Sancho | 1958-12-25 | Almería  | 3
+Daniel | Alfara | 1983-09-19 | Oporto  | 4
+
+
+1. Muestra la estructura del data frame  y comenta el tipo de dato.
+2. Registra la variable fecha_nacimiento como fecha y no como un factor. Utiliza la función as.Date().
+3. Da los nombres de las dimensiones del data frame con la función dimnames y describe el tipo de objeto.
+4.  Asigna los siguientes nombres a la columnas del data frame: "Nombre", "Apellido", "Fecha_Nacimiento", "Sexo", "Numero_Hijos".
+
+
+### Solución
+
+Creamos el data frame
+
+
+```{r}
+df=data.frame(
+  nombre=c("Juan","Margarita","Rubén","Daniel"),
+  apellido=c("Sánchez","García","Sancho","Alfara"),
+  fecha_nacimiento=c("1976-06-14","1974-05-07",
+                             "1958-12-2","1983-09-19"),
+  lugar_nacimiento=c("Madrid","Gijón","Almería","Oporto"),
+  nro_hijos=c(1,2,3,4))
+str(df)
+df
+```
+
+**Apartado 1**
+
+Esta es la estructura del data frame
+
+```{r}
+str(df)
+```
+
+
+
+
+**Apartado 2**
+
+La función "as.Date" nos transforma una fecha en texto a un objeto de clase `Date`
+
+```{r}
+df$fecha_nacimiento=as.Date(df$fecha_nacimiento)
+str(df)
+class(df$fecha_nacimiento)
+```
+
+**Apartado 3**
+
+```{r}
+head(dimnames(df))# solo saco la cabecera son  19239 x 110
+class(dimnames(df))
+str(dimnames(df))
+```
+
+
+Es una lista de dos objeto que son `arrays` de tipo `character`.
+
+**Apartado 4**
+
+Para cambiar los nombres  del data frame hacemos:
+
+```{r}
+names(df)=c("Nombre","Apellido","Fecha_Nacimiento","Sexo","Numero_Hijos")
+str(df)
+```
+
+
+
+# Estadística descriptiva
+
+## Problema `r count=count+1;count` 
+
+De la página de kaggle 
+[FIFA 2022](https://www.kaggle.com/stefanoleone992/fifa-21-complete-player-dataset) podemos descargar el fichero `players_22.csv`  y que está adjunto a este taller.
+
+1. Carga los datos en un data frame con `read.csv` y explica las clases de cada columna de datos. Comprueba el tipo de datos y las dimensiones del data frame.
+2.  La variable "overall" es la puntuación (score) global. ¿Qué clubs tienen a los jugadores con `overall>=90`.
+3.  Crea un data frame "sub_fifa22" que contenga a los jugadores de los clubs encontrados en el ejercicio anterior.
+4.  Calcula la media y desviación típica muestral de los sueldos de los jugadores por equipo del data frame sub_fifa22.
+5. (**OPCIONAL**)  Discretiza la variable age de sub_fifa22 en los 4 niveles siguientes: “muy joven”, “joven”, “senior”, "decano" según los cortes por defecto. La variable resultante age_Level tiene que ser un factor ordenado en orden creciente de edad.  Calcula la tabla de proporciones por  niveles de edad de los clubs seleccionados. Dibuja un diagrama de barras adosado que nos permita comparar las distribuciones de las edades por club.
+6. (**OPCIONAL**)  ¿Cuántas nacionalidades distintas  hay entre todos los jugadores de sub_fifa22? 
+7. (**OPCIONAL**)  Dibujar el histograma de densidades de la variable "overall" sobre todos los jugadores del data set original. Añadid al histograma la curva de la densidad  aproximada del overall del conjunto inicial de datos. con una linea de color azul y punteada. Añadid también la curva de densidad gaussiana de color rojo y linea continua, con media y desviación típica las de overall y una leyenda que explique el dibujo.
+
+
+### Solución 
+
+**Apartado 1**
+
+
+
+```{r}
+df=read.csv("players_22.csv")
+class(df)
+str(df)
+```
+
+
+**Apartado 2**
+
+La función `unique` nos da los valores únicos que aparece en un `array`.
+
+```{r}
+clubs_6=unique(df$club_name[df$overall>90])
+clubs_6
+```
+
+
+
+**Apartado 3**
+
+
+La función `valor %in% array`   nos devuelve un valor vector lógico que nos dice si el `valor` pertenece a conjunto de valores de  `array`. 
+
+```{r}
+clubs_6
+sub_fifa22=df[df$club_name %in% clubs_6,]
+str(sub_fifa22)
+```
+
+
+**Apartado 4**
+
+```{r}
+media_des_tip=function(x) {c(media=mean(x,na.rm=TRUE),desviación_tipica=sd(x,na.rm=TRUE))}
+aggregate(sub_fifa22$wage_eur,by=list(sub_fifa22$club_name),FUN=media_des_tip)
+# esta función es obsoleta pero es la de R básico.
+```
+
+**Apartado 5**
+
+```{r}
+edades_4=cut(sub_fifa22$age,breaks=4)
+str(edades_4)
+levels(edades_4)
+levels(edades_4)=c("muy joven","joven","senior","decano")
+```
+
+**Apartado 6**
+```{r}
+length(unique(sub_fifa22$nationality_name))
+sort(table(sub_fifa22$nationality_name),decreasing=TRUE)
+knitr::kable(sort(table(sub_fifa22$nationality_name),decreasing=TRUE),col.names = c("Nacionalidad","Frecuencias"))
+```
+
+
+**Apartado 7**
+
+
+
+```{r}
+hist(sub_fifa22$overall,freq = FALSE,
+     main="Histograma (densidades) \n score overall 6 mejores clubs",
+     xlim=c(50,100),ylim=c(0,0.065),xlab="Score overall",
+     ylab="Densidad",
+     cex=0.6,
+     cex.main=0.6)
+lines(density(sub_fifa22$overall),col="blue",lty ="dotted" )
+curve(dnorm(x,mean=mean(sub_fifa22$overall),sd=sd(sub_fifa22$overall)),
+      add=TRUE,col="red",lty="solid")
+legend("topleft",legen=c("Densidad muestral","Densidad gaussiana"),
+       col=c("blue","red"),lty=c("dotted","solid"),cex=0.7)
+```
+

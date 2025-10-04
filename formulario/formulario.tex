@@ -282,4 +282,144 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
 \end{tcolorbox}
 
 
+
+
+\sectiontitle{Variables Aleatorias}
+
+\begin{tcolorbox}[title=Definiciones]
+    \textbf{Variable aleatoria (v.a.):} Aplicación que asigna a cada elemento $\omega$ del espacio muestral $\Omega$ un número real $X(\omega) \in \mathbb{R}$.
+
+    \begin{itemize}
+        \item Se denota con letras mayúsculas: $X, Y, Z$.
+        \item Sus valores se denotan en minúscula: $x, y, z$.
+    \end{itemize}
+
+    \textbf{Tipos de v.a.}
+    \begin{itemize}
+        \item \textbf{Discreta:} Toma valores numerables con probabilidad positiva.
+        \item \textbf{Continua:} Sus valores están en intervalos y se describen con funciones de densidad.
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Función de Probabilidad, equal height group=VA1]
+        \[ P_X(x) = P(X = x)\]
+
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item $\sum_{x \in D_X} P_X(x) = 1$
+            \item $0 \leq P_X(x) \leq 1$
+        \end{itemize}
+
+        \textbf{Dominio}:
+        \[ D_X(x) = \{ x \in \mathbb{R} \vert P_X(x) > 0 \} \]
+
+        Ejemplo: dado justo
+        \[
+            P_X(x) = \begin{cases}
+                \frac{1}{6}, & x = 1,2,3,4,5,6 \\
+                0, & \text{en otro caso}
+            \end{cases}
+        \]
+
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Función de Distribución Acumulada (CDF), equal height group=VA1]
+        \[ F_X(x) = P(X \leq x).  \]
+        
+        Ejemplo: dado
+        \[
+            F_X(x) = \begin{cases}
+                0, & x < 1 \\
+                \frac{k}{6}, & k \leq x < k+1, \; k=1,\dots,5 \\
+                1, & x \geq 6
+            \end{cases}
+        \]
+
+        Propiedades:
+        \begin{itemize}
+            \item $0 \leq F_X(x) \leq 1$ 
+            \item $P(X > x) = 1 - P(X \leq x) = 1 - F_X(x)$ 
+            \item Sean $a$ y $b$ tales que $a < b$: \\ $P(a < X \leq b) = P(X \leq b) - P(X \leq a) = F_X(b) - F_X(a)$
+            \item $\lim\limits_{x\to-\infty}{F_X(x)} = 0$, $\lim\limits_{x\to\infty}{F_X(x)} = 1$
+            \item Continua por la derecha: $\lim\limits_{x\to x_0^+}{F_X(x)} = F_X(x_0)$
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+
+
+\subsection*{Esperanza y varianza}
+\[
+E(X) = \sum_{x} x \cdot P_X(x),
+\]
+\[
+Var(X) = E\big((X - E(X))^2\big) = \sum_{x}(x - E(X))^2 P_X(x).
+\]
+
+\textbf{Propiedades:}
+\[
+Var(X) = E(X^2) - (E(X))^2.
+\]
+
+\subsection*{Transformaciones lineales}
+Si $Y = a + bX$, entonces:
+\[
+E(Y) = a + bE(X), \quad Var(Y) = b^2 Var(X).
+\]
+
+\section*{Variables aleatorias continuas}
+
+\subsection*{Función de densidad}
+Una función $f_X(x)$ es densidad si:
+\[
+f_X(x) \geq 0, \quad \int_{-\infty}^{\infty} f_X(x) \, dx = 1.
+\]
+
+La función de distribución es:
+\[
+F_X(x) = \int_{-\infty}^x f_X(t)\,dt.
+\]
+
+\subsection*{Probabilidades}
+\[
+P(a < X < b) = \int_a^b f_X(x)\,dx.
+\]
+
+\subsection*{Esperanza y varianza}
+\[
+E(X) = \int_{-\infty}^{\infty} x f_X(x)\,dx,
+\]
+\[
+Var(X) = \int_{-\infty}^{\infty} (x - E(X))^2 f_X(x)\,dx.
+\]
+
+\subsection*{Ejemplo: Uniforme en $[0,1]$}
+\[
+f_X(x) = \begin{cases}
+1, & 0 < x < 1, \\
+0, & \text{otro caso},
+\end{cases}
+\quad E(X) = \frac{1}{2}, \quad Var(X) = \frac{1}{12}.
+\]
+
+\section*{Resumen}
+\begin{itemize}
+    \item $P_X(x)$: función de probabilidad (discreta).
+    \item $f_X(x)$: función de densidad (continua).
+    \item $F_X(x) = P(X \leq x)$: función de distribución.
+    \item $E(X)$: valor esperado o media.
+    \item $Var(X)$: varianza, medida de dispersión.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
