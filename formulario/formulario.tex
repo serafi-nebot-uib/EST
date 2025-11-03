@@ -80,27 +80,27 @@
         Ejemplo: \( \binom{7}{5} = 21 \) (equipos de 5 con 7 posibles jugadores).
     \end{tcolorbox}
     \begin{tcolorbox}[title=Número Binomial (Combinaciones sin Repetición), equal height group=COMB1]
-        Número de formas de elegir \( k \) elementos de \( n \) tipos permitiendo repeticiones (multiconjuntos). \\
+        Número de formas de elegir \( k \) elementos de \( n \) tipos permitiendo repeticiones (multiconjuntos).
         \[
             CR_k^n = \binom{n + k - 1}{k} = \frac{(n + k - 1)!}{k! \cdot (n-1)!}
-        \] \\
+        \]
         Ejemplo: Repartir 12 caramelos en 4 personas: \( \binom{4 + 12 - 1}{12} = 455 \).
     \end{tcolorbox}
 \end{multicols}
 
 \begin{multicols}{2}
     \begin{tcolorbox}[title=Variaciones sin Repetición, equal height group=COMB2]
-        Número de formas de elegir y ordenar \( k \) elementos de \( n \) sin repetir (permutaciones parciales). \\
+        Número de formas de elegir y ordenar \( k \) elementos de \( n \) sin repetir (permutaciones parciales).
         \[
             V_k^n = \frac{n!}{(n-k)!} = (n - k + 1) \cdot (n - k + 2) \cdots n
-        \] \\
+        \]
         Ejemplo: Números de 2 cifras de \{1,2,3\}: \( V_2^3 = 6 \).
     \end{tcolorbox}
     \begin{tcolorbox}[title=Variaciones con Repetición, equal height group=COMB2]
-        Similar a variaciones, pero permitiendo repeticiones. \\
+        Similar a variaciones, pero permitiendo repeticiones.
         \[
             VR_k^n = n^k
-        \] \\
+        \]
         Ejemplo: Números de 2 cifras de \{1,2,3\} con repetición: \( 3^2 = 9 \).
     \end{tcolorbox}
 \end{multicols}
@@ -114,7 +114,7 @@
         Ejemplo: Permutaciones de \{1,2,3\}: \( 3! = 6 \).
     \end{tcolorbox}
     \begin{tcolorbox}[title=Permutaciones con Repetición, equal height group=COMB3]
-        Número de permutaciones cuando hay elementos repetidos. \\
+        Número de permutaciones cuando hay elementos repetidos.
         \begin{align*}
             PR_{n_1, n_2, \dots, n_k}^n = \binom{n}{n_1 n_2 \dots n_k} = \frac{n!}{n_1! \cdot n_2! \cdots n_k!}, \\
             \quad \text{donde } n = n_1 + \cdots + n_k
@@ -211,8 +211,7 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
 
 \begin{multicols}{2}
     \begin{tcolorbox}[title=Definición, equal height group=PROB1]
-        Para un espacio muestral finito \(\Omega\), una probabilidad \\
-        \(P: \mathcal{P}(\Omega) \to [0,1]\) satisface: \\
+        Para un espacio muestral finito \(\Omega\), una probabilidad \(P: \mathcal{P}(\Omega) \to [0,1]\) satisface:
         \begin{enumerate}[topsep=0pt]
             \item \(0 \leq P(A) \leq 1\) para todo suceso \(A\)
             \item \(P(\Omega) = 1\)
@@ -301,6 +300,8 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
     \end{itemize}
 \end{tcolorbox}
 
+\sectiontitle{Variables Aleatorias Discretas}
+
 \begin{multicols}{2}
     \begin{tcolorbox}[title=Función de Probabilidad, equal height group=VA1]
         \[ P_X(x) = P(X = x)\]
@@ -346,80 +347,334 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
     \end{tcolorbox}
 \end{multicols}
 
+\begin{tcolorbox}[title=Valor Esperado, equal height group=VA2]
+    El valor esperado, esperanza o media $E(X)$ de una v.a.\ discreta $X$ se define como:
+    \[
+        \overline{x} = \mu = \mu_X = E(X) = \sum\limits_{x \in X(\Omega)}{x \cdot P_X(x)}
+    \]
 
+    \textbf{Ejemplo}: lanzamos un dado $n$ veces y obtenemos unas frecuencias $n_i$ para $i = 1,\ldots,6$:
+    \[
+        \overline{x} = \frac{1 \cdot n_1 + 2 \cdot n_2 + 3 \cdot n_3 + 4 \cdot n_4 + 5 \cdot n_5 + 6 \cdot n_6}{n} = \sum\limits_{i = 1}^{6}{x \cdot P_X(x)}
+    \]
 
-\subsection*{Esperanza y varianza}
-\[
-E(X) = \sum_{x} x \cdot P_X(x),
-\]
-\[
-Var(X) = E\big((X - E(X))^2\big) = \sum_{x}(x - E(X))^2 P_X(x).
-\]
+    \textbf{Propiedades}:
+    \begin{itemize}
+        \item $E(k) = k$ para cualquier constante $k$
+        \item Si $a \leq X \leq b$ entonces $a \leq E(X) \leq b$
+        \item Si $X$ es una v.a.\ discreta que toma valores enteros no negativos entonces $E(X) = \sum\limits_{x=0}^{+\infty}{(1 - F_X(x))}$
+        \item $E(g(X)) = \sum\limits_{x}{g(x) \cdot P_X(x)}$
+    \end{itemize}
+\end{tcolorbox}
 
-\textbf{Propiedades:}
-\[
-Var(X) = E(X^2) - (E(X))^2.
-\]
+\begin{tcolorbox}[title=Series Geométricas, equal height group=VA3]
+    \begin{multicols}{2}
+        \begin{tabular}{rl}
+            \textbf{Progresión de razón $r$}: & $r^0, r^1, \ldots r^n$ \\
+            \textbf{Serie}: & $\sum\limits_{k=0}^{+\infty}{r^k}$ \\
+            \textbf{Sumas paricales}: & $\sum\limits_{k=n_0}^{n}{r^k} = \frac{r^{n_0} - r^n r}{1 - r}$ \\
+            \textbf{Momento de orden $m$}: & $E({(X-C)}^m)$
+        \end{tabular}
+        \\
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item Si se empieza en $n_0$ se tiene que $\sum\limits_{k=n_0}^{+\infty}{r^k} = {\frac{r^{n_0}}{1-r}}$
+            \item Si $|r| < 1$ la serie es convergente y $\sum\limits_{k=0}^{+\infty}{r^k} = \frac{1}{1 - r}$ \\
+            y sus derivadas también son convergentes:
+            \begin{align*}
+                {\left( \sum\limits_{k=0}^{+\infty}{r^k} \right)}'  = & \sum\limits_{k=1}^{+\infty}{kr^{k-1}}; {\left( \frac{1}{1-r} \right)}' = \frac{1}{{(1-r)}^2} \\
+                {\left( \sum\limits_{k=0}^{+\infty}{r^k} \right)}'' = & \sum\limits_{k=2}^{+\infty}{k(k-1)r^{k-2}}; {\left( \frac{1}{1-r} \right)}'' = \frac{2}{{(1-r)}^3} \\
+            \end{align*}
+        \end{itemize}
+    \end{multicols}
+\end{tcolorbox}
 
-\subsection*{Transformaciones lineales}
-Si $Y = a + bX$, entonces:
-\[
-E(Y) = a + bE(X), \quad Var(Y) = b^2 Var(X).
-\]
+\begin{tcolorbox}[title=Varianza, equal height group=VA4]
+    \begin{multicols}{2}
+        \textbf{Varianza}: $ \mathrm{Var}(X) = E({(X - E(X))}^2) = \sum\limits_{x}{{(x - E(X))}^2 P_X(x)} $ \\
+        {\raggedleft\ $Var(X) = E(X^2) - (E(X))^2 = \sum\limits_x{x^2P_X(X) - (E(X))^2 }$ \par}
+        \textbf{Desviación típica o estándar}: $ \sigma = \sigma_X = +\sqrt{Var(X)} $ \\
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item $Var(X) \geq 0$
+            \item $Var(\textit{cte}) = E(\textit{cte}^2) - ({E(\textit{cte})}^2) = \textit{cte}^2 - \textit{cte}^2 = 0$
+            \item Si $Y = a + bX$:
+            \begin{itemize}
+                \item $E(Y) = E(a + bX) = a + bE(X) = a + b\mu_X$
+                \item $Var(Y) = Var(a + bX) = b^2Var(x) = b^2\sigma_{X^-}^2$
+                \item $\sigma_Y = \sqrt{Var(Y)} = \sqrt{b^2Var(X)} = |b|\sigma_{X^-}$
+            \end{itemize}
+        \end{itemize}
+    \end{multicols}
+    \vspace*{5pt}
+\end{tcolorbox}
 
-\section*{Variables aleatorias continuas}
+\sectiontitle{Variables Aleatorias Continuas}
 
-\subsection*{Función de densidad}
-Una función $f_X(x)$ es densidad si:
-\[
-f_X(x) \geq 0, \quad \int_{-\infty}^{\infty} f_X(x) \, dx = 1.
-\]
+\begin{tcolorbox}[title=Variables Aleatorias Continuas, equal height group=VAC1]
+    \begin{multicols}{2}
+        \textbf{Propiedades}
+        \begin{itemize}
+            \item $P_X(X = x_0) = F_X(x_0) - F_X(x_0^-) = 0$
+            \item $P(X \leq b) = P(X < b)$
+            \item $P(X < b) = P(X < a) + P(a < X < b)$
+            \item $F_X(b) = F_X(a) + P(a < X < b)$
+            \item $P(a < X < b) = F_X(b) - F_X(a) = P(a \leq X \leq b)$
+        \end{itemize}
+        \textbf{Función de densidad}
+        \[
+            \int_{-\infty}^{+\infty}{f_X(x)dx} = 1, f_X(x) \geq 0 \forall x \in \mathbb{R}
+        \]
+        \textbf{Función de distribución}
+        \[
+            F_X(x) = \int_{-\infty}^{x}f_X(t)dt, \forall x \in \mathbb{R}
+        \]
+    \end{multicols}
+    \vspace*{1pt}
+\end{tcolorbox}
+\begin{tcolorbox}[title=Esperanza y Varianza, equal height group=VAC2]
+    \begin{multicols}{2}
+        \textbf{Esperanza}
+        \[
+            E(X) = \int_{-\infty}^{+\infty}{x \cdot f_X(x)dx}
+        \]
+        \textbf{Varianza}
+        \[
+            Var(X) = E((X - \mu_X)^2) = \int_{-\infty}^{+\infty}{(x - \mu_X)^2 \cdot f_X(x)dx}
+        \]
+        \textbf{Propiedades}
+        \begin{itemize}
+            \item $E(Y) = E(a + bX) = a + bE(X)$
+            \item $Var(Y) = Var(a + bX) = b^2E(X)$
+            \item $\sigma_Y = |b|\sigma_X$
+            \item $Z = \frac{X - \mu_X}{\sigma_X} \implies E(Z) = 0, Var(Z) = 1$
+        \end{itemize}
+    \end{multicols}
+    \vspace*{5pt}
+\end{tcolorbox}
 
-La función de distribución es:
-\[
-F_X(x) = \int_{-\infty}^x f_X(t)\,dt.
-\]
+\sectiontitle{Distribuciones notables}
 
-\subsection*{Probabilidades}
-\[
-P(a < X < b) = \int_a^b f_X(x)\,dx.
-\]
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Bernoulli, equal height group=DN1]
+        Tirar una modeda y observar si sale cara o cruz (éxito o fracaso).
+        \begin{tabular}{l}
+            $X \sim Ber(p)$ \\
+            $D_X = \{0,1\}$ \\
+            $P_X(x) = P(X = x) = \begin{cases} 1-p=q & \text{si } x = 0 \\ p & \text{si } x = 1 \\ 0 & \text{en otro caso} \end{cases}$ \\
+            $F_X(x) = P(X \leq x) = \begin{cases} 0 & \text{si } x < 0 \\ 1-p & \text{si } 0 \leq x < 1 \\ 1 & \text{si } x \leq 1\end{cases}$ \\
+            $E(X) = p, Var(X) = p(1-p)$
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Binomial, equal height group=DN1]
+        Probabilidad de obtener $x$ caras al lanzar una moneda $n$ veces.
+        \begin{tabular}{l}
+            $X \sim B(n, p)$ \\
+            $D_X = \{0,1,\ldots,n\}$ \\
+            $P_X(x) = \begin{cases} \binom{n}{x}p^x(1-p)^{n-x} & \text{si } x \in [0, n] \\ 0 & \text{en otro caso} \end{cases}$ \\
+            $F_X(x) = \begin{cases} 0 & \text{si } x < 0 \\ \sum\limits_{i=0}^{k}\binom{n}{i}p^i(1-p)^{n-i} & \text{si } k \leq x < k+1, \text{para } k \in [0, n] \\ 1 & \text{si } x \geq n \end{cases}$ \\
+            $E(X) = np, Var(X) = np(1-p)$
+        \end{tabular}
+    \end{tcolorbox}
+\end{multicols}
 
-\subsection*{Esperanza y varianza}
-\[
-E(X) = \int_{-\infty}^{\infty} x f_X(x)\,dx,
-\]
-\[
-Var(X) = \int_{-\infty}^{\infty} (x - E(X))^2 f_X(x)\,dx.
-\]
+\pagebreak
 
-\subsection*{Ejemplo: Uniforme en $[0,1]$}
-\[
-f_X(x) = \begin{cases}
-1, & 0 < x < 1, \\
-0, & \text{otro caso},
-\end{cases}
-\quad E(X) = \frac{1}{2}, \quad Var(X) = \frac{1}{12}.
-\]
+\begin{tcolorbox}[title=Geométrica, equal height group=DN2]
+    Tirar una moneda hasta que obtenemos la primera cara.
+    \begin{multicols}{2}
+        \begin{tabular}{l}
+            $X \sim Ge(p)$ \\
+            $X = \text{número de fracasos para conseguir primer éxito}$ \\
+            $D_X = \{0,1,\ldots,n,\ldots\}$ \\
+            $P_X(x) = P(X = x) = \begin{cases} (1-p)^xp & \text{si } x \geq 0 \\ 0 & \text{en otro caso} \end{cases}$ \\
+            $F_X(x) = F(X \leq x) = \begin{cases} 0 & \text{si } x < 0 \\ 1-(1-p)^{k+1} & \text{si } \begin{cases} k \leq x < k+1 \\ \text{para } k \geq 0 \end{cases}\end{cases}$ \\
+            $E(X) = \frac{1-p}{p}, Var(X) = \frac{1-p}{p^2}$
+        \end{tabular}
 
-\section*{Resumen}
-\begin{itemize}
-    \item $P_X(x)$: función de probabilidad (discreta).
-    \item $f_X(x)$: función de densidad (continua).
-    \item $F_X(x) = P(X \leq x)$: función de distribución.
-    \item $E(X)$: valor esperado o media.
-    \item $Var(X)$: varianza, medida de dispersión.
-\end{itemize}
+        \columnbreak
 
+        \begin{tabular}{l}
+            $Y \sim Ge(p)$ \\
+            $Y = \text{número de intentos para conseguir primer éxito}$ \\
+            $D_Y = \{0,1,\ldots,n,\ldots\}$ \\
+            $P_Y(y) = P(Y = y) = \begin{cases} (1-p)^{y-1} & \text{si } x \geq 1 \\ 0 & \text{en otro caso} \end{cases}$ \\
+            $F_Y(y) = F(Y \leq y) = \begin{cases} 0 & \text{si } x < 1 \\ 1-(1-p)^k & \text{si } \begin{cases} k \leq x < k+1 \\ \text{para } k \geq 1 \end{cases}\end{cases}$ \\
+            $E(Y) = \frac{1}{p}, Var(Y) = \frac{1-p}{p^2}$
+        \end{tabular}
+    \end{multicols}
+    \vspace*{5pt}
+\end{tcolorbox}
 
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Binomial Negativa, equal height group=DN3]
+        Abrir dos puertas consecutivas con un conjunto de llaves sin memoria.
+        \begin{tabular}{l}
+            $X \sim BN(n, p)$ \\
+            $X = \text{número de fracasos hasta conseguir el $n$-ésimo éxito}$ \\
+            $D_X = \{0,1,2,3,\ldots\}$ \\
+            $P_X(x) = P(X = x) = \begin{cases} \binom{x+n-1}{n-1} (1-p)^x p^n & \text{si } k \geq 0 \\ 0 & \text{en otro caso}\end{cases}$ \\
+            $F_X(x) = P(X \leq x) = \begin{cases} \sum\limits_{i=0}^x P(X=i) & \text{si } \begin{cases} k \leq x < k+1, \\ k \geq 0 \end{cases}\end{cases}$ \\
+            $E(X) = n \frac{1-p}{p}, Var(X) = n \frac{1-p}{p^2}$
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Hipergeométrica, equal height group=DN3]
+        Sacar bolas de una urna con reposición.
+        \begin{tabular}{l}
+            $X \sim H(m, n, k)$ \\
+            $X = \begin{cases} \text{número de bolas blancas en $k$ extraccions} \\ \text{sín reposición de una urna con} \\ \text{$m$ bolas blancas y $n$ negras} \end{cases}$ \\
+            $D_X = \{x \in \mathbb{N}\ \vert \max\{0,k-n\} \leq x \leq \min\{m, k\} \}$ \\
+            $P_X(x) = \begin{cases} \frac{\binom{m}{x}\binom{n}{k-x}}{\binom{m+n}{k}} & \text{si } \max\{0, k-n\} \leq x \leq \min\{m, k\} \\ 0 & \text{en otro caso}\end{cases}$ \\
+            $F_X(x) = P(X \leq x)$ \\
+            $E(X) = \frac{km}{m + n}, Var(X) = k \frac{m}{m+n} (1-\frac{m}{m+n})\frac{m+n-k}{m+n-1}$
+        \end{tabular}
+    \end{tcolorbox}
+\end{multicols}
 
+\begin{tcolorbox}[title=Poisson, equal height group=DN4]
+    \begin{multicols}{2}
+        $X$ con distribución Poisson de media o promedio $\lambda$
+        \begin{tabular}{l}
+            $X \sim Po(\lambda)$ \\
+            $D_X = \{0,1,\ldots\}$ \\
+            $P_X(x) = P(X = x) = \begin{cases} \frac{\lambda^x}{x!}e^{-\lambda} & \text{si } x \geq 0 \\ 0 & \text{en otro caso}\end{cases}$ \\
+            $F_X(x) = F(X \leq x) = \begin{cases} 0 & \text{si } x < 0 \\ \sum\limits_{i=0}^{x} P(X=i) & \text{si } \begin{cases} k \leq x < k + 1, \\ k \geq 0 \end{cases}\end{cases}$ \\
+            $E(X) = \lambda, Var(X) = \lambda$
+        \end{tabular}
 
+        \columnbreak
 
+        $X_t = $ número de eventos en el intervalo $(0, t] Po(\lambda\ t)$ donde $t$ promedio pro u.t.
 
+        \begin{tabular}{l}
+            $X \sim Po(\lambda\ t)$ \\
+            $D_X = \{0,1,\ldots\}$ \\
+            $P_X(x) = P(X = x) = \begin{cases} \frac{(\lambda\ t)^x}{x!}e^{-\lambda\ t} & \text{si } x \geq 0 \\ 0 & \text{en otro caso}\end{cases}$ \\
+            $F_X(x) = F(X \leq x) = \begin{cases} 0 & \text{si } x < 0 \\ \sum\limits_{i=0}^{x} P(X=i) & \text{si } \begin{cases} k \leq x < k + 1, \\ k \geq 0 \end{cases}\end{cases}$ \\
+            $E(X) = \lambda t, Var(X) = \lambda t$
+        \end{tabular}
+    \end{multicols}
+    \vspace*{5pt}
+\end{tcolorbox}
 
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Uniforme, equal height group=DN5]
+        \begin{tabular}{l}
+            $X \sim U(a, b)$ \\
+            $D_X = (a, b)$ \\
+            $f_X(x) = \begin{cases} \frac{1}{b-a} & \text{si } a < x < b \\ 0 & \text{en otro caso}\end{cases}$ \\
+            $F_X(x) = P(X \leq x) = \begin{cases} 0 & \text{si } x \leq a \\ \frac{x-a}{b-a} & \text{si } a \leq x \leq b \\ 1 & \text{si } x \leq b\end{cases}$ \\
+            $E(X) = \frac{a+b}{2}, Var(X) = \frac{(b-a)^2}{12}$
+        \end{tabular}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Exponencial, equal height group=DN5]
+        \begin{tabular}{l}
+            $X \sim Exp(\lambda)$ \\
+            $D_X = (0, +\infty)$ \\
+            $f_X(x) = \begin{cases} 0 & \text{si } x \leq 0 \\ \lambda e^{-\lambda x} & \text{si } x > 0\end{cases}$ \\
+            $F_X(x) = P(X \leq x) = \begin{cases} 0 & \text{si } x \leq 0 \\ 1 - e^{-\lambda x} & \text{si } x > 0\end{cases}$ \\
+            \\
+            $E(X) = \frac{1}{\lambda}, Var(X) = \frac{1}{\lambda^2}$
+        \end{tabular}
+    \end{tcolorbox}
+\end{multicols}
 
+\begin{tcolorbox}[title=Normal o Gaussiana, equal height group=DN6]
+    \begin{tabular}{l}
+        $X \sim N(\mu, \sigma)$ \\
+        $D_X = \mathbb{R} = (-\infty, +\infty)$ \\
+        $f_X(x) = \frac{1}{\sqrt{2\pi \sigma^2}}e^{\frac{-(x-\mu)^2}{2\sigma^2}}, \forall x \in \mathbb{R}$ \\
+        $F_X(x) = P(X \leq x) = \int_{-\infty}^{x} f_X(t)dt$ \\
+        \\
+        $E(X) = \mu, Var(X) = \sigma^2$
+    \end{tabular}
+\end{tcolorbox}
 
+\pagebreak
 
+\sectiontitle{Variables Aleatorias Multidimensionales}
 
+\begin{tcolorbox}[title=Variables Aleatorias Bidimensionales]
+    \begin{multicols}{2}
+        \textbf{Definiciones}
+        \begin{itemize}
+            \item \textbf{Discreta}: su conjunto de valores es $\mathbb{R}^2, (X, Y)(\Omega)$ es un conjunto finito o numerable.
+            \item \textbf{Continua}: su conjunto de valores es $\mathbb{R}^2, (X, Y)(\Omega)$ es un conjunto es un producto de intervalos.
+            \item \textbf{Heterogénea}: $X$ e $Y$ no comportan ser continuas o discretas.
+        \end{itemize}
+    
+        \textbf{Dominio} \\
+        $D_{XY} = \{(x, y) \in \mathbb{R}^2 \mid P_{XY}(x, y) > 0\}$
+    
+        \textbf{Función de probabilidad} \\
+        $P_{XY}(x, y) = P(X = x, Y = y)$ \\
+        $\sum\limits_i\sum\limits_j P_{XY}(x_i, y_j) = 1$ \\
+        $P((X, Y) \in B) = \sum\limits_{(x_i, x_j) \in B} P_{XY}(x_i, y_j), B \subset D_{XY}$
+
+        \columnbreak
+    
+        \textbf{Función de distribución acumulada} \\
+        $F_{XY} = P(X \leq x, Y \leq y) = \sum\limits_{x_i \leq x, y_j \leq y} P_{XY}(x_i, y_j)$
+    
+        \textbf{Función de densidad} \\
+        $f_{XY} : \mathbb{R} \times \mathbb{R} \to [0, +\infty)$ \\
+        \begin{itemize}
+            \item $f_{XY}(x, y) > 0, \forall (x, y) \in D_{XY}$
+            \item $\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f_{XY}(t_x, t_y)dt_x dt_y = 1$
+            \item $F_{XY}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{XY}(t_x, t_y)dt_x dt_y$
+        \end{itemize}
+    \end{multicols}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Distribuciones Marginales]
+    \begin{multicols}{2}
+        \textbf{Probabilidad Marginal} \\
+        $P_X(x_i) = \sum\limits_j P_{XY}(x_i, y_j)$ \\
+        $P_Y(y_j) = \sum\limits_i P_{XY}(x_i, y_j)$
+
+        \textbf{Densidad Marginal} \\
+        $f_X(x) = \int_{-\infty}^{+\infty} f_XY{x, y} dy$ \\
+        $f_Y(y) = \int_{-\infty}^{+\infty} f_XY{x, y} dx$
+    \end{multicols}
+
+    \hrule
+
+    \begin{multicols}{2}
+        {\large\bfseries\ Discretas}\\
+        \textbf{Independencia} \\
+        $X$ e $Y$ son independientes si se cumple alguna de las condiciones:
+        \begin{itemize}
+            \item $P_{XY}(x_i, y_j) = P_X(x_i) \cdot P_Y{y_j}$
+            \item $P(X = x_i, Y = y_j) = P(X = x_i) \cdot P{Y = y_j}$
+            \item $F_{XY}(x, y) = F_X(x) \cdot F_Y(y)$
+        \end{itemize}
+
+        \textbf{Esperanza y varianza} \\
+        \begin{itemize}
+            \item $E(X) = \sum\limits_{x \in D_X} x \cdot P_X(x)$
+            \item $E(Y) = \sum\limits_{y \in D_Y} y \cdot P_Y(y)$
+            \item $\sigma_X^2 = Var(X) = E(X - E(X)) = E(X) - E(X)^2$
+            \item $\sigma_Y^2 = Var(Y) = E(Y - E(Y)) = E(Y) - E(Y)^2$
+        \end{itemize}
+
+        \columnbreak
+
+        {\large\bfseries\ Continuas}\\
+        \textbf{Independencia} \\
+        $X$ e $Y$ son independientes si se cumple alguna de las condiciones:
+        \begin{itemize}
+            \item $f_{XY}(x, y) = f_X(x) \cdot f_Y(y), \forall (x, y) \in D_{XY}$
+            \item $F_{XY}(x, y) = F_X(x) \cdot F_Y(y), \forall (x, y) \in D_{XY}$
+        \end{itemize}
+
+        \textbf{Esperanza y varianza} \\
+        \begin{itemize}
+            \item $E(X) = \int_{-\infty}^{+\infty} x \cdot f_X(x)dx$
+            \item $E(Y) = \int_{-\infty}^{+\infty} y \cdot f_Y(y)dy$
+            \item $\sigma_X^2 = Var(X) = E((X - E(X))^2) = E(X^2) - E(X)^2$
+            \item $\sigma_Y^2 = Var(Y) = E((Y - E(Y))^2) = E(Y^2) - E(Y)^2$
+        \end{itemize}
+    \end{multicols}
+\end{tcolorbox}
 
 \end{document}
