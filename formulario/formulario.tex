@@ -1253,4 +1253,1509 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
     \end{tcolorbox}
 \end{multicols}
 
+\pagebreak
+
+\sectiontitle{Bondad de Ajuste}
+
+\begin{tcolorbox}[title=Contrastes Paramétricos vs No Paramétricos]
+    \textbf{Contrastes paramétricos}: Suponen que conocemos el tipo de distribución de la población (normal, binomial, Poisson, etc.) y contrastan hipótesis sobre los parámetros desconocidos (media, varianza, proporción, etc.).
+    
+    \textbf{Contrastes no paramétricos}: No suponen un tipo específico de distribución. La hipótesis nula consiste en verificar si la distribución de la variable $X$ es de un tipo determinado.
+    
+    \textbf{Procedimiento típico}:
+    \begin{enumerate}
+        \item Primero: Verificar la distribución usando contrastes no paramétricos (bondad de ajuste)
+        \item Segundo: Si se acepta la distribución, usar contrastes paramétricos para los parámetros
+    \end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Contraste de Bondad de Ajuste]
+    \textbf{Hipótesis}:
+    \[
+        \begin{cases}
+        H_0: \text{La distribución de } X \text{ es del tipo } X_0 \\
+        H_1: \text{La distribución de } X \text{ no es del tipo } X_0
+        \end{cases}
+    \]
+    donde $X_0$ es un tipo de distribución conocida (normal, binomial, Poisson, etc.), sin especificar parámetros.
+    
+    \textbf{Objetivo}: Determinar si una muestra proviene de una distribución teórica específica.
+\end{tcolorbox}
+
+\sectiontitle{Pruebas Gráficas}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Histogramas y Densidad, equal height group=BA1]
+        \textbf{Objetivo}: Comparar visualmente la función de densidad estimada de la muestra con la función de densidad teórica.
+        
+        \textbf{Método}:
+        \begin{itemize}
+            \item Estimar la densidad muestral usando \texttt{density()} en R
+            \item Superponer la densidad teórica con parámetros estimados de la muestra
+            \item Comparar visualmente las formas
+        \end{itemize}
+        
+        \textbf{Limitación}: Prueba subjetiva, no cuantitativa.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Q-Q Plots (Cuantil-Cuantil), equal height group=BA1]
+        \textbf{Objetivo}: Comparar los cuantiles observados de la muestra con los cuantiles teóricos de la distribución.
+        
+        \textbf{Interpretación}:
+        \begin{itemize}
+            \item Si los puntos están cerca de la recta $y=x$: buena concordancia
+            \item Desviaciones sistemáticas: indican diferencias con la distribución teórica
+        \end{itemize}
+        
+        \textbf{En R}: \texttt{qqPlot()} del paquete \texttt{car}
+        \begin{itemize}
+            \item \texttt{distribution}: nombre de la distribución (entre comillas)
+            \item Parámetros: \texttt{mean}, \texttt{sd}, \texttt{df}, etc.
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Test Chi-Cuadrado de Bondad de Ajuste}
+
+\begin{tcolorbox}[title=Test $\chi^2$ de Bondad de Ajuste]
+    \textbf{Condiciones}: 
+    \begin{itemize}
+        \item Muestra de tamaño $n$
+        \item Datos agrupados en $k$ clases o categorías
+        \item Frecuencias observadas: $O_i$ para $i = 1, \ldots, k$
+        \item Frecuencias esperadas: $E_i = n \cdot p_i$ donde $p_i$ es la probabilidad teórica de la clase $i$
+    \end{itemize}
+    
+    \textbf{Estadístico de prueba}:
+    \[
+        \chi^2 = \sum_{i=1}^k \frac{(O_i - E_i)^2}{E_i} \sim \chi^2_{k-1-r}
+    \]
+    donde $r$ es el número de parámetros estimados a partir de la muestra.
+    
+    \textbf{Región crítica}: Rechazar $H_0$ si $\chi^2 > \chi^2_{\alpha, k-1-r}$
+    
+    \textbf{Condición de aplicación}: $E_i \geq 5$ para todas las clases (si no, agrupar clases).
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=En R: chisq.test, equal height group=BA2]
+        \textbf{Sintaxis}:
+        \begin{itemize}
+            \item \texttt{chisq.test(x, p = ...)}
+            \item \texttt{x}: vector de frecuencias observadas
+            \item \texttt{p}: vector de probabilidades teóricas
+        \end{itemize}
+        
+        \textbf{Parámetros importantes}:
+        \begin{itemize}
+            \item \texttt{rescale.p = TRUE}: si \texttt{p} no suma 1
+            \item \texttt{simulate.p.value = TRUE}: calcular $p$-valor por simulación
+            \item \texttt{B}: número de simulaciones
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Consideraciones, equal height group=BA2]
+        \textbf{Ventajas}:
+        \begin{itemize}
+            \item Aplicable a distribuciones discretas y continuas
+            \item No requiere normalidad
+            \item Fácil de aplicar
+        \end{itemize}
+        
+        \textbf{Desventajas}:
+        \begin{itemize}
+            \item Requiere agrupar datos continuos
+            \item Sensible a la elección de clases
+            \item Requiere frecuencias esperadas $\geq 5$
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Tests de Normalidad}
+
+\begin{tcolorbox}[title=Test de Kolmogorov-Smirnov (K-S)]
+    \textbf{Objetivo}: Contrastar si una muestra proviene de una distribución continua específica.
+    
+    \textbf{Estadístico}:
+    \[
+        D = \max_x |F_n(x) - F_0(x)|
+    \]
+    donde:
+    \begin{itemize}
+        \item $F_n(x)$: función de distribución empírica
+        \item $F_0(x)$: función de distribución teórica
+    \end{itemize}
+    
+    \textbf{En R}: \texttt{ks.test(x, "distribución", parámetros)}
+    \begin{itemize}
+        \item \texttt{ks.test(x, y)}: contrasta si $x$ e $y$ provienen de la misma distribución
+        \item \texttt{ks.test(x, "pnorm", mean, sd)}: contrasta normalidad
+    \end{itemize}
+    
+    \textbf{Limitación}: Requiere que los parámetros sean conocidos (no estimados).
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Test de Lilliefors (K-S-L), equal height group=BA3]
+        \textbf{Objetivo}: Test de normalidad cuando los parámetros ($\mu$, $\sigma$) se estiman de la muestra.
+        
+        \textbf{Mejora sobre K-S}: Más robusto al estimar parámetros.
+        
+        \textbf{En R}: \texttt{lillie.test()} del paquete \texttt{nortest}
+        
+        \textbf{Características}:
+        \begin{itemize}
+            \item Muy sensible a diferencias alrededor de la media
+            \item Menos sensible a diferencias en los extremos
+            \item Puede fallar con distribuciones de colas pesadas (ej: $t$ de Student)
+        \end{itemize}
+        
+        \textbf{Problema}: Con muestras grandes ($> 1000$), aumenta probabilidad de Error Tipo I.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Test de Anderson-Darling (A-D), equal height group=BA3]
+        \textbf{Objetivo}: Test de normalidad que resuelve el problema de K-S-L en los extremos.
+        
+        \textbf{Estadístico}: Basado en diferencias ponderadas entre $F_n$ y $F_0$, dando más peso a los extremos.
+        
+        \textbf{En R}: \texttt{ad.test()} del paquete \texttt{nortest}
+        
+        \textbf{Ventajas}:
+        \begin{itemize}
+            \item Detecta mejor diferencias en los extremos
+            \item Más potente que K-S-L para distribuciones con colas pesadas
+        \end{itemize}
+        
+        \textbf{Desventaja}: Con muestras muy grandes, aumenta probabilidad de Error Tipo I.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Test de Shapiro-Wilk (S-W), equal height group=BA4]
+        \textbf{Objetivo}: Test de normalidad robusto para muestras de cualquier tamaño.
+        
+        \textbf{Estadístico}: Basado en la correlación entre los valores ordenados de la muestra y los valores esperados bajo normalidad.
+        
+        \textbf{En R}: \texttt{shapiro.test()} (instalación básica de R)
+        
+        \textbf{Ventajas}:
+        \begin{itemize}
+            \item Funciona bien con muestras pequeñas y grandes
+            \item Alta potencia
+            \item Menos afectado por empates que K-S-L y A-D
+        \end{itemize}
+        
+        \textbf{Limitación}: 
+        \begin{itemize}
+            \item Solo para normalidad (no otras distribuciones)
+            \item Tamaño máximo recomendado: $n \leq 5000$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Test de D'Agostino-Pearson, equal height group=BA4]
+        \textbf{Objetivo}: Test de normalidad basado en asimetría y curtosis.
+        
+        \textbf{Estadísticos}:
+        \begin{itemize}
+            \item $Z_3$: Test de asimetría (skewness)
+            \item $Z_4$: Test de curtosis (kurtosis)
+            \item $\chi^2$ Omnibus: Combina ambos tests
+        \end{itemize}
+        
+        \textbf{En R}: \texttt{dagoTest()} del paquete \texttt{fBasics}
+        
+        \textbf{Condición}: Requiere $n \geq 20$
+        
+        \textbf{Ventaja}: No es sensible a empates (a diferencia de K-S-L, A-D, S-W).
+        
+        \textbf{Interpretación}: Compara la forma de la distribución muestral con la forma esperada de una normal.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Comparación de Tests de Normalidad]
+    \begin{center}
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Test} & \textbf{Tamaño muestral} & \textbf{Sensible a extremos} & \textbf{Sensible a empates} & \textbf{Potencia} \\
+    \hline
+    K-S-L & Pequeño-Grande & Baja & Sí & Media \\
+    \hline
+    A-D & Pequeño-Grande & Alta & Sí & Alta \\
+    \hline
+    S-W & Pequeño-Grande & Media & Baja & Alta \\
+    \hline
+    D'Agostino-Pearson & $\geq 20$ & Media & No & Media \\
+    \hline
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Recomendaciones}:
+    \begin{itemize}
+        \item \textbf{Muestras pequeñas} ($n < 50$): S-W o A-D
+        \item \textbf{Muestras medianas} ($50 \leq n < 1000$): S-W (preferido) o A-D
+        \item \textbf{Muestras grandes} ($n \geq 1000$): Cuidado con todos (aumentan Error Tipo I)
+        \item \textbf{Con empates}: D'Agostino-Pearson o S-W
+        \item \textbf{Distribuciones de colas pesadas}: A-D o S-W
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Guía Rápida de Funciones R]
+    \textbf{Pruebas gráficas}:
+    \begin{itemize}
+        \item \texttt{density(x)}: Estimación de densidad
+        \item \texttt{qqPlot(x, distribution=..., ...)}: Q-Q plot (paquete \texttt{car})
+    \end{itemize}
+    
+    \textbf{Tests de bondad de ajuste}:
+    \begin{itemize}
+        \item \texttt{chisq.test(x, p=...)}: Test $\chi^2$ de bondad de ajuste
+        \item \texttt{ks.test(x, "distribución", ...)}: Test de Kolmogorov-Smirnov
+    \end{itemize}
+    
+    \textbf{Tests de normalidad}:
+    \begin{itemize}
+        \item \texttt{lillie.test(x)}: Test de Lilliefors (paquete \texttt{nortest})
+        \item \texttt{ad.test(x)}: Test de Anderson-Darling (paquete \texttt{nortest})
+        \item \texttt{shapiro.test(x)}: Test de Shapiro-Wilk
+        \item \texttt{dagoTest(x)}: Test de D'Agostino-Pearson (paquete \texttt{fBasics})
+    \end{itemize}
+\end{tcolorbox}
+
+\pagebreak
+
+\sectiontitle{Contrastes de Independencia y Homogeneidad}
+
+\begin{tcolorbox}[title=Introducción]
+    \textbf{Objetivo}: Contrastar si dos criterios de clasificación $X$ e $Y$ son independientes o si las distribuciones de una variable son homogéneas entre diferentes grupos.
+    
+    \textbf{Aplicación}: Una de las aplicaciones más usadas del test de bondad de ajuste $\chi^2$.
+    
+    \textbf{Ejemplo}: ¿Es el hecho de contraer hepatitis independiente de haber sido vacunado? (equivalente a: ¿es efectiva la vacuna?)
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Tablas de Contingencia]
+    \textbf{Situación}: Tenemos $n$ individuos clasificados según dos criterios:
+    \begin{itemize}
+        \item Criterio $X$: con niveles $x_1, \ldots, x_I$
+        \item Criterio $Y$: con niveles $y_1, \ldots, y_J$
+    \end{itemize}
+    
+    \textbf{Notación}:
+    \begin{itemize}
+        \item $n_{ij}$: número de individuos en nivel $x_i$ de $X$ y nivel $y_j$ de $Y$
+        \item $n_{i \bullet} = \sum_{j=1}^J n_{ij}$: total de la fila $i$
+        \item $n_{\bullet j} = \sum_{i=1}^I n_{ij}$: total de la columna $j$
+        \item $n = \sum_{i=1}^I \sum_{j=1}^J n_{ij}$: total de individuos
+    \end{itemize}
+    
+    \textbf{Tabla de contingencia}:
+    \[
+    \begin{array}{c|ccccc|c}
+    X \backslash Y & y_1 & \ldots & y_j & \ldots & y_J & n_{i \bullet} \\
+    \hline
+    x_1 & n_{11} & \ldots & n_{1j} & \ldots & n_{1J} & n_{1 \bullet} \\
+    \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \vdots \\
+    x_i & n_{i1} & \ldots & n_{ij} & \ldots & n_{iJ} & n_{i \bullet} \\
+    \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \vdots \\
+    x_I & n_{I1} & \ldots & n_{Ij} & \ldots & n_{IJ} & n_{I \bullet} \\
+    \hline
+    n_{\bullet j} & n_{\bullet 1} & \ldots & n_{\bullet j} & \ldots & n_{\bullet J} & n
+    \end{array}
+    \]
+\end{tcolorbox}
+
+\sectiontitle{Contraste de Independencia}
+
+\begin{tcolorbox}[title=Hipótesis del Contraste de Independencia]
+    \textbf{Hipótesis}:
+    \[
+        \begin{cases}
+        H_0: \text{Los criterios } X \text{ e } Y \text{ son independientes} \\
+        H_1: \text{Los criterios } X \text{ e } Y \text{ no son independientes}
+        \end{cases}
+    \]
+    
+    \textbf{Interpretación}: $X$ e $Y$ son independientes si:
+    \[
+        P(X = x_i, Y = y_j) = P(X = x_i) \cdot P(Y = y_j)
+    \]
+    para todo $i = 1, \ldots, I$ y $j = 1, \ldots, J$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Test $\chi^2$ de Independencia]
+    \textbf{Modelo bajo $H_0$}: Variable aleatoria bidimensional $(X, Y)$ con:
+    \[
+        P((X, Y) = (x_i, y_j)) = P(X = x_i) \cdot P(Y = y_j) = \frac{n_{i \bullet}}{n} \cdot \frac{n_{\bullet j}}{n} = \frac{n_{i \bullet} \cdot n_{\bullet j}}{n^2}
+    \]
+    
+    \textbf{Frecuencias esperadas}:
+    \[
+        E_{ij} = n \cdot P((X, Y) = (x_i, y_j)) = \frac{n_{i \bullet} \cdot n_{\bullet j}}{n}
+    \]
+    
+    \textbf{Estadístico de prueba}:
+    \[
+        \chi^2 = \sum_{i=1}^I \sum_{j=1}^J \frac{(n_{ij} - E_{ij})^2}{E_{ij}} = \sum_{i=1}^I \sum_{j=1}^J \frac{\left(n_{ij} - \frac{n_{i \bullet} \cdot n_{\bullet j}}{n}\right)^2}{\frac{n_{i \bullet} \cdot n_{\bullet j}}{n}}
+    \]
+    
+    \textbf{Distribución}: Bajo $H_0$, si $n$ es grande y $E_{ij} \geq 5$ para todo $i, j$:
+    \[
+        \chi^2 \sim \chi^2_{(I-1)(J-1)}
+    \]
+    
+    \textbf{Región crítica}: Rechazar $H_0$ si $\chi^2 > \chi^2_{\alpha, (I-1)(J-1)}$
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Grados de Libertad, equal height group=IH1]
+        \textbf{Cálculo}: $\nu = (I-1)(J-1)$
+        
+        \textbf{Justificación}:
+        \begin{itemize}
+            \item $I \cdot J$ celdas en total
+            \item $I$ restricciones (suma de filas)
+            \item $J$ restricciones (suma de columnas)
+            \item 1 restricción (suma total)
+            \item $\nu = IJ - I - J + 1 = (I-1)(J-1)$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Condiciones de Aplicación, equal height group=IH1]
+        \textbf{Requisitos}:
+        \begin{itemize}
+            \item $n$ suficientemente grande
+            \item $E_{ij} \geq 5$ para todas las celdas $(i, j)$
+        \end{itemize}
+        
+        \textbf{Si no se cumple}:
+        \begin{itemize}
+            \item Agrupar categorías adyacentes
+            \item Usar simulación para calcular $p$-valor
+        \end{itemize}
+        
+        \textbf{En R}: \texttt{chisq.test(..., simulate.p.value = TRUE)}
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Contraste de Homogeneidad}
+
+\begin{tcolorbox}[title=Hipótesis del Contraste de Homogeneidad]
+    \textbf{Hipótesis}:
+    \[
+        \begin{cases}
+        H_0: \text{La distribución de } Y \text{ es la misma para todos los niveles de } X \\
+        H_1: \text{La distribución de } Y \text{ no es la misma para todos los niveles de } X
+        \end{cases}
+    \]
+    
+    \textbf{Interpretación}: Verificar si las distribuciones condicionales $P(Y = y_j \mid X = x_i)$ son iguales para todos los valores de $X$.
+    
+    \textbf{Equivalencia}: Si $P(Y = y_j \mid X = x_i) = P(Y = y_j)$ para todo $i$, entonces $X$ e $Y$ son independientes.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Test $\chi^2$ de Homogeneidad]
+    \textbf{Modelo bajo $H_0$}: Para cada fila $i$, la distribución de $Y$ es la misma:
+    \[
+        P(Y = y_j \mid X = x_i) = \frac{n_{\bullet j}}{n}
+    \]
+    
+    \textbf{Frecuencias esperadas} (para la fila $i$):
+    \[
+        E_{ij} = n_{i \bullet} \cdot P(Y = y_j \mid X = x_i) = n_{i \bullet} \cdot \frac{n_{\bullet j}}{n} = \frac{n_{i \bullet} \cdot n_{\bullet j}}{n}
+    \]
+    
+    \textbf{Estadístico de prueba}: 
+    \[
+        \chi^2 = \sum_{i=1}^I \sum_{j=1}^J \frac{(n_{ij} - E_{ij})^2}{E_{ij}} = \sum_{i=1}^I \sum_{j=1}^J \frac{\left(n_{ij} - \frac{n_{i \bullet} \cdot n_{\bullet j}}{n}\right)^2}{\frac{n_{i \bullet} \cdot n_{\bullet j}}{n}}
+    \]
+    
+    \textbf{Observación}: ¡La misma expresión que en el test de independencia!
+    
+    \textbf{Distribución}: $\chi^2 \sim \chi^2_{(I-1)(J-1)}$ (bajo $H_0$)
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Diseño Experimental: Independencia, equal height group=IH2]
+        \textbf{Procedimiento}:
+        \begin{itemize}
+            \item Se toma una muestra transversal de $n$ individuos
+            \item Se clasifica cada individuo según $X$ e $Y$
+            \item Los totales de filas y columnas son aleatorios
+        \end{itemize}
+        
+        \textbf{Ejemplo}: Muestra aleatoria de 1083 voluntarios, clasificados por vacunación y enfermedad.
+        
+        \textbf{Pregunta}: ¿Son independientes las dos clasificaciones?
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Diseño Experimental: Homogeneidad, equal height group=IH2]
+        \textbf{Procedimiento}:
+        \begin{itemize}
+            \item Se fijan los tamaños de muestra $n_{i \bullet}$ para cada nivel de $X$
+            \item Para cada $x_i$, se toma una muestra aleatoria de tamaño $n_{i \bullet}$
+            \item Se observa la variable $Y$ en cada muestra
+            \item Los totales de filas están fijados de antemano
+        \end{itemize}
+        
+        \textbf{Ejemplo}: 50 clientes del Norte, 100 del Centro, 50 del Sur (fijados). Se observa número de lotes comprados.
+        
+        \textbf{Pregunta}: ¿Es la distribución de $Y$ igual en los tres grupos?
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Comparación: Independencia vs Homogeneidad]
+    \begin{center}
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Aspecto} & \textbf{Independencia} & \textbf{Homogeneidad} \\
+    \hline
+    \textbf{Muestra} & Transversal (una sola) & Estratificada (múltiples) \\
+    \hline
+    \textbf{Totales de filas} & Aleatorios & Fijados de antemano \\
+    \hline
+    \textbf{Objetivo} & Verificar independencia & Verificar igualdad de distribuciones \\
+    \hline
+    \textbf{Estadístico} & $\chi^2$ (mismo) & $\chi^2$ (mismo) \\
+    \hline
+    \textbf{Grados de libertad} & $(I-1)(J-1)$ & $(I-1)(J-1)$ \\
+    \hline
+    \textbf{Interpretación} & $P(X, Y) = P(X) \cdot P(Y)$ & $P(Y \mid X) = P(Y)$ \\
+    \hline
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Conclusión}: Desde el punto de vista computacional, ambos contrastes son idénticos. La diferencia está en el diseño experimental y la interpretación.
+\end{tcolorbox}
+
+\sectiontitle{Funciones R para Tablas de Contingencia}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Construcción de Tablas, equal height group=IH3]
+        \textbf{table(x, y)}: Crea tabla de contingencia de frecuencias absolutas.
+        
+        \textbf{prop.table(tabla)}: Convierte a frecuencias relativas (proporciones).
+        
+        \textbf{prop.table(tabla, margin=1)}: Frecuencias relativas por filas.
+        
+        \textbf{prop.table(tabla, margin=2)}: Frecuencias relativas por columnas.
+        
+        \textbf{addmargins(tabla)}: Añade totales de filas y columnas.
+        \begin{itemize}
+            \item \texttt{margin=1}: suma por columnas (nueva fila)
+            \item \texttt{margin=2}: suma por filas (nueva columna)
+            \item \texttt{margin=c(1,2)}: ambas (por defecto)
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Operaciones con Tablas, equal height group=IH3]
+        \textbf{colSums(tabla)}: Vector con sumas de columnas.
+        
+        \textbf{rowSums(tabla)}: Vector con sumas de filas.
+        
+        \textbf{chisq.test(tabla)}: Test $\chi^2$ de independencia/homogeneidad.
+        
+        \textbf{Resultado de chisq.test}:
+        \begin{itemize}
+            \item \texttt{statistic}: valor de $\chi^2$
+            \item \texttt{parameter}: grados de libertad
+            \item \texttt{p.value}: $p$-valor
+            \item \texttt{expected}: frecuencias esperadas
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=chisq.test: Parámetros Avanzados]
+    \textbf{Sintaxis básica}:
+    \begin{itemize}
+        \item \texttt{chisq.test(tabla)}: Test estándar
+        \item \texttt{chisq.test(x, y)}: Si $x$ e $y$ son vectores
+    \end{itemize}
+    
+    \textbf{Parámetros importantes}:
+    \begin{itemize}
+        \item \texttt{simulate.p.value = TRUE}: Calcula $p$-valor mediante simulaciones (útil cuando $E_{ij} < 5$)
+        \item \texttt{B}: Número de simulaciones (por defecto 2000)
+        \item \texttt{correct = TRUE/FALSE}: Corrección de Yates (solo para tablas $2 \times 2$)
+    \end{itemize}
+    
+    \textbf{Ejemplo}:
+    \begin{verbatim}
+    tabla <- matrix(c(11, 70, 538, 464), 2, 2)
+    chisq.test(tabla)
+    chisq.test(tabla, simulate.p.value = TRUE, B = 10000)
+    \end{verbatim}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Ejemplo: Vacuna de Hepatitis]
+    \textbf{Datos}:
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    & Vacunado & No vacunado & Total \\
+    \hline
+    Enfermo & 11 & 70 & 81 \\
+    No enfermo & 538 & 464 & 1002 \\
+    \hline
+    Total & 549 & 534 & 1083 \\
+    \hline
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Hipótesis}:
+    \begin{itemize}
+        \item $H_0$: Vacunación e infección son independientes (vacuna no efectiva)
+        \item $H_1$: Vacunación e infección no son independientes (vacuna efectiva)
+    \end{itemize}
+    
+    \textbf{En R}:
+    \begin{verbatim}
+    tabla <- matrix(c(11, 70, 538, 464), 2, 2, 
+                    byrow = TRUE)
+    chisq.test(tabla)
+    \end{verbatim}
+    
+    \textbf{Interpretación}: Si rechazamos $H_0$, hay evidencia de que la vacuna es efectiva.
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Tabla $2 \times 2$: Caso Especial, equal height group=IH4]
+        \textbf{Formato}:
+        \[
+        \begin{array}{c|cc}
+        & Y_1 & Y_2 \\
+        \hline
+        X_1 & a & b \\
+        X_2 & c & d \\
+        \end{array}
+        \]
+        
+        \textbf{Estadístico}:
+        \[
+        \chi^2 = \frac{n(ad - bc)^2}{(a+b)(c+d)(a+c)(b+d)}
+        \]
+        con $\nu = 1$ grado de libertad.
+        
+        \textbf{Corrección de Yates} (si $n$ pequeño):
+        \[
+        \chi^2 = \frac{n(|ad - bc| - n/2)^2}{(a+b)(c+d)(a+c)(b+d)}
+        \]
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Consideraciones Finales, equal height group=IH4]
+        \textbf{Verificar condiciones}:
+        \begin{itemize}
+            \item Todas las frecuencias esperadas $\geq 5$
+            \item Si no, usar simulación o agrupar categorías
+        \end{itemize}
+        
+        \textbf{Interpretación}:
+        \begin{itemize}
+            \item Rechazar $H_0$: Hay asociación/dependencia
+            \item No rechazar $H_0$: No hay evidencia de asociación
+        \end{itemize}
+        
+        \textbf{Límites}:
+        \begin{itemize}
+            \item Test asintótico (requiere $n$ grande)
+            \item No indica dirección ni fuerza de asociación
+            \item Para medir fuerza: coeficiente de contingencia, V de Cramér
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\pagebreak
+
+\sectiontitle{Regresión Lineal Simple}
+
+\begin{tcolorbox}[title=Introducción]
+    \textbf{Objetivo}: Hallar la mejor relación funcional entre dos variables $X$ e $Y$ a partir de una muestra $\{(x_i, y_i)\}_{i=1,\ldots,n}$.
+    
+    \textbf{Variable dependiente (respuesta)}: $Y$ - variable aleatoria que queremos predecir.
+    
+    \textbf{Variable independiente (regresora)}: $X$ - variable de control o explicativa (no necesariamente aleatoria).
+    
+    \textbf{Modelo de regresión lineal}: Si la relación es una recta:
+    \[
+        \mu_{Y \mid x} = \beta_0 + \beta_1 x
+    \]
+    donde $\mu_{Y \mid x}$ es el valor esperado de $Y$ cuando $X = x$.
+    
+    \textbf{Parámetros a estimar}: $\beta_0$ (ordenada al origen) y $\beta_1$ (pendiente).
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Modelo de Regresión Lineal]
+    \textbf{Ecuación del modelo}:
+    \[
+        y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+    \]
+    donde:
+    \begin{itemize}
+        \item $y_i$: valor observado de $Y$ para $x_i$
+        \item $\beta_0 + \beta_1 x_i$: valor predicho por el modelo
+        \item $\varepsilon_i$: error aleatorio (residuo)
+    \end{itemize}
+    
+    \textbf{Estimaciones}: $b_0$ y $b_1$ estiman $\beta_0$ y $\beta_1$ respectivamente.
+    
+    \textbf{Recta de regresión estimada}:
+    \[
+        \hat{y} = b_0 + b_1 x
+    \]
+    
+    \textbf{Predicción}: Para $x_0$, $\hat{y}_0 = b_0 + b_1 x_0$.
+\end{tcolorbox}
+
+\sectiontitle{Método de Mínimos Cuadrados}
+
+\begin{tcolorbox}[title=Método de Mínimos Cuadrados]
+    \textbf{Error cuadrático teórico}:
+    \[
+        SS_\varepsilon = \sum_{i=1}^n \varepsilon_i^2 = \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2
+    \]
+    
+    \textbf{Objetivo}: Encontrar $b_0$ y $b_1$ que minimizan $SS_\varepsilon$.
+    
+    \textbf{Condiciones de mínimo} (derivadas igualadas a cero):
+    \begin{align*}
+        \frac{\partial SS_\varepsilon}{\partial \beta_0}\Big|_{\beta_0=b_0, \beta_1=b_1} &= -2\sum_{i=1}^n (y_i - b_0 - b_1 x_i) = 0 \\
+        \frac{\partial SS_\varepsilon}{\partial \beta_1}\Big|_{\beta_0=b_0, \beta_1=b_1} &= -2\sum_{i=1}^n (y_i - b_0 - b_1 x_i)x_i = 0
+    \end{align*}
+    
+    \textbf{Justificación}: Se elevan los errores al cuadrado para penalizar siempre los errores (positivos y negativos) y evitar que se anulen.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Estimadores de Mínimos Cuadrados]
+    \textbf{Solución del sistema}:
+    \[
+        b_1 = \frac{n\sum_{i=1}^n x_i y_i - \sum_{i=1}^n x_i \sum_{i=1}^n y_i}{n\sum_{i=1}^n x_i^2 - \left(\sum_{i=1}^n x_i\right)^2}
+    \]
+    \[
+        b_0 = \frac{\sum_{i=1}^n y_i - b_1 \sum_{i=1}^n x_i}{n} = \bar{y} - b_1 \bar{x}
+    \]
+    
+    \textbf{En términos de estadísticos muestrales}:
+    \begin{itemize}
+        \item $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$, $\bar{y} = \frac{1}{n}\sum_{i=1}^n y_i$ (medias)
+        \item $\tilde{s}_x^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2$ (varianza muestral de $X$)
+        \item $\tilde{s}_y^2 = \frac{1}{n-1}\sum_{i=1}^n (y_i - \bar{y})^2$ (varianza muestral de $Y$)
+        \item $\tilde{s}_{xy} = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})$ (covarianza muestral)
+    \end{itemize}
+    
+    \textbf{Forma alternativa}:
+    \[
+        b_1 = \frac{\tilde{s}_{xy}}{\tilde{s}_x^2} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}
+    \]
+    \[
+        b_0 = \bar{y} - b_1 \bar{x}
+    \]
+\end{tcolorbox}
+
+\sectiontitle{Coeficiente de Correlación y Determinación}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Coeficiente de Correlación, equal height group=RL1]
+        \textbf{Definición}:
+        \[
+            r = \frac{\tilde{s}_{xy}}{\tilde{s}_x \tilde{s}_y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2 \sum_{i=1}^n (y_i - \bar{y})^2}}
+        \]
+        
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item $-1 \leq r \leq 1$
+            \item $r = 1$: correlación positiva perfecta
+            \item $r = -1$: correlación negativa perfecta
+            \item $r = 0$: no hay correlación lineal
+            \item $r > 0$: relación positiva
+            \item $r < 0$: relación negativa
+        \end{itemize}
+        
+        \textbf{Relación con $b_1$}:
+        \[
+            b_1 = r \cdot \frac{\tilde{s}_y}{\tilde{s}_x}
+        \]
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Coeficiente de Determinación $R^2$, equal height group=RL1]
+        \textbf{Definición}:
+        \[
+            R^2 = r^2 = \frac{\tilde{s}_{xy}^2}{\tilde{s}_x^2 \tilde{s}_y^2}
+        \]
+        
+        \textbf{Interpretación}: Proporción de la varianza de $Y$ explicada por el modelo.
+        
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item $0 \leq R^2 \leq 1$
+            \item $R^2 = 1$: el modelo explica toda la variabilidad
+            \item $R^2 = 0$: el modelo no explica nada
+            \item $R^2$ cercano a 1: buen ajuste
+        \end{itemize}
+        
+        \textbf{Suma de cuadrados}:
+        \[
+            R^2 = \frac{SS_{reg}}{SS_{tot}} = 1 - \frac{SS_{res}}{SS_{tot}}
+        \]
+        donde $SS_{reg}$ es la suma de cuadrados de la regresión y $SS_{res}$ es la suma de cuadrados de los residuos.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Descomposición de la Varianza]
+    \textbf{Suma total de cuadrados}:
+    \[
+        SS_{tot} = \sum_{i=1}^n (y_i - \bar{y})^2
+    \]
+    
+    \textbf{Suma de cuadrados de la regresión}:
+    \[
+        SS_{reg} = \sum_{i=1}^n (\hat{y}_i - \bar{y})^2
+    \]
+    
+    \textbf{Suma de cuadrados de los residuos}:
+    \[
+        SS_{res} = \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n \varepsilon_i^2
+    \]
+    
+    \textbf{Identidad fundamental}:
+    \[
+        SS_{tot} = SS_{reg} + SS_{res}
+    \]
+    
+    \textbf{Coeficiente de determinación}:
+    \[
+        R^2 = \frac{SS_{reg}}{SS_{tot}} = 1 - \frac{SS_{res}}{SS_{tot}}
+    \]
+\end{tcolorbox}
+
+\sectiontitle{Inferencia en Regresión Lineal}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Supuestos del Modelo, equal height group=RL2]
+        \textbf{Modelo}:
+        \[
+            Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+        \]
+        
+        \textbf{Supuestos sobre los errores}:
+        \begin{itemize}
+            \item $E(\varepsilon_i) = 0$ para todo $i$
+            \item $\text{Var}(\varepsilon_i) = \sigma^2$ (homocedasticidad)
+            \item $\varepsilon_i$ independientes
+            \item $\varepsilon_i \sim N(0, \sigma^2)$ (normalidad, opcional para inferencia)
+        \end{itemize}
+        
+        \textbf{Consecuencias}:
+        \begin{itemize}
+            \item $E(Y_i \mid x_i) = \beta_0 + \beta_1 x_i$
+            \item $\text{Var}(Y_i \mid x_i) = \sigma^2$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Estimación de $\sigma^2$, equal height group=RL2]
+        \textbf{Varianza residual}:
+        \[
+            s^2 = \frac{SS_{res}}{n-2} = \frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{n-2}
+        \]
+        
+        \textbf{Desviación estándar residual}:
+        \[
+            s = \sqrt{s^2}
+        \]
+        
+        \textbf{Grados de libertad}: $n-2$ (se pierden 2 grados por estimar $\beta_0$ y $\beta_1$).
+        
+        \textbf{Interpretación}: Medida de la dispersión de los datos alrededor de la recta de regresión.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Inferencia sobre los Parámetros]
+    \textbf{Distribuciones (bajo normalidad)}:
+    \begin{itemize}
+        \item $b_0 \sim N\left(\beta_0, \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_i - \bar{x})^2}\right]\right)$
+        \item $b_1 \sim N\left(\beta_1, \frac{\sigma^2}{\sum(x_i - \bar{x})^2}\right)$
+    \end{itemize}
+    
+    \textbf{Errores estándar estimados}:
+    \[
+        SE(b_0) = s \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_i - \bar{x})^2}}
+    \]
+    \[
+        SE(b_1) = \frac{s}{\sqrt{\sum(x_i - \bar{x})^2}}
+    \]
+    
+    \textbf{Estadísticos t}:
+    \[
+        t_0 = \frac{b_0 - \beta_0}{SE(b_0)} \sim t_{n-2}, \quad t_1 = \frac{b_1 - \beta_1}{SE(b_1)} \sim t_{n-2}
+    \]
+    
+    \textbf{Intervalos de confianza} (nivel $1-\alpha$):
+    \[
+        b_0 \pm t_{\alpha/2, n-2} \cdot SE(b_0), \quad b_1 \pm t_{\alpha/2, n-2} \cdot SE(b_1)
+    \]
+    
+    \textbf{Contrastes de hipótesis}:
+    \begin{itemize}
+        \item $H_0: \beta_1 = 0$ vs $H_1: \beta_1 \neq 0$: ¿Hay relación lineal?
+        \item $H_0: \beta_0 = 0$ vs $H_1: \beta_0 \neq 0$: ¿Pasa por el origen?
+    \end{itemize}
+\end{tcolorbox}
+
+\sectiontitle{Transformaciones y Modelos No Lineales}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Modelo Potencial, equal height group=RL3]
+        \textbf{Modelo}: $y = \beta_0 \cdot x^{\beta_1}$ con $\beta_0 > 0$
+        
+        \textbf{Transformación}: Aplicar $\log_{10}$ a ambos lados:
+        \[
+            \log_{10}(y) = \log_{10}(\beta_0) + \beta_1 \log_{10}(x)
+        \]
+        
+        \textbf{Modelo lineal equivalente}:
+        \[
+            Y' = \beta_0' + \beta_1 X'
+        \]
+        donde $Y' = \log_{10}(y)$, $X' = \log_{10}(x)$, $\beta_0' = \log_{10}(\beta_0)$, $\beta_1' = \beta_1$.
+        
+        \textbf{Estimación}:
+        \begin{itemize}
+            \item Ajustar $\text{lm}(\log_{10}(y) \sim \log_{10}(x))$
+            \item Obtener $b_0'$ y $b_1'$
+            \item $\beta_0 = 10^{b_0'}$, $\beta_1 = b_1'$
+        \end{itemize}
+        
+        \textbf{Gráfico}: Escala log-log (ambos ejes logarítmicos).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Modelo Exponencial, equal height group=RL3]
+        \textbf{Modelo}: $y = \beta_0 \cdot \beta_1^x$ con $\beta_0 > 0$, $\beta_1 > 0$
+        
+        \textbf{Transformación}: Aplicar $\log_{10}$ solo a $y$:
+        \[
+            \log_{10}(y) = \log_{10}(\beta_0) + \log_{10}(\beta_1) \cdot x
+        \]
+        
+        \textbf{Modelo lineal equivalente}:
+        \[
+            Y' = \beta_0' + \beta_1' x
+        \]
+        donde $Y' = \log_{10}(y)$, $\beta_0' = \log_{10}(\beta_0)$, $\beta_1' = \log_{10}(\beta_1)$.
+        
+        \textbf{Estimación}:
+        \begin{itemize}
+            \item Ajustar $\text{lm}(\log_{10}(y) \sim x)$
+            \item Obtener $b_0'$ y $b_1'$
+            \item $\beta_0 = 10^{b_0'}$, $\beta_1 = 10^{b_1'}$
+        \end{itemize}
+        
+        \textbf{Gráfico}: Escala semi-logarítmica (solo eje $y$ logarítmico).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Resumen de Transformaciones]
+    \begin{center}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Modelo} & \textbf{Ecuación} & \textbf{Transformación} & \textbf{Modelo Lineal} \\
+    \hline
+    Lineal & $y = \beta_0 + \beta_1 x$ & Ninguna & $y = \beta_0 + \beta_1 x$ \\
+    \hline
+    Potencial & $y = \beta_0 x^{\beta_1}$ & $\log_{10}(y)$, $\log_{10}(x)$ & $Y' = \beta_0' + \beta_1 X'$ \\
+    \hline
+    Exponencial & $y = \beta_0 \beta_1^x$ & $\log_{10}(y)$ & $Y' = \beta_0' + \beta_1' x$ \\
+    \hline
+    Logarítmico & $y = \beta_0 + \beta_1 \log(x)$ & $\log(x)$ & $y = \beta_0 + \beta_1 X'$ \\
+    \hline
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Nota}: Después de la transformación, se aplica regresión lineal estándar y luego se transforman los parámetros de vuelta a la escala original.
+\end{tcolorbox}
+
+\sectiontitle{Funciones R para Regresión Lineal}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=lm(): Ajuste del Modelo, equal height group=RL4]
+        \textbf{Sintaxis}:
+        \begin{verbatim}
+        modelo <- lm(y ~ x)
+        modelo <- lm(y ~ x + 1)  # explícito
+        \end{verbatim}
+        
+        \textbf{Resultado}: Objeto de clase \texttt{lm} con:
+        \begin{itemize}
+            \item \texttt{coefficients}: $b_0$ y $b_1$
+            \item \texttt{fitted.values}: valores predichos $\hat{y}_i$
+            \item \texttt{residuals}: residuos $\varepsilon_i$
+            \item \texttt{df.residual}: grados de libertad ($n-2$)
+        \end{itemize}
+        
+        \textbf{Acceso}:
+        \begin{itemize}
+            \item \texttt{modelo\$coefficients[1]}: $b_0$
+            \item \texttt{modelo\$coefficients[2]}: $b_1$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=summary(): Resumen del Modelo, equal height group=RL4]
+        \textbf{Sintaxis}: \texttt{summary(modelo)}
+        
+        \textbf{Información proporcionada}:
+        \begin{itemize}
+            \item \texttt{Estimate}: estimaciones $b_0$ y $b_1$
+            \item \texttt{Std. Error}: errores estándar
+            \item \texttt{t value}: estadísticos $t$
+            \item \texttt{Pr($>|t|$)}: $p$-valores
+            \item \texttt{Residual standard error}: $s$ (desviación estándar residual)
+            \item \texttt{Multiple R-squared}: $R^2$
+            \item \texttt{Adjusted R-squared}: $R^2$ ajustado
+            \item \texttt{F-statistic}: estadístico $F$ para el modelo
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Funciones Adicionales]
+    \textbf{Predicción}:
+    \begin{itemize}
+        \item \texttt{predict(modelo, newdata = data.frame(x = x0))}: Predice $y$ para $x_0$
+        \item \texttt{predict(modelo, interval = "confidence")}: Intervalos de confianza para la media
+        \item \texttt{predict(modelo, interval = "prediction")}: Intervalos de predicción para observaciones
+    \end{itemize}
+    
+    \textbf{Diagnóstico}:
+    \begin{itemize}
+        \item \texttt{plot(modelo)}: Gráficos de diagnóstico (4 gráficos)
+        \item \texttt{residuals(modelo)}: Residuos
+        \item \texttt{fitted(modelo)}: Valores ajustados
+    \end{itemize}
+    
+    \textbf{Información del modelo}:
+    \begin{itemize}
+        \item \texttt{coef(modelo)}: Coeficientes
+        \item \texttt{confint(modelo)}: Intervalos de confianza para los parámetros
+        \item \texttt{anova(modelo)}: Tabla ANOVA
+    \end{itemize}
+    
+    \textbf{Gráficos}:
+    \begin{itemize}
+        \item \texttt{plot(x, y)}: Diagrama de dispersión
+        \item \texttt{abline(modelo)}: Añade la recta de regresión
+        \item \texttt{lines(x, y\_pred)}: Añade curva predicha
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Ejemplo: Modelo Potencial, equal height group=RL5]
+        \textbf{Datos}: $y = 11 \cdot x^2$ (con error)
+        
+        \textbf{Código R}:
+        \begin{verbatim}
+        # Transformación
+        modelo <- lm(log10(y) ~ log10(x))
+        
+        # Parámetros estimados
+        b0 <- modelo$coefficients[1]
+        b1 <- modelo$coefficients[2]
+        
+        # Transformación inversa
+        beta0 <- 10^b0
+        beta1 <- b1
+        
+        # Recta estimada
+        y_est <- beta0 * x^beta1
+        \end{verbatim}
+        
+        \textbf{Resultado}: $\beta_0 \approx 11$, $\beta_1 \approx 2$
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Ejemplo: Modelo Exponencial, equal height group=RL5]
+        \textbf{Datos}: $y = 3 \cdot 2^x$ (con error)
+        
+        \textbf{Código R}:
+        \begin{verbatim}
+        # Transformación
+        modelo <- lm(log10(y) ~ x)
+        
+        # Parámetros estimados
+        b0 <- modelo$coefficients[1]
+        b1 <- modelo$coefficients[2]
+        
+        # Transformación inversa
+        beta0 <- 10^b0
+        beta1 <- 10^b1
+        
+        # Curva estimada
+        y_est <- beta0 * beta1^x
+        \end{verbatim}
+        
+        \textbf{Resultado}: $\beta_0 \approx 3$, $\beta_1 \approx 2$
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Consideraciones Importantes]
+    \textbf{Validación del modelo}:
+    \begin{itemize}
+        \item Verificar supuestos (normalidad de residuos, homocedasticidad)
+        \item Revisar gráficos de diagnóstico
+        \item Comprobar outliers e influyentes
+        \item Validar $R^2$ y significación de parámetros
+    \end{itemize}
+    
+    \textbf{Limitaciones}:
+    \begin{itemize}
+        \item Relación lineal (o linealizable)
+        \item Independencia de observaciones
+        \item Homocedasticidad (varianza constante)
+        \item No extrapolar fuera del rango de $X$ observado
+    \end{itemize}
+    
+    \textbf{Interpretación}:
+    \begin{itemize}
+        \item $b_1$: cambio esperado en $Y$ por unidad de cambio en $X$
+        \item $b_0$: valor esperado de $Y$ cuando $X = 0$ (si tiene sentido)
+        \item $R^2$: proporción de variabilidad explicada
+    \end{itemize}
+\end{tcolorbox}
+
+\pagebreak
+
+\sectiontitle{Clustering}
+
+\begin{tcolorbox}[title=Introducción al Clustering]
+    \textbf{Problema}: Dado un conjunto de objetos, clasificarlos en grupos (clusters) basándonos en sus parecidos y diferencias.
+    
+    \textbf{Aplicaciones}:
+    \begin{itemize}
+        \item \textbf{Biología}: Clasificación jerárquica de organismos, agrupamiento de genes y proteínas
+        \item \textbf{Marketing}: Identificación de individuos por comportamientos similares
+        \item \textbf{Tratamiento de imágenes}: Eliminación de ruido, detección de bordes
+        \item \textbf{Biometría}: Identificación de individuos (caras, huellas dactilares)
+    \end{itemize}
+    
+    \textbf{Objetivo}: Encontrar grupos naturales en los datos sin etiquetas previas (aprendizaje no supervisado).
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Principios Básicos, equal height group=CL1]
+        \textbf{Homogeneidad}: Los objetos dentro de un mismo cluster deben ser próximos o parecidos entre sí.
+        
+        \textbf{Separación}: Los objetos que pertenecen a clusters diferentes deben estar alejados.
+        
+        \textbf{Objetivo}: Maximizar la homogeneidad dentro de los clusters y maximizar la separación entre clusters.
+        
+        \textbf{Validación}: Un buen clustering cumple ambos principios simultáneamente.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Tipos de Algoritmos, equal height group=CL1]
+        \textbf{Algoritmos de partición}:
+        \begin{itemize}
+            \item Número de clusters $k$ prefijado
+            \item Ejemplo: $k$-medias ($k$-means)
+        \end{itemize}
+        
+        \textbf{Algoritmos jerárquicos}:
+        \begin{itemize}
+            \item Producen un árbol de clasificación (dendrograma)
+            \item \textbf{Aglomerativos}: De $n$ clusters a 1 (bottom-up)
+            \item \textbf{Divisivos}: De 1 cluster a $n$ (top-down)
+        \end{itemize}
+        
+        \textbf{Resultado jerárquico}: Árbol binario donde cada nodo representa una agrupación/división.
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Algoritmo k-medias (k-means)}
+
+\begin{tcolorbox}[title=Descripción del Problema]
+    \textbf{Datos}: Tabla de $n$ filas (objetos) y $m$ columnas (variables continuas).
+    
+    \textbf{Representación}: Cada objeto $i$ se representa como un vector:
+    \[
+        \mathbf{x}_i = (x_{i1}, x_{i2}, \ldots, x_{im}) \in \mathbb{R}^m
+    \]
+    
+    \textbf{Objetivo}: Encontrar $k$ puntos (centros) $\mathbf{c}_1, \ldots, \mathbf{c}_k \in \mathbb{R}^m$ y una partición de los $n$ objetos en $k$ clusters $C_1, \ldots, C_k$ tal que se minimice:
+    \[
+        SS_C = \sum_{j=1}^k \sum_{\mathbf{x}_i \in C_j} \|\mathbf{x}_i - \mathbf{c}_j\|^2
+    \]
+    donde $\|\mathbf{x}_i - \mathbf{c}_j\|$ es la distancia euclídea entre el objeto $\mathbf{x}_i$ y el centro $\mathbf{c}_j$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Distancia Euclídea]
+    \textbf{Definición}: Dados dos objetos $\mathbf{x} = (x_1, \ldots, x_m)$ e $\mathbf{y} = (y_1, \ldots, y_m)$ en $\mathbb{R}^m$:
+    \[
+        \|\mathbf{x} - \mathbf{y}\| = \sqrt{\sum_{i=1}^m (x_i - y_i)^2}
+    \]
+    
+    \textbf{Interpretación}: Para $m = 2$ o $m = 3$, es la longitud del segmento que une los puntos.
+    
+    \textbf{Propiedad}: Dos objetos están más próximos cuanto menor es la distancia euclídea entre ellos.
+    
+    \textbf{Uso}: Medida de proximidad entre objetos en el espacio de características.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Algoritmo k-medias: Pasos]
+    \textbf{Inicialización}:
+    \begin{enumerate}
+        \item Elegir $k$ centros iniciales $\mathbf{c}_1^{(0)}, \ldots, \mathbf{c}_k^{(0)}$ aleatoriamente
+    \end{enumerate}
+    
+    \textbf{Iteración} (repetir hasta convergencia):
+    \begin{enumerate}
+        \item \textbf{Asignación}: Para cada objeto $\mathbf{x}_i$, asignarlo al cluster $C_j$ cuyo centro $\mathbf{c}_j$ esté más cerca:
+        \[
+            \mathbf{x}_i \in C_j \text{ si } \|\mathbf{x}_i - \mathbf{c}_j\| = \min_{l=1,\ldots,k} \|\mathbf{x}_i - \mathbf{c}_l\|
+        \]
+        
+        \item \textbf{Actualización}: Recalcular los centros como las medias de los objetos en cada cluster:
+        \[
+            \mathbf{c}_j = \frac{1}{|C_j|} \sum_{\mathbf{x}_i \in C_j} \mathbf{x}_i
+        \]
+    \end{enumerate}
+    
+    \textbf{Criterio de parada}: Cuando los clusters no cambian entre iteraciones (o cambio mínimo).
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Propiedades del Algoritmo, equal height group=CL2]
+        \textbf{Ventajas}:
+        \begin{itemize}
+            \item Simple y eficiente
+            \item Escalable a grandes conjuntos de datos
+            \item Converge rápidamente
+        \end{itemize}
+        
+        \textbf{Desventajas}:
+        \begin{itemize}
+            \item Requiere especificar $k$ a priori
+            \item Sensible a la inicialización
+            \item Puede quedar atrapado en mínimos locales
+            \item Asume clusters esféricos y de tamaño similar
+        \end{itemize}
+        
+        \textbf{Solución}: Ejecutar múltiples veces con diferentes inicializaciones y elegir el mejor resultado.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Suma de Cuadrados, equal height group=CL2]
+        \textbf{Suma de cuadrados dentro de clusters}:
+        \[
+            SS_C = \sum_{j=1}^k SS_{C_j} = \sum_{j=1}^k \sum_{\mathbf{x}_i \in C_j} \|\mathbf{x}_i - \mathbf{c}_j\|^2
+        \]
+        
+        \textbf{Suma total de cuadrados}:
+        \[
+            SS_{tot} = \sum_{i=1}^n \|\mathbf{x}_i - \bar{\mathbf{x}}\|^2
+        \]
+        donde $\bar{\mathbf{x}}$ es el centroide global.
+        
+        \textbf{Suma entre clusters}:
+        \[
+            SS_{between} = SS_{tot} - SS_C
+        \]
+        
+        \textbf{Interpretación}: Minimizar $SS_C$ equivale a maximizar $SS_{between}$.
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Clustering Jerárquico}
+
+\begin{tcolorbox}[title=Métodos Jerárquicos Aglomerativos]
+    \textbf{Proceso}: 
+    \begin{itemize}
+        \item \textbf{Paso inicial}: Cada objeto forma su propio cluster ($n$ clusters)
+        \item \textbf{En cada paso}: Se unen los dos clusters más próximos
+        \item \textbf{Paso final}: Un único cluster con todos los objetos
+    \end{itemize}
+    
+    \textbf{Resultado}: Dendrograma (árbol binario) que muestra la jerarquía de agrupaciones.
+    
+    \textbf{Ventajas}:
+    \begin{itemize}
+        \item No requiere especificar $k$ a priori
+        \item Proporciona jerarquía completa
+        \item Visualización clara del proceso
+    \end{itemize}
+    
+    \textbf{Desventajas}:
+    \begin{itemize}
+        \item Computacionalmente más costoso ($O(n^3)$)
+        \item Decisiones irreversibles
+        \item Sensible a outliers
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Métodos de Enlace, equal height group=CL3]
+        \textbf{Enlace simple (single)}:
+        \[
+            d(C_i, C_j) = \min_{\mathbf{x} \in C_i, \mathbf{y} \in C_j} \|\mathbf{x} - \mathbf{y}\|
+        \]
+        Distancia mínima entre clusters.
+        
+        \textbf{Enlace completo (complete)}:
+        \[
+            d(C_i, C_j) = \max_{\mathbf{x} \in C_i, \mathbf{y} \in C_j} \|\mathbf{x} - \mathbf{y}\|
+        \]
+        Distancia máxima entre clusters.
+        
+        \textbf{Enlace promedio (average)}:
+        \[
+            d(C_i, C_j) = \frac{1}{|C_i| \cdot |C_j|} \sum_{\mathbf{x} \in C_i} \sum_{\mathbf{y} \in C_j} \|\mathbf{x} - \mathbf{y}\|
+        \]
+        Distancia promedio entre clusters.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Métodos de Enlace (cont.), equal height group=CL3]
+        \textbf{Mediana (median)}:
+        \[
+            d(C_i, C_j) = \|\mathbf{c}_i - \mathbf{c}_j\|
+        \]
+        donde $\mathbf{c}_i$ y $\mathbf{c}_j$ son las medianas de los clusters.
+        
+        \textbf{Centroide (centroid)}:
+        \[
+            d(C_i, C_j) = \|\bar{\mathbf{x}}_i - \bar{\mathbf{x}}_j\|
+        \]
+        donde $\bar{\mathbf{x}}_i$ y $\bar{\mathbf{x}}_j$ son los centroides.
+        
+        \textbf{Ward (ward.D)}:
+        \[
+            d(C_i, C_j) = \frac{|C_i| \cdot |C_j|}{|C_i| + |C_j|} \|\bar{\mathbf{x}}_i - \bar{\mathbf{x}}_j\|^2
+        \]
+        Minimiza la varianza dentro de clusters.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Dendrograma]
+    \textbf{Definición}: Representación gráfica del árbol jerárquico de clustering.
+    
+    \textbf{Elementos}:
+    \begin{itemize}
+        \item \textbf{Hojas}: Objetos individuales (base del árbol)
+        \item \textbf{Nodos}: Uniones de clusters
+        \item \textbf{Altura}: Distancia a la que se unen los clusters
+        \item \textbf{Raíz}: Cluster único con todos los objetos (cima del árbol)
+    \end{itemize}
+    
+    \textbf{Corte del dendrograma}:
+    \begin{itemize}
+        \item Por altura $h$: Cortar a una distancia específica
+        \item Por número de clusters $k$: Obtener $k$ clusters
+    \end{itemize}
+    
+    \textbf{Interpretación}: La altura indica la "distancia" entre clusters unidos.
+\end{tcolorbox}
+
+\sectiontitle{Distancias y Escalado}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Tipos de Distancias, equal height group=CL4]
+        \textbf{Euclídea} (por defecto):
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^m (x_i - y_i)^2}
+        \]
+        
+        \textbf{Manhattan}:
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^m |x_i - y_i|
+        \]
+        
+        \textbf{Máximo}:
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \max_{i=1,\ldots,m} |x_i - y_i|
+        \]
+        
+        \textbf{Canberra}:
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^m \frac{|x_i - y_i|}{|x_i| + |y_i|}
+        \]
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Tipos de Distancias (cont.), equal height group=CL4]
+        \textbf{Minkowski} (con parámetro $p > 0$):
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \left(\sum_{i=1}^m |x_i - y_i|^p\right)^{1/p}
+        \]
+        \begin{itemize}
+            \item $p = 1$: Manhattan
+            \item $p = 2$: Euclídea
+            \item $p \to \infty$: Máximo
+        \end{itemize}
+        
+        \textbf{Binaria} (para vectores binarios):
+        \[
+            d(\mathbf{x}, \mathbf{y}) = \frac{\text{número de posiciones diferentes}}{\text{número de posiciones con al menos un 1}}
+        \]
+        
+        \textbf{Nota}: La elección de la distancia afecta significativamente los resultados del clustering.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Escalado de Datos]
+    \textbf{Problema}: Variables con diferentes escalas pueden dominar el clustering.
+    
+    \textbf{Solución}: Estandarizar las variables antes del clustering.
+    
+    \textbf{Estandarización}:
+    \[
+        z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j}
+    \]
+    donde:
+    \begin{itemize}
+        \item $\bar{x}_j$: media de la variable $j$
+        \item $s_j$: desviación estándar de la variable $j$
+    \end{itemize}
+    
+    \textbf{Resultado}: Variables con media 0 y desviación estándar 1.
+    
+    \textbf{Importancia}: Especialmente crítico cuando las variables tienen unidades diferentes o rangos muy distintos.
+\end{tcolorbox}
+
+\sectiontitle{Funciones R para Clustering}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=kmeans(): k-medias, equal height group=CL5]
+        \textbf{Sintaxis}:
+        \begin{verbatim}
+        resultado <- kmeans(x, centers = k, 
+                           iter.max = 10, 
+                           nstart = 1)
+        \end{verbatim}
+        
+        \textbf{Parámetros}:
+        \begin{itemize}
+            \item \texttt{x}: tabla de datos (matriz o data.frame)
+            \item \texttt{centers}: número de clusters $k$
+            \item \texttt{iter.max}: máximo de iteraciones
+            \item \texttt{nstart}: número de inicializaciones aleatorias
+        \end{itemize}
+        
+        \textbf{Salida}:
+        \begin{itemize}
+            \item \texttt{resultado\$cluster}: asignación de clusters
+            \item \texttt{resultado\$centers}: centros de clusters
+            \item \texttt{resultado\$size}: tamaños de clusters
+            \item \texttt{resultado\$withinss}: $SS_{C_j}$ por cluster
+            \item \texttt{resultado\$tot.withinss}: $SS_C$ total
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=dist(): Matriz de Distancias, equal height group=CL5]
+        \textbf{Sintaxis}:
+        \begin{verbatim}
+        d <- dist(x, method = "euclidean")
+        \end{verbatim}
+        
+        \textbf{Parámetros}:
+        \begin{itemize}
+            \item \texttt{x}: tabla de datos
+            \item \texttt{method}: tipo de distancia
+            \begin{itemize}
+                \item \texttt{"euclidean"} (por defecto)
+                \item \texttt{"manhattan"}
+                \item \texttt{"maximum"}
+                \item \texttt{"canberra"}
+                \item \texttt{"minkowski"} (requiere \texttt{p})
+                \item \texttt{"binary"}
+            \end{itemize}
+        \end{itemize}
+        
+        \textbf{Salida}: Objeto de clase \texttt{dist} (no matriz estándar).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=scale(): Estandarización, equal height group=CL6]
+        \textbf{Sintaxis}:
+        \begin{verbatim}
+        x_scaled <- scale(x, center = TRUE, 
+                         scale = TRUE)
+        \end{verbatim}
+        
+        \textbf{Parámetros}:
+        \begin{itemize}
+            \item \texttt{center = TRUE}: resta la media (por defecto)
+            \item \texttt{scale = TRUE}: divide por desviación estándar (por defecto)
+            \item También acepta vectores numéricos para centrar/escalar manualmente
+        \end{itemize}
+        
+        \textbf{Resultado}: Datos estandarizados (media 0, desv. estándar 1).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=hclust(): Clustering Jerárquico, equal height group=CL6]
+        \textbf{Sintaxis}:
+        \begin{verbatim}
+        hc <- hclust(d, method = "ward.D")
+        \end{verbatim}
+        
+        \textbf{Parámetros}:
+        \begin{itemize}
+            \item \texttt{d}: matriz de distancias (objeto \texttt{dist})
+            \item \texttt{method}: método de enlace
+            \begin{itemize}
+                \item \texttt{"ward.D"}, \texttt{"complete"}, \texttt{"single"}
+                \item \texttt{"average"}, \texttt{"median"}, \texttt{"centroid"}
+            \end{itemize}
+        \end{itemize}
+        
+        \textbf{Salida}:
+        \begin{itemize}
+            \item \texttt{hc\$merge}: matriz de fusiones
+            \item \texttt{hc\$height}: alturas de fusiones
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Visualización y Extracción de Clusters]
+    \textbf{plot(hc)}: Dibuja el dendrograma
+    \begin{itemize}
+        \item \texttt{hang}: controla posición de hojas
+        \item \texttt{labels}: nombres de objetos
+    \end{itemize}
+    
+    \textbf{cutree(hc, k = ...)}: Extrae $k$ clusters del dendrograma
+    \begin{itemize}
+        \item Alternativa: \texttt{cutree(hc, h = ...)} por altura
+    \end{itemize}
+    
+    \textbf{rect.hclust(hc, k = ...)}: Dibuja rectángulos alrededor de clusters en el dendrograma
+    \begin{itemize}
+        \item Requiere haber llamado \texttt{plot()} primero
+        \item Útil para visualizar la partición elegida
+    \end{itemize}
+    
+    \textbf{Ejemplo}:
+    \begin{verbatim}
+    plot(hc)
+    clusters <- cutree(hc, k = 3)
+    rect.hclust(hc, k = 3)
+    \end{verbatim}
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Determinación del Número de Clusters, equal height group=CL7]
+        \textbf{Método del codo (Elbow)}:
+        \begin{itemize}
+            \item Graficar $SS_C$ vs $k$
+            \item Buscar el "codo" donde $SS_C$ deja de disminuir rápidamente
+        \end{itemize}
+        
+        \textbf{Silueta (Silhouette)}:
+        \begin{itemize}
+            \item Mide qué tan bien está asignado cada objeto
+            \item Valores altos: buena asignación
+            \item Elegir $k$ que maximice la silueta promedio
+        \end{itemize}
+        
+        \textbf{Gap statistic}:
+        \begin{itemize}
+            \item Compara $SS_C$ con valores esperados bajo distribución nula
+            \item Elegir $k$ que maximice el gap
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Consideraciones Finales, equal height group=CL7]
+        \textbf{Preprocesamiento}:
+        \begin{itemize}
+            \item Estandarizar variables (especialmente si escalas diferentes)
+            \item Manejar valores faltantes
+            \item Considerar transformaciones si datos sesgados
+        \end{itemize}
+        
+        \textbf{Validación}:
+        \begin{itemize}
+            \item Verificar homogeneidad y separación
+            \item Comparar diferentes métodos
+            \item Usar conocimiento del dominio
+        \end{itemize}
+        
+        \textbf{Limitaciones}:
+        \begin{itemize}
+            \item Resultados dependen de inicialización (k-means)
+            \item Asume clusters convexos (k-means)
+            \item Sensible a outliers
+            \item Elección de distancia y método afecta resultados
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
 \end{document}
