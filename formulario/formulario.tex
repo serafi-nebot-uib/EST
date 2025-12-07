@@ -657,6 +657,25 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
             \item $\sigma_Y^2 = Var(Y) = E(Y - E(Y)) = E(Y) - E(Y)^2$
         \end{itemize}
 
+        \textbf{Distribuciones condicionales} \\
+        Dado un valor fijo $y \in D_Y$:
+        \[
+            P(X = x \mid Y = y) = \frac{P_{XY}(x, y)}{P_Y(y)}
+        \]
+        Dado un valor fijo $x \in D_X$:
+        \[
+            P(Y = y \mid X = x) = \frac{P_{XY}(x, y)}{P_X(x)}
+        \]
+        Independientes si y sólo si:
+        \begin{itemize}
+            \item $P(X = x \mid Y = y) = P(X = x)$
+            \item $P(Y = y \mid X = x) = P(Y = y)$
+        \end{itemize}
+        Esperanza:
+        \[
+            E(X \mid Y=y) = \sum\limits_{x \in D_X} x \cdot P(X = x \mid Y = y)
+        \]
+
         \columnbreak
 
         {\large\bfseries\ Continuas}\\
@@ -674,7 +693,102 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
             \item $\sigma_X^2 = Var(X) = E((X - E(X))^2) = E(X^2) - E(X)^2$
             \item $\sigma_Y^2 = Var(Y) = E((Y - E(Y))^2) = E(Y^2) - E(Y)^2$
         \end{itemize}
+
+        \textbf{Distribuciones condicionales} \\
+        Dado un valor fijo $y \in D_Y$:
+        \[
+            f_{X \mid Y=y}(x) = \frac{f_{XY}(x, y)}{f_Y(y)}
+        \]
+        Dado un valor fijo $x \in D_X$:
+        \[
+            f_{Y \mid X=x}(y) = \frac{f_{XY}(x, y)}{f_X(x)}
+        \]
+        Independientes si y sólo si:
+        \begin{itemize}
+            \item $f_{X \mid Y=y}(x) = f_X(x)$
+            \item $f_{Y \mid X=x}(y) = f_Y(y)$
+        \end{itemize}
+        Esperanza:
+        \[
+            E(X \mid Y=y) = \int_{-\infty}^{+\infty} x \cdot f_{X \mid Y=y}(x)dx
+        \]
     \end{multicols}
+    $X$ e $Y$ independientes si:
+    \begin{itemize}
+        \item $E(X \mid Y = y) = E(X)$
+        \item $E(Y \mid X = x) = E(Y)$
+    \end{itemize}
 \end{tcolorbox}
+
+\pagebreak
+
+\sectiontitle{Estimación Puntual}
+
+\begin{tcolorbox}[title=Estadística Inferencial]
+    \textbf{Problema}: Queremos conocer una característica de una población, pero no podemos medirla en todos los individuos. Extraemos una muestra aleatoria e inferimos el valor para toda la población.
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Muestra Aleatoria Simple (m.a.s.), equal height group=EST1]
+        \textbf{Definición intuitiva}: De una población de $N$ individuos, repetimos $n$ veces el proceso de escoger equiprobablemente un individuo (con reposición).
+        
+        \textbf{Definición formal}: Un conjunto de $n$ variables aleatorias independientes $X_1, \ldots, X_n$, todas con la distribución de $X$.
+        
+        \textbf{Realización}: Los $n$ valores $x_1, \ldots, x_n$ que toman las v.a. $X_1, \ldots, X_n$.
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Estadístico (Estimador Puntual), equal height group=EST1]
+        \textbf{Definición}: Una función aplicada a la muestra $X_1, \ldots, X_n$:
+        \[
+            T = f(X_1, \ldots, X_n)
+        \]
+        
+        \textbf{Propiedades}:
+        \begin{itemize}
+            \item Es una variable aleatoria con distribución, esperanza, etc.
+            \item La distribución muestral de $T$ es la distribución de esta v.a.
+            \item Error estándar de $T$: desviación típica de $T$ ($\sigma_T$)
+        \end{itemize}
+        
+        \textbf{Convenio}: Estadísticos en mayúsculas ($\bar{X}$), realizaciones en minúsculas ($\bar{x}$).
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Media Muestral]
+    \textbf{Definición}: Sea $X_1, \ldots, X_n$ una m.a.s. de tamaño $n$ de una v.a. $X$ con esperanza $\mu_X$ y desviación típica $\sigma_X$:
+    \[
+        \bar{X} = \frac{X_1 + \cdots + X_n}{n}
+    \]
+    
+    \textbf{Propiedades}:
+    \begin{itemize}
+        \item $E(\bar{X}) = \mu_X$ (estimador insesgado)
+        \item $\sigma_{\bar{X}} = \frac{\sigma_X}{\sqrt{n}}$ (error estándar)
+        \item $\bar{X}$ es un estimador puntual de $\mu_X$
+    \end{itemize}
+    
+    \textbf{Interpretación}: Si tomamos muchas veces una m.a.s. y calculamos la media muestral, el promedio de estas medias será aproximadamente $\mu_X$.
+    
+    \textbf{Teorema Central del Límite}: Si $n$ es suficientemente grande, $\bar{X}$ sigue aproximadamente una distribución normal:
+    \[
+        \bar{X} \approx N\left(\mu_X, \frac{\sigma_X}{\sqrt{n}}\right)
+    \]
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Propiedades de la Media Muestral, equal height group=EST2]
+        \textbf{Insesgadez}: $E(\bar{X}) = \mu_X$
+        
+        \textbf{Consistencia}: A medida que $n$ aumenta, $\sigma_{\bar{X}} = \frac{\sigma_X}{\sqrt{n}}$ disminuye.
+        
+        \textbf{Eficiencia}: Entre los estimadores insesgados, la media muestral tiene varianza mínima (bajo ciertas condiciones).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Notación y Convenios, equal height group=EST2]
+        \textbf{Estadísticos} (v.a.): $X_1, \ldots, X_n$, $\bar{X}$, $S^2$
+        
+        \textbf{Realizaciones} (valores): $x_1, \ldots, x_n$, $\bar{x}$, $s^2$
+        
+        \textbf{Muestra sin reposición}: Si $N \gg n$, los resultados son aproximadamente los mismos que para m.a.s.
+    \end{tcolorbox}
+\end{multicols}
 
 \end{document}

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1762162152.34327 "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" "formulario.pdf" "formulario" 1762162153.02529 0
-  "/Users/hexdhog/Documents/uib/CS/Y2/EST/formulario/formulario.tex" 1762162152.16198 29552 627f357af0fbbcbf5950da4526017530 ""
+["pdflatex"] 1765105989.86467 "/Users/serafi/Documents/uib/CS/Y2/EST/formulario/formulario.tex" "formulario.pdf" "formulario" 1765105990.60306 0
+  "/Users/serafi/Documents/uib/CS/Y2/EST/formulario/formulario.tex" 1765105988.91016 34267 49b8d68ef0951a01a13c75ab86ea1b9d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -180,8 +180,8 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1743237580 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1743237537 3345739 7da140f55beb7e0878cefe3b9a895bb4 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "formulario.aux" 1762162152.97427 900 a9ba692eb3dc87500cc3acb7a2e1fc54 "pdflatex"
-  "formulario.tex" 1762162152.16198 29552 627f357af0fbbcbf5950da4526017530 ""
+  "formulario.aux" 1765105990.54833 983 9ae324a0cd7e18542c601713cbbef4ec "pdflatex"
+  "formulario.tex" 1765105988.91016 34267 49b8d68ef0951a01a13c75ab86ea1b9d ""
   (generated)
   "formulario.aux"
   "formulario.log"
