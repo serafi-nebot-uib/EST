@@ -791,4 +791,466 @@ Así que el problema se reduce a: ¿de cuántas formas podemos elegir las posici
     \end{tcolorbox}
 \end{multicols}
 
+\pagebreak
+
+\sectiontitle{Intervalos de Confianza}
+
+\begin{tcolorbox}[title=Definición de Intervalo de Confianza]
+    \textbf{Concepto}: Un intervalo de confianza $(1-\alpha)$ para un parámetro $\theta$ es un intervalo aleatorio $[L, U]$ tal que:
+    \[
+        P(L \leq \theta \leq U) = 1 - \alpha
+    \]
+    
+    \textbf{Interpretación}: Si construimos muchos intervalos de confianza $(1-\alpha)$ a partir de diferentes muestras, aproximadamente el $(1-\alpha) \times 100\%$ de ellos contendrá el verdadero valor del parámetro $\theta$.
+    
+    \textbf{Nivel de confianza}: $1-\alpha$ (típicamente 0.95, 0.99)
+    
+    \textbf{Nivel de significación}: $\alpha$ (típicamente 0.05, 0.01)
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Construcción de I.C., equal height group=IC1]
+        \textbf{Pasos}:
+        \begin{enumerate}
+            \item Elegir nivel de confianza $1-\alpha$
+            \item Encontrar estadístico pivote
+            \item Determinar distribución del pivote
+            \item Calcular cuantiles $z_{\alpha/2}$ o $t_{\alpha/2}$
+            \item Construir intervalo
+        \end{enumerate}
+        
+        \textbf{Forma general}:
+        \[
+            \text{Estimador} \pm \text{Margen de error}
+        \]
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Cuantiles Importantes, equal height group=IC1]
+        \textbf{Distribución Normal}:
+        \begin{itemize}
+            \item $z_{0.025} = 1.96$ (95\%)
+            \item $z_{0.005} = 2.576$ (99\%)
+            \item $z_{0.05} = 1.645$ (90\%)
+        \end{itemize}
+        
+        \textbf{Distribución t de Student}:
+        \begin{itemize}
+            \item Depende de grados de libertad $\nu = n-1$
+            \item $t_{\alpha/2, \nu}$ se obtiene de tablas
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Intervalo de Confianza para la Media $\mu$]
+    \textbf{Caso 1: Varianza conocida $\sigma^2$} (o $n$ grande):
+    \[
+        \bar{X} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}
+    \]
+    Intervalo: $\left[\bar{x} - z_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \bar{x} + z_{\alpha/2} \frac{\sigma}{\sqrt{n}}\right]$
+    
+    \textbf{Caso 2: Varianza desconocida, muestra pequeña} ($n < 30$):
+    \[
+        \bar{X} \pm t_{\alpha/2, n-1} \cdot \frac{S}{\sqrt{n}}
+    \]
+    donde $S = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2}$ es la desviación típica muestral.
+    
+    Intervalo: $\left[\bar{x} - t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}, \bar{x} + t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}\right]$
+    
+    \textbf{Amplitud del intervalo}: $2 \cdot z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ (o con $t$ y $s$)
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=I.C. para Proporción $p$, equal height group=IC2]
+        \textbf{Condición}: $n$ grande ($np \geq 5$ y $n(1-p) \geq 5$)
+        
+        \textbf{Estimador}: $\hat{p} = \frac{X}{n}$ donde $X \sim B(n, p)$
+        
+        \textbf{Intervalo}:
+        \[
+            \hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+        \]
+        
+        \textbf{Forma}: $\left[\hat{p} - z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}, \hat{p} + z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right]$
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=I.C. para Varianza $\sigma^2$, equal height group=IC2]
+        \textbf{Condición}: Población normal
+        
+        \textbf{Estadístico}: $\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$
+        
+        \textbf{Intervalo}:
+        \[
+            \left[\frac{(n-1)s^2}{\chi^2_{\alpha/2, n-1}}, \frac{(n-1)s^2}{\chi^2_{1-\alpha/2, n-1}}\right]
+        \]
+        
+        \textbf{Nota}: $\chi^2_{\alpha/2, n-1}$ y $\chi^2_{1-\alpha/2, n-1}$ son cuantiles de chi-cuadrado con $n-1$ grados de libertad.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Distribución t de Student]
+    \textbf{Definición}: Si $Z \sim N(0,1)$ y $V \sim \chi^2_\nu$ son independientes, entonces:
+    \[
+        T = \frac{Z}{\sqrt{V/\nu}} \sim t_\nu
+    \]
+    
+    \textbf{Propiedades}:
+    \begin{itemize}
+        \item Simétrica alrededor de 0
+        \item $E(T) = 0$ (si $\nu > 1$)
+        \item $Var(T) = \frac{\nu}{\nu-2}$ (si $\nu > 2$)
+        \item Cuando $\nu \to \infty$, $t_\nu \to N(0,1)$
+    \end{itemize}
+    
+    \textbf{Uso}: Cuando la varianza poblacional es desconocida y la muestra es pequeña.
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Tamaño Muestral, equal height group=IC3]
+        \textbf{Para media} (varianza conocida):
+        \[
+            n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2
+        \]
+        donde $E$ es el error máximo deseado.
+        
+        \textbf{Para proporción}:
+        \[
+            n = \frac{z_{\alpha/2}^2 \cdot p(1-p)}{E^2}
+        \]
+        Si $p$ es desconocido, usar $p = 0.5$ (máxima varianza).
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Interpretación y Consideraciones, equal height group=IC3]
+        \textbf{Interpretación correcta}: "Tenemos un 95\% de confianza de que el intervalo contiene el verdadero parámetro."
+        
+        \textbf{Interpretación incorrecta}: "El parámetro tiene un 95\% de probabilidad de estar en el intervalo."
+        
+        \textbf{Factores que afectan la amplitud}:
+        \begin{itemize}
+            \item Nivel de confianza: mayor confianza $\Rightarrow$ mayor amplitud
+            \item Tamaño muestral: mayor $n$ $\Rightarrow$ menor amplitud
+            \item Varianza: mayor varianza $\Rightarrow$ mayor amplitud
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\pagebreak
+
+\sectiontitle{Contraste de Hipótesis}
+
+\begin{tcolorbox}[title=Definiciones Básicas]
+    \textbf{Hipótesis estadística}: Afirmación sobre un parámetro poblacional que se desea verificar.
+    
+    \textbf{Hipótesis nula ($H_0$)}: Afirmación que se asume verdadera inicialmente. Representa "no hay efecto" o "no hay diferencia".
+    
+    \textbf{Hipótesis alternativa ($H_1$ o $H_a$)}: Afirmación que contradice $H_0$. Representa el efecto o diferencia que se desea detectar.
+    
+    \textbf{Estadístico de prueba}: Función de la muestra que se usa para tomar la decisión.
+    
+    \textbf{Región crítica (o de rechazo)}: Conjunto de valores del estadístico que llevan a rechazar $H_0$.
+    
+    \textbf{Región de aceptación}: Conjunto de valores del estadístico que llevan a no rechazar $H_0$.
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Tipos de Contrastes, equal height group=CH1]
+        \textbf{Unilateral (cola derecha)}:
+        \begin{itemize}
+            \item $H_0: \theta = \theta_0$
+            \item $H_1: \theta > \theta_0$
+        \end{itemize}
+        
+        \textbf{Unilateral (cola izquierda)}:
+        \begin{itemize}
+            \item $H_0: \theta = \theta_0$
+            \item $H_1: \theta < \theta_0$
+        \end{itemize}
+        
+        \textbf{Bilateral}:
+        \begin{itemize}
+            \item $H_0: \theta = \theta_0$
+            \item $H_1: \theta \neq \theta_0$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Errores en el Contraste, equal height group=CH1]
+        \textbf{Error Tipo I ($\alpha$)}: Rechazar $H_0$ cuando es verdadera.
+        \[
+            \alpha = P(\text{Rechazar } H_0 \mid H_0 \text{ es verdadera})
+        \]
+        
+        \textbf{Error Tipo II ($\beta$)}: No rechazar $H_0$ cuando es falsa.
+        \[
+            \beta = P(\text{No rechazar } H_0 \mid H_0 \text{ es falsa})
+        \]
+        
+        \textbf{Nivel de significación}: Probabilidad máxima permitida de cometer Error Tipo I. Valores comunes: $\alpha = 0.05, 0.01, 0.10$.
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Potencia del Test, equal height group=CH2]
+        \textbf{Definición}: Probabilidad de rechazar correctamente $H_0$ cuando $H_1$ es verdadera.
+        \[
+            \text{Potencia} = 1 - \beta = P(\text{Rechazar } H_0 \mid H_1 \text{ es verdadera})
+        \]
+        
+        \textbf{Factores que aumentan la potencia}:
+        \begin{itemize}
+            \item Mayor tamaño muestral $n$
+            \item Mayor diferencia entre $\theta_0$ y $\theta_1$
+            \item Mayor nivel de significación $\alpha$
+            \item Menor varianza poblacional
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=p-valor, equal height group=CH2]
+        \textbf{Definición}: Probabilidad de obtener un resultado tan extremo como el observado (o más extremo), suponiendo que $H_0$ es verdadera.
+        
+        \textbf{Regla de decisión}:
+        \begin{itemize}
+            \item Si $p\text{-valor} < \alpha$: Rechazar $H_0$
+            \item Si $p\text{-valor} \geq \alpha$: No rechazar $H_0$
+        \end{itemize}
+        
+        \textbf{Interpretación}:
+        \begin{itemize}
+            \item $p\text{-valor}$ pequeño: Evidencia fuerte contra $H_0$
+            \item $p\text{-valor}$ grande: Poca evidencia contra $H_0$
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Procedimiento General para Contrastes]
+    \textbf{Pasos}:
+    \begin{enumerate}
+        \item Formular $H_0$ y $H_1$
+        \item Elegir el nivel de significación $\alpha$
+        \item Seleccionar el estadístico de prueba adecuado
+        \item Determinar la región crítica (o calcular el $p$-valor)
+        \item Calcular el valor del estadístico con los datos muestrales
+        \item Tomar decisión: rechazar o no rechazar $H_0$
+        \item Interpretar los resultados en el contexto del problema
+    \end{enumerate}
+\end{tcolorbox}
+
+\sectiontitle{Contrastes para la Media Poblacional $\mu$}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Caso 1: Varianza conocida $\sigma^2$, equal height group=CH3]
+        \textbf{Condiciones}: Población normal o $n$ grande ($n \geq 30$)
+        
+        \textbf{Estadístico de prueba}:
+        \[
+            Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}} \sim N(0,1)
+        \]
+        
+        \textbf{Regiones críticas}:
+        \begin{itemize}
+            \item $H_1: \mu > \mu_0$: Rechazar si $Z > z_\alpha$
+            \item $H_1: \mu < \mu_0$: Rechazar si $Z < -z_\alpha$
+            \item $H_1: \mu \neq \mu_0$: Rechazar si $|Z| > z_{\alpha/2}$
+        \end{itemize}
+        
+        \textbf{p-valor}:
+        \begin{itemize}
+            \item $H_1: \mu > \mu_0$: $p = P(Z > z_{\text{obs}})$
+            \item $H_1: \mu < \mu_0$: $p = P(Z < z_{\text{obs}})$
+            \item $H_1: \mu \neq \mu_0$: $p = 2P(Z > |z_{\text{obs}}|)$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Caso 2: Varianza desconocida, equal height group=CH3]
+        \textbf{Condiciones}: Población normal, muestra pequeña ($n < 30$)
+        
+        \textbf{Estadístico de prueba}:
+        \[
+            T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}} \sim t_{n-1}
+        \]
+        donde $S = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2}$
+        
+        \textbf{Regiones críticas}:
+        \begin{itemize}
+            \item $H_1: \mu > \mu_0$: Rechazar si $T > t_{\alpha, n-1}$
+            \item $H_1: \mu < \mu_0$: Rechazar si $T < -t_{\alpha, n-1}$
+            \item $H_1: \mu \neq \mu_0$: Rechazar si $|T| > t_{\alpha/2, n-1}$
+        \end{itemize}
+        
+        \textbf{Nota}: Si $n$ es grande ($n \geq 30$), se puede usar $Z$ aunque $\sigma$ sea desconocida.
+    \end{tcolorbox}
+\end{multicols}
+
+\sectiontitle{Contrastes para la Proporción Poblacional $p$}
+
+\begin{tcolorbox}[title=Contraste para una Proporción]
+    \textbf{Condiciones}: $n$ grande ($np_0 \geq 5$ y $n(1-p_0) \geq 5$)
+    
+    \textbf{Estadístico de prueba}:
+    \[
+        Z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}} \sim N(0,1)
+    \]
+    donde $\hat{p} = \frac{X}{n}$ es la proporción muestral.
+    
+    \textbf{Regiones críticas}:
+    \begin{itemize}
+        \item $H_1: p > p_0$: Rechazar si $Z > z_\alpha$
+        \item $H_1: p < p_0$: Rechazar si $Z < -z_\alpha$
+        \item $H_1: p \neq p_0$: Rechazar si $|Z| > z_{\alpha/2}$
+    \end{itemize}
+    
+    \textbf{p-valor}:
+    \begin{itemize}
+        \item $H_1: p > p_0$: $p = P(Z > z_{\text{obs}})$
+        \item $H_1: p < p_0$: $p = P(Z < z_{\text{obs}})$
+        \item $H_1: p \neq p_0$: $p = 2P(Z > |z_{\text{obs}}|)$
+    \end{itemize}
+\end{tcolorbox}
+
+\sectiontitle{Contrastes para la Varianza Poblacional $\sigma^2$}
+
+\begin{tcolorbox}[title=Contraste para la Varianza]
+    \textbf{Condiciones}: Población normal
+    
+    \textbf{Estadístico de prueba}:
+    \[
+        \chi^2 = \frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2_{n-1}
+    \]
+    donde $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$
+    
+    \textbf{Regiones críticas}:
+    \begin{itemize}
+        \item $H_1: \sigma^2 > \sigma_0^2$: Rechazar si $\chi^2 > \chi^2_{\alpha, n-1}$
+        \item $H_1: \sigma^2 < \sigma_0^2$: Rechazar si $\chi^2 < \chi^2_{1-\alpha, n-1}$
+        \item $H_1: \sigma^2 \neq \sigma_0^2$: Rechazar si $\chi^2 < \chi^2_{1-\alpha/2, n-1}$ o $\chi^2 > \chi^2_{\alpha/2, n-1}$
+    \end{itemize}
+\end{tcolorbox}
+
+\sectiontitle{Contrastes para Dos Muestras}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Diferencia de Medias (Muestras Independientes), equal height group=CH4]
+        \textbf{Caso: Varianzas conocidas} \\
+        Estadístico:
+        \[
+            Z = \frac{\bar{X}_1 - \bar{X}_2 - (\mu_1 - \mu_2)_0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} \sim N(0,1)
+        \]
+        
+        \textbf{Caso: Varianzas desconocidas pero iguales} \\
+        Estadístico:
+        \[
+            T = \frac{\bar{X}_1 - \bar{X}_2 - (\mu_1 - \mu_2)_0}{S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t_{n_1+n_2-2}
+        \]
+        donde $S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2}$ (varianza combinada)
+        
+        \textbf{Caso: Varianzas desconocidas y diferentes} \\
+        Estadístico (aproximado):
+        \[
+            T = \frac{\bar{X}_1 - \bar{X}_2 - (\mu_1 - \mu_2)_0}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}} \sim t_\nu
+        \]
+        donde $\nu = \frac{\left(\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}\right)^2}{\frac{(S_1^2/n_1)^2}{n_1-1} + \frac{(S_2^2/n_2)^2}{n_2-1}}$ (Welch)
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Diferencia de Medias (Muestras Pareadas), equal height group=CH4]
+        \textbf{Condiciones}: Población normal, muestras dependientes
+        
+        \textbf{Definición}: $D_i = X_{1i} - X_{2i}$ (diferencias pareadas)
+        
+        \textbf{Estadístico de prueba}:
+        \[
+            T = \frac{\bar{D} - \mu_{D_0}}{S_D/\sqrt{n}} \sim t_{n-1}
+        \]
+        donde:
+        \begin{itemize}
+            \item $\bar{D} = \frac{1}{n}\sum_{i=1}^n D_i$ (media de diferencias)
+            \item $S_D = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (D_i - \bar{D})^2}$ (desviación típica de diferencias)
+        \end{itemize}
+        
+        \textbf{Hipótesis típicas}:
+        \begin{itemize}
+            \item $H_0: \mu_D = 0$ (no hay diferencia)
+            \item $H_1: \mu_D \neq 0$ (hay diferencia)
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Diferencia de Proporciones, equal height group=CH5]
+        \textbf{Condiciones}: $n_1$ y $n_2$ grandes
+        
+        \textbf{Estadístico de prueba}:
+        \[
+            Z = \frac{\hat{p}_1 - \hat{p}_2 - (p_1 - p_2)_0}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}} \sim N(0,1)
+        \]
+        donde $\hat{p} = \frac{X_1 + X_2}{n_1 + n_2}$ (proporción combinada)
+        
+        \textbf{Regiones críticas}:
+        \begin{itemize}
+            \item $H_1: p_1 > p_2$: Rechazar si $Z > z_\alpha$
+            \item $H_1: p_1 < p_2$: Rechazar si $Z < -z_\alpha$
+            \item $H_1: p_1 \neq p_2$: Rechazar si $|Z| > z_{\alpha/2}$
+        \end{itemize}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Cociente de Varianzas, equal height group=CH5]
+        \textbf{Condiciones}: Poblaciones normales e independientes
+        
+        \textbf{Estadístico de prueba}:
+        \[
+            F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} = \frac{S_1^2}{S_2^2} \sim F_{n_1-1, n_2-1}
+        \]
+        (bajo $H_0: \sigma_1^2 = \sigma_2^2$)
+        
+        \textbf{Regiones críticas}:
+        \begin{itemize}
+            \item $H_1: \sigma_1^2 > \sigma_2^2$: Rechazar si $F > F_{\alpha, n_1-1, n_2-1}$
+            \item $H_1: \sigma_1^2 < \sigma_2^2$: Rechazar si $F < F_{1-\alpha, n_1-1, n_2-1}$
+            \item $H_1: \sigma_1^2 \neq \sigma_2^2$: Rechazar si $F < F_{1-\alpha/2, n_1-1, n_2-1}$ o $F > F_{\alpha/2, n_1-1, n_2-1}$
+        \end{itemize}
+        
+        \textbf{Nota}: $F_{1-\alpha, \nu_1, \nu_2} = \frac{1}{F_{\alpha, \nu_2, \nu_1}}$
+    \end{tcolorbox}
+\end{multicols}
+
+\begin{tcolorbox}[title=Distribución F de Fisher]
+    \textbf{Definición}: Si $U \sim \chi^2_{\nu_1}$ y $V \sim \chi^2_{\nu_2}$ son independientes, entonces:
+    \[
+        F = \frac{U/\nu_1}{V/\nu_2} \sim F_{\nu_1, \nu_2}
+    \]
+    
+    \textbf{Propiedades}:
+    \begin{itemize}
+        \item $F_{\nu_1, \nu_2}$ tiene dos parámetros: grados de libertad del numerador ($\nu_1$) y del denominador ($\nu_2$)
+        \item $F_{1-\alpha, \nu_1, \nu_2} = \frac{1}{F_{\alpha, \nu_2, \nu_1}}$
+        \item Usada para comparar varianzas de dos poblaciones normales
+    \end{itemize}
+\end{tcolorbox}
+
+\begin{multicols}{2}
+    \begin{tcolorbox}[title=Tabla de Decisión, equal height group=CH6]
+        \begin{center}
+        \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Decisión} & \textbf{$H_0$ verdadera} & \textbf{$H_0$ falsa} \\
+        \hline
+        Rechazar $H_0$ & Error Tipo I ($\alpha$) & Decisión correcta (Potencia $1-\beta$) \\
+        \hline
+        No rechazar $H_0$ & Decisión correcta ($1-\alpha$) & Error Tipo II ($\beta$) \\
+        \hline
+        \end{tabular}
+        \end{center}
+    \end{tcolorbox}
+    \begin{tcolorbox}[title=Consideraciones Importantes, equal height group=CH6]
+        \textbf{Verificar supuestos}:
+        \begin{itemize}
+            \item Normalidad (si es necesario)
+            \item Tamaño muestral adecuado
+            \item Independencia de observaciones
+        \end{itemize}
+        
+        \textbf{Interpretación}:
+        \begin{itemize}
+            \item "No rechazar $H_0$" $\neq$ "Aceptar $H_0$"
+            \item El $p$-valor mide la evidencia contra $H_0$
+            \item Considerar el tamaño del efecto, no solo la significación
+        \end{itemize}
+        
+        \textbf{Relación con I.C.}:
+        \begin{itemize}
+            \item Si $\theta_0$ está fuera del I.C. $(1-\alpha)$: Rechazar $H_0$ al nivel $\alpha$
+            \item Si $\theta_0$ está dentro del I.C. $(1-\alpha)$: No rechazar $H_0$ al nivel $\alpha$
+        \end{itemize}
+    \end{tcolorbox}
+\end{multicols}
+
 \end{document}
