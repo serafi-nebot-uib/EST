@@ -1,0 +1,1021 @@
+\documentclass[9pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{multicol}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+% Márgenes reducidos
+\geometry{left=0.7cm,right=0.7cm,top=0.9cm,bottom=0.9cm}
+
+% Configuración de listas compactas
+\setlist{nosep,leftmargin=*,topsep=0pt,partopsep=0pt}
+
+% Comandos personalizados
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\sd}{\tilde{s}}
+\newcommand{\barra}{\overline}
+\newcommand{\R}{\texttt{R: }}
+
+% Colores
+\definecolor{seccolor}{RGB}{0,70,120}
+\definecolor{boxcolor}{RGB}{235,245,255}
+\definecolor{alertcolor}{RGB}{255,245,235}
+\definecolor{excolor}{RGB}{245,255,245}
+
+% Secciones compactas
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\bfseries\color{seccolor}}{\thesection.}{0.3em}{}
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+\titleformat{\subsection}{\normalfont\bfseries\footnotesize\color{seccolor}}{\thesubsection.}{0.3em}{}
+\titlespacing*{\subsection}{0pt}{3pt}{1pt}
+\titleformat{\subsubsection}{\normalfont\bfseries\scriptsize\color{seccolor!80}}{\thesubsubsection.}{0.3em}{}
+\titlespacing*{\subsubsection}{0pt}{2pt}{1pt}
+
+% Cajas
+\newtcolorbox{formulabox}[1][]{colback=boxcolor,colframe=seccolor,boxrule=0.4pt,left=2pt,right=2pt,top=1pt,bottom=1pt,arc=1pt,#1}
+\newtcolorbox{alertbox}[1][]{colback=alertcolor,colframe=orange!70!black,boxrule=0.4pt,left=2pt,right=2pt,top=1pt,bottom=1pt,arc=1pt,#1}
+\newtcolorbox{exbox}[1][]{colback=excolor,colframe=green!50!black,boxrule=0.4pt,left=2pt,right=2pt,top=1pt,bottom=1pt,arc=1pt,#1}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\textbf{Formulario de Estadística - Resolución de Problemas}}
+\fancyhead[R]{\footnotesize Pág. \thepage/6}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\columnsep}{0.4cm}
+
+\begin{document}
+\begin{multicols}{2}
+
+%===============================================
+\section{PROBABILIDAD}
+%===============================================
+
+\subsection{Definiciones básicas}
+\textbf{Espacio muestral} $\Omega$: conjunto de todos los resultados posibles.\\
+\textbf{Suceso}: $A\subseteq\Omega$. \quad \textbf{Suceso seguro}: $\Omega$. \quad \textbf{Suceso imposible}: $\emptyset$.\\
+\textbf{Complementario}: $A^c=\Omega\setminus A$
+
+\textbf{Axiomas de Kolmogorov}:
+\begin{enumerate}[leftmargin=*]
+\item $P(A)\geq 0$ para todo $A$
+\item $P(\Omega)=1$
+\item Si $A\cap B=\emptyset$: $P(A\cup B)=P(A)+P(B)$
+\end{enumerate}
+
+\begin{formulabox}
+\textbf{Propiedades}:\\
+$P(\emptyset)=0$ \quad $P(A^c)=1-P(A)$\\
+$P(A\cup B)=P(A)+P(B)-P(A\cap B)$\\
+$P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(A\cap B)-P(A\cap C)-P(B\cap C)+P(A\cap B\cap C)$
+\end{formulabox}
+
+\subsection{Probabilidad Condicionada}
+\begin{formulabox}
+$P(A|B)=\frac{P(A\cap B)}{P(B)}$ \quad (si $P(B)>0$)
+\end{formulabox}
+
+\textbf{Regla del producto}: $P(A\cap B)=P(A|B)\cdot P(B)=P(B|A)\cdot P(A)$
+
+\textbf{Regla de la cadena}:\\
+$P(A_1\cap\cdots\cap A_n)=P(A_1)\cdot P(A_2|A_1)\cdot P(A_3|A_1\cap A_2)\cdots$
+
+\subsection{Independencia de sucesos}
+$A$ y $B$ son \textbf{independientes} si y solo si:
+\begin{itemize}[leftmargin=*]
+\item $P(A\cap B)=P(A)\cdot P(B)$
+\item $P(A|B)=P(A)$ (cuando $P(B)>0$)
+\item $P(B|A)=P(B)$ (cuando $P(A)>0$)
+\end{itemize}
+
+\begin{alertbox}
+\textbf{¡IMPORTANTE!}\\
+$A,B$ disjuntos ($A\cap B=\emptyset$) $\neq$ $A,B$ independientes\\
+Si $A,B$ disjuntos con $P(A),P(B)>0$, entonces son \textbf{dependientes}.
+\end{alertbox}
+
+\textbf{Independencia mutua}: $A_1,\ldots,A_n$ indep. si para todo subconjunto $I\subseteq\{1,\ldots,n\}$:\\
+$P(\bigcap_{i\in I}A_i)=\prod_{i\in I}P(A_i)$
+
+\subsection{Teorema de la Probabilidad Total}
+Si $\{A_1,\ldots,A_n\}$ es \textbf{partición} de $\Omega$ (disjuntos 2 a 2 y $\cup A_i=\Omega$):
+\begin{formulabox}
+$P(B)=\sum_{i=1}^{n}P(B|A_i)\cdot P(A_i)$
+\end{formulabox}
+
+\subsection{Teorema de Bayes}
+\begin{formulabox}
+$P(A_k|B)=\frac{P(B|A_k)\cdot P(A_k)}{\sum_{i=1}^{n}P(B|A_i)\cdot P(A_i)}=\frac{P(B|A_k)\cdot P(A_k)}{P(B)}$
+\end{formulabox}
+
+\begin{exbox}
+\textbf{Ej Bayes}: Test médico: sensib. 99\%, especif. 95\%, preval. 0.5\%.\\
+$P(\text{enf}|+)=\frac{0.99\cdot 0.005}{0.99\cdot 0.005+0.05\cdot 0.995}\approx 9\%$
+\end{exbox}
+
+\subsection{Combinatoria}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\textbf{Tipo} & \textbf{Fórmula} & \textbf{Descripción}\\
+\hline
+Permutaciones & $P_n=n!$ & Ordenar $n$ objetos\\
+Variaciones & $V_n^k=\frac{n!}{(n-k)!}$ & Elegir $k$ de $n$ con orden\\
+Var. con rep. & $VR_n^k=n^k$ & Elegir $k$ de $n$ con rep. y orden\\
+Combinaciones & $\binom{n}{k}=\frac{n!}{k!(n-k)!}$ & Elegir $k$ de $n$ sin orden\\
+Comb. con rep. & $CR_n^k=\binom{n+k-1}{k}$ & $k$ de $n$ con rep. sin orden\\
+Perm. con rep. & $\frac{n!}{n_1!\cdots n_k!}$ & $n$ objetos con repeticiones
+\end{tabular}
+\end{center}
+
+\textbf{Propiedades binomiales}:\\
+$\binom{n}{0}=\binom{n}{n}=1$, \quad $\binom{n}{k}=\binom{n}{n-k}$\\
+$\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$ (Pascal)
+
+%===============================================
+\section{VARIABLES ALEATORIAS}
+%===============================================
+
+\subsection{Definición}
+\textbf{Variable aleatoria (v.a.)}: $X:\Omega\to\mathbb{R}$, asigna valor numérico a cada resultado.\\
+\textbf{Dominio}: $D_X=\{x\in\mathbb{R}: P(X=x)>0\}$ (discretas)
+
+\subsection{V.A. Discreta}
+$D_X$ finito o numerable.
+
+\textbf{Función de probabilidad}: $P_X(x)=P(X=x)$\\
+Propiedades: $P_X(x)\geq 0$, \quad $\sum_{x\in D_X}P_X(x)=1$
+
+\textbf{Función de distribución}: 
+\begin{formulabox}
+$F_X(x)=P(X\leq x)=\sum_{x_i\leq x}P_X(x_i)$
+\end{formulabox}
+Propiedades: $0\leq F_X(x)\leq 1$, no decreciente, $\lim_{x\to-\infty}F_X(x)=0$, $\lim_{x\to+\infty}F_X(x)=1$
+
+$P(a<X\leq b)=F_X(b)-F_X(a)$
+
+\subsection{V.A. Continua}
+$D_X$ es un intervalo o unión de intervalos.
+
+\textbf{Función de densidad}: $f_X(x)$\\
+Propiedades: $f_X(x)\geq 0$, \quad $\int_{-\infty}^{\infty}f_X(x)dx=1$\\
+\textbf{Nota}: $P(X=x)=0$ para todo $x$ (probabilidad puntual nula)
+
+\textbf{Función de distribución}:
+\begin{formulabox}
+$F_X(x)=P(X\leq x)=\int_{-\infty}^{x}f_X(t)dt$ \quad $f_X(x)=F_X'(x)$
+\end{formulabox}
+
+$P(a<X<b)=P(a\leq X\leq b)=\int_a^b f_X(x)dx=F_X(b)-F_X(a)$
+
+\subsection{Esperanza (valor esperado)}
+\begin{formulabox}
+\textbf{Discreta}: $\E(X)=\mu_X=\sum_{x\in D_X} x\cdot P_X(x)$\\[3pt]
+\textbf{Continua}: $\E(X)=\mu_X=\int_{-\infty}^{\infty}x\cdot f_X(x)dx$
+\end{formulabox}
+
+\textbf{Esperanza de función}:\\
+$\E(g(X))=\sum_x g(x)P_X(x)$ \quad o \quad $\E(g(X))=\int g(x)f_X(x)dx$
+
+\textbf{Propiedades}:
+\begin{itemize}[leftmargin=*]
+\item $\E(c)=c$ (constante)
+\item $\E(aX+b)=a\E(X)+b$ (linealidad)
+\item $\E(X+Y)=\E(X)+\E(Y)$ (siempre, aunque dependientes)
+\item Si $X,Y$ indep.: $\E(XY)=\E(X)\E(Y)$
+\end{itemize}
+
+\subsection{Varianza y desviación típica}
+\begin{formulabox}
+$\Var(X)=\sigma_X^2=\E[(X-\mu_X)^2]=\E(X^2)-[\E(X)]^2$\\[3pt]
+$\sigma_X=+\sqrt{\Var(X)}$ \quad (desviación típica)
+\end{formulabox}
+
+\textbf{Propiedades}:
+\begin{itemize}[leftmargin=*]
+\item $\Var(X)\geq 0$, \quad $\Var(c)=0$
+\item $\Var(aX+b)=a^2\Var(X)$
+\item Si $X,Y$ indep.: $\Var(X+Y)=\Var(X)+\Var(Y)$
+\item General: $\Var(X+Y)=\Var(X)+\Var(Y)+2\Cov(X,Y)$
+\end{itemize}
+
+\subsection{Covarianza y correlación}
+\begin{formulabox}
+$\Cov(X,Y)=\E[(X-\mu_X)(Y-\mu_Y)]=\E(XY)-\E(X)\E(Y)$\\[3pt]
+$\rho_{XY}=\frac{\Cov(X,Y)}{\sigma_X\sigma_Y}$ \quad (coef. correlación, $-1\leq\rho\leq 1$)
+\end{formulabox}
+
+Si $X,Y$ indep. $\Rightarrow$ $\Cov(X,Y)=0$ (pero no al revés)
+
+\subsection{Cuantiles}
+El \textbf{cuantil $q$} de $X$ es $x_q$ tal que $F_X(x_q)=P(X\leq x_q)=q$
+
+\textbf{Percentiles}: cuantil expresado en porcentaje (ej: percentil 95 = cuantil 0.95)
+
+\textbf{Mediana}: cuantil 0.5
+
+%===============================================
+\section{DISTRIBUCIONES DISCRETAS}
+%===============================================
+
+\subsection{Bernoulli $Ber(p)$}
+Experimento con dos resultados: éxito (1) con prob. $p$, fracaso (0) con prob. $q=1-p$.
+\begin{formulabox}
+$D_X=\{0,1\}$, \quad $P(X=x)=p^x(1-p)^{1-x}$\\
+$\E(X)=p$, \quad $\Var(X)=p(1-p)=pq$
+\end{formulabox}
+
+\subsection{Binomial $B(n,p)$}
+$X=$ número de éxitos en $n$ ensayos Bernoulli independientes con $P(\text{éxito})=p$.
+\begin{formulabox}
+$D_X=\{0,1,\ldots,n\}$\\
+$P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$\\
+$\E(X)=np$, \quad $\Var(X)=np(1-p)$
+\end{formulabox}
+
+\textbf{Propiedad}: $B(n,p)=\sum_{i=1}^n Ber_i(p)$ (suma de Bernoulli indep.)
+
+\R\texttt{dbinom(k,size=n,prob=p)} (prob.), \texttt{pbinom(k,n,p)} (distrib.)
+
+\begin{exbox}
+\textbf{Ej}: Lanzar moneda ($p=0.5$) 10 veces. $P(X\geq 8)$?\\
+$P(X\geq 8)=P(X=8)+P(X=9)+P(X=10)=\binom{10}{8}0.5^{10}+\ldots$\\
+\R \texttt{1-pbinom(7,10,0.5)} o \texttt{pbinom(7,10,0.5,lower.tail=FALSE)}
+\end{exbox}
+
+\subsection{Geométrica $Ge(p)$}
+$X=$ número de \textbf{fracasos} antes del primer éxito.
+\begin{formulabox}
+$D_X=\{0,1,2,\ldots\}$\\
+$P(X=k)=(1-p)^k\cdot p=q^k p$\\
+$F(k)=P(X\leq k)=1-q^{k+1}$\\
+$\E(X)=\frac{1-p}{p}=\frac{q}{p}$, \quad $\Var(X)=\frac{1-p}{p^2}=\frac{q}{p^2}$
+\end{formulabox}
+
+\begin{alertbox}
+\textbf{Falta de memoria}: $P(X>k+j|X\geq j)=P(X>k)$\\
+Tras $j$ fracasos, la prob. de $k$ fracasos más es la misma que al inicio.
+\end{alertbox}
+
+\R\texttt{dgeom(k,prob=p)}, \texttt{pgeom(k,p)} (nota: cuenta fracasos)
+
+\subsection{Binomial Negativa $BN(r,p)$}
+$X=$ número de fracasos antes del $r$-ésimo éxito.
+\begin{formulabox}
+$D_X=\{0,1,2,\ldots\}$\\
+$P(X=k)=\binom{k+r-1}{r-1}(1-p)^k p^r$\\
+$\E(X)=\frac{r(1-p)}{p}$, \quad $\Var(X)=\frac{r(1-p)}{p^2}$
+\end{formulabox}
+
+\textbf{Nota}: $BN(1,p)=Ge(p)$
+
+\R\texttt{dnbinom(k,size=r,prob=p)}, \texttt{pnbinom(k,r,p)}
+
+\subsection{Poisson $Po(\lambda)$}
+$X=$ número de eventos en intervalo con tasa media $\lambda$.
+\begin{formulabox}
+$D_X=\{0,1,2,\ldots\}$\\
+$P(X=k)=\frac{\lambda^k e^{-\lambda}}{k!}$\\
+$\E(X)=\lambda$, \quad $\Var(X)=\lambda$
+\end{formulabox}
+
+\textbf{Aproximación de Binomial}: Si $n\geq 20$, $p\leq 0.05$, $np\leq 10$:\\
+$B(n,p)\approx Po(np)$
+
+\textbf{Proceso de Poisson}: Si tasa es $\lambda$ por unidad de tiempo, entonces en intervalo de longitud $t$: $X_t\sim Po(\lambda t)$
+
+\R\texttt{dpois(k,lambda)}, \texttt{ppois(k,lambda)}
+
+\begin{exbox}
+\textbf{Ej}: Llegan 3 clientes/hora en promedio. $P(\text{más de 5 en 2h})$?\\
+$X_{2h}\sim Po(6)$. $P(X>5)=1-P(X\leq 5)$\\
+\R \texttt{1-ppois(5,6)} $\approx 0.446$
+\end{exbox}
+
+\subsection{Hipergeométrica $H(m,n,k)$}
+Urna con $m$ bolas blancas y $n$ rojas. Se extraen $k$ sin reposición.\\
+$X=$ número de bolas blancas extraídas.
+\begin{formulabox}
+$D_X=\{\max(0,k-n),\ldots,\min(m,k)\}$\\
+$P(X=x)=\frac{\binom{m}{x}\binom{n}{k-x}}{\binom{m+n}{k}}$\\
+$\E(X)=\frac{km}{m+n}$\\
+$\Var(X)=k\cdot\frac{m}{m+n}\cdot\frac{n}{m+n}\cdot\frac{m+n-k}{m+n-1}$
+\end{formulabox}
+
+\R\texttt{dhyper(x,m,n,k)}, \texttt{phyper(x,m,n,k)}
+
+%===============================================
+\section{DISTRIBUCIONES CONTINUAS}
+%===============================================
+
+\subsection{Uniforme $U(a,b)$}
+Todos los valores en $(a,b)$ igualmente probables.
+\begin{formulabox}
+$f(x)=\begin{cases}\frac{1}{b-a} & \text{si }a<x<b\\0 & \text{otro caso}\end{cases}$\\[5pt]
+$F(x)=\begin{cases}0 & x\leq a\\\frac{x-a}{b-a} & a<x<b\\1 & x\geq b\end{cases}$\\[5pt]
+$\E(X)=\frac{a+b}{2}$, \quad $\Var(X)=\frac{(b-a)^2}{12}$
+\end{formulabox}
+
+\R\texttt{dunif(x,min=a,max=b)}, \texttt{punif}, \texttt{qunif}, \texttt{runif}
+
+\subsection{Exponencial $Exp(\lambda)$}
+Tiempo entre eventos de proceso Poisson con tasa $\lambda$.
+\begin{formulabox}
+$f(x)=\begin{cases}\lambda e^{-\lambda x} & x\geq 0\\0 & x<0\end{cases}$\\[5pt]
+$F(x)=\begin{cases}1-e^{-\lambda x} & x\geq 0\\0 & x<0\end{cases}$\\[5pt]
+$\E(X)=\frac{1}{\lambda}$, \quad $\Var(X)=\frac{1}{\lambda^2}$
+\end{formulabox}
+
+\begin{alertbox}
+\textbf{Falta de memoria}: $P(X>s+t|X>s)=P(X>t)=e^{-\lambda t}$
+\end{alertbox}
+
+\R\texttt{dexp(x,rate=lambda)}, \texttt{pexp}, \texttt{qexp}
+
+\begin{exbox}
+\textbf{Ej}: Bombilla con $E(X)=10000$h. $P(X>12000|X>1000)$?\\
+$\lambda=1/10000$. Por falta de memoria: $P(X>11000)=e^{-11000/10000}\approx 0.333$
+\end{exbox}
+
+\subsection{Normal (Gaussiana) $N(\mu,\sigma)$}
+\begin{formulabox}
+$f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$, \quad $x\in\mathbb{R}$\\[3pt]
+$\E(X)=\mu$, \quad $\Var(X)=\sigma^2$
+\end{formulabox}
+
+\textbf{Normal estándar} $Z\sim N(0,1)$: $\phi(z)=f_Z(z)$, $\Phi(z)=F_Z(z)$
+
+\textbf{Tipificación}: Si $X\sim N(\mu,\sigma)$, entonces $Z=\frac{X-\mu}{\sigma}\sim N(0,1)$
+
+\textbf{Propiedades de simetría}:
+\begin{itemize}[leftmargin=*]
+\item $\Phi(-z)=1-\Phi(z)$
+\item $P(Z>z)=1-\Phi(z)$
+\item $P(-z<Z<z)=2\Phi(z)-1$
+\item $z_q=-z_{1-q}$ (cuantiles simétricos)
+\end{itemize}
+
+\textbf{Propiedades de combinación}:
+\begin{itemize}[leftmargin=*]
+\item $aX+b\sim N(a\mu+b, |a|\sigma)$
+\item Si $X_i\sim N(\mu_i,\sigma_i)$ indep.: $\sum X_i\sim N(\sum\mu_i,\sqrt{\sum\sigma_i^2})$
+\end{itemize}
+
+\textbf{Cuantiles importantes de $N(0,1)$}:
+\begin{center}
+\begin{tabular}{c|ccccc}
+$q$ & 0.90 & 0.95 & 0.975 & 0.99 & 0.995\\
+\hline
+$z_q$ & 1.282 & 1.645 & 1.960 & 2.326 & 2.576
+\end{tabular}
+\end{center}
+
+\R\texttt{dnorm(x,mean=mu,sd=sigma)}, \texttt{pnorm}, \texttt{qnorm}
+
+\begin{exbox}
+\textbf{Ej}: $X\sim N(100,15)$. $P(X>120)$?\\
+$P(X>120)=P(Z>\frac{120-100}{15})=P(Z>1.33)=1-\Phi(1.33)$\\
+\R \texttt{1-pnorm(120,100,15)} $\approx 0.0912$
+\end{exbox}
+
+\subsection{Chi-cuadrado $\chi^2_n$}
+Si $Z_1,\ldots,Z_n\stackrel{iid}{\sim}N(0,1)$: $\sum_{i=1}^n Z_i^2\sim\chi^2_n$
+\begin{formulabox}
+$\E(\chi^2_n)=n$, \quad $\Var(\chi^2_n)=2n$
+\end{formulabox}
+
+\textbf{Resultado clave}: Si $X_1,\ldots,X_n\stackrel{iid}{\sim}N(\mu,\sigma)$:\\
+$\frac{(n-1)\tilde{S}^2_X}{\sigma^2}\sim\chi^2_{n-1}$
+
+\textbf{Nota}: $\chi^2$ NO es simétrica. Para IC de varianza, los cuantiles van ``al revés''.
+
+\R\texttt{dchisq(x,df=n)}, \texttt{pchisq}, \texttt{qchisq}
+
+\subsection{t de Student $t_n$}
+Si $Z\sim N(0,1)$ y $V\sim\chi^2_n$ independientes: $T=\frac{Z}{\sqrt{V/n}}\sim t_n$
+\begin{formulabox}
+$\E(t_n)=0$ (si $n>1$), \quad $\Var(t_n)=\frac{n}{n-2}$ (si $n>2$)
+\end{formulabox}
+
+\textbf{Resultado clave}: Si $X_1,\ldots,X_n\stackrel{iid}{\sim}N(\mu,\sigma)$:\\
+$T=\frac{\bar{X}-\mu}{\tilde{S}_X/\sqrt{n}}\sim t_{n-1}$
+
+\textbf{Propiedades}:
+\begin{itemize}[leftmargin=*]
+\item Simétrica respecto a 0
+\item $t_{n,q}=-t_{n,1-q}$
+\item Para $n\geq 30$: $t_n\approx N(0,1)$
+\item Más "pesada en colas" que $N(0,1)$
+\end{itemize}
+
+\R\texttt{dt(x,df=n)}, \texttt{pt}, \texttt{qt}
+
+\subsection{F de Fisher $F_{m,n}$}
+Si $U\sim\chi^2_m$, $V\sim\chi^2_n$ indep.: $F=\frac{U/m}{V/n}\sim F_{m,n}$
+
+\textbf{Resultado clave}: Si $X_i\stackrel{iid}{\sim}N(\mu_1,\sigma_1)$, $Y_j\stackrel{iid}{\sim}N(\mu_2,\sigma_2)$ indep.:\\
+$\frac{\tilde{S}^2_X/\sigma_1^2}{\tilde{S}^2_Y/\sigma_2^2}\sim F_{n_1-1,n_2-1}$
+
+\textbf{Propiedad}: $1/F_{m,n}\sim F_{n,m}$
+
+\R\texttt{df(x,df1,df2)}, \texttt{pf}, \texttt{qf}
+
+%===============================================
+\section{MUESTREO Y ESTIMACIÓN}
+%===============================================
+
+\subsection{Conceptos básicos}
+\textbf{Población}: conjunto de todos los elementos de interés.\\
+\textbf{Muestra}: subconjunto de la población.\\
+\textbf{M.a.s.}: $X_1,\ldots,X_n$ v.a. i.i.d. con misma distribución que la población.\\
+\textbf{Parámetro}: característica numérica de la población ($\mu$, $\sigma$, $p$).\\
+\textbf{Estadístico}: función de la muestra (es una v.a.).\\
+\textbf{Estimador}: estadístico usado para estimar un parámetro.
+
+\subsection{Tipos de muestreo}
+\begin{itemize}[leftmargin=*]
+\item \textbf{Con reposición}: cada elemento puede ser seleccionado varias veces
+\item \textbf{Sin reposición}: cada elemento se selecciona una sola vez
+\item \textbf{Sistemático}: seleccionar cada $k$-ésimo elemento de una lista
+\item \textbf{Estratificado}: dividir población en estratos y muestrear cada uno
+\item \textbf{Por conglomerados}: seleccionar grupos completos al azar
+\end{itemize}
+
+\begin{alertbox}
+\textbf{Regla}: Si $N\geq 1000n$, muestreo con/sin reposición son equivalentes.
+\end{alertbox}
+
+\textbf{Factor de corrección para población finita} (muestreo sin reposición, $n$ grande respecto a $N$):
+\begin{formulabox}
+$\sigma_{\bar{X}}=\frac{\sigma}{\sqrt{n}}\cdot\sqrt{\frac{N-n}{N-1}}$\quad
+$\sigma_{\hat{p}}=\sqrt{\frac{p(1-p)}{n}}\cdot\sqrt{\frac{N-n}{N-1}}$
+\end{formulabox}
+
+\subsection{Estadísticos muestrales}
+\begin{formulabox}
+\textbf{Media muestral}: $\bar{X}=\frac{1}{n}\sum_{i=1}^n X_i$\\[5pt]
+\textbf{Varianza muestral}: $\tilde{S}^2_X=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2$\\[5pt]
+\textbf{Cuasivarianza}: $S^2_X=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^2=\frac{n-1}{n}\tilde{S}^2_X$\\[5pt]
+\textbf{Proporción muestral}: $\hat{p}=\frac{\text{núm. éxitos}}{n}=\frac{\sum X_i}{n}$
+\end{formulabox}
+
+\textbf{Fórmula alternativa para varianza}:\\
+$\tilde{S}^2_X=\frac{1}{n-1}\left(\sum X_i^2-n\bar{X}^2\right)=\frac{n}{n-1}\left(\frac{\sum X_i^2}{n}-\bar{X}^2\right)$
+
+\subsection{Propiedades de la media muestral}
+Si $X_1,\ldots,X_n$ es m.a.s. de $X$ con $\E(X)=\mu$, $\Var(X)=\sigma^2$:
+\begin{formulabox}
+$\E(\bar{X})=\mu$ \quad (insesgado)\\
+$\Var(\bar{X})=\frac{\sigma^2}{n}$\\
+$\sigma_{\bar{X}}=\frac{\sigma}{\sqrt{n}}$ \quad (error estándar)
+\end{formulabox}
+
+Si además $X\sim N(\mu,\sigma)$: $\bar{X}\sim N\left(\mu,\frac{\sigma}{\sqrt{n}}\right)$
+
+\subsection{Teorema Central del Límite (TCL)}
+\begin{formulabox}
+Si $X_1,\ldots,X_n$ m.a.s. con $\E(X_i)=\mu$, $\Var(X_i)=\sigma^2$, entonces para $n$ grande:\\[3pt]
+$\bar{X}\approx N\left(\mu,\frac{\sigma}{\sqrt{n}}\right)$ \quad equiv. \quad $\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\approx N(0,1)$
+\end{formulabox}
+
+\textbf{Regla práctica}: $n\geq 30$ suele ser suficiente.
+
+\subsection{Propiedades de estimadores}
+\begin{itemize}[leftmargin=*]
+\item \textbf{Insesgado}: $\E(\hat{\theta})=\theta$ (sesgo $B(\hat{\theta})=\E(\hat{\theta})-\theta=0$)
+\item \textbf{Consistente}: $\hat{\theta}\xrightarrow{P}\theta$ cuando $n\to\infty$
+\item \textbf{Eficiente}: mínima varianza entre insesgados
+\item \textbf{Error estándar}: $\sigma_{\hat{\theta}}=\sqrt{\Var(\hat{\theta})}$
+\item \textbf{ECM}: $\text{ECM}(\hat{\theta})=\Var(\hat{\theta})+[B(\hat{\theta})]^2$
+\end{itemize}
+
+\begin{alertbox}
+\textbf{¡OJO con la varianza!}\\
+$\tilde{S}^2_X=\frac{\sum(X_i-\bar{X})^2}{n-1}$ es \textbf{insesgado}: $\E(\tilde{S}^2_X)=\sigma^2$\\
+$S^2_X=\frac{\sum(X_i-\bar{X})^2}{n}$ tiene \textbf{sesgo}: $\E(S^2_X)=\frac{n-1}{n}\sigma^2$ (sesgo $=-\frac{\sigma^2}{n}\to 0$)\\
+Para $n$ pequeño ($\leq 30$), usar $\tilde{S}^2_X$. Para $n$ grande, ambas valen.
+\end{alertbox}
+
+\textbf{Estimadores insesgados eficientes} (para población normal):
+\begin{itemize}[leftmargin=*]
+\item $\bar{X}$ para $\mu$
+\item $\tilde{S}^2_X$ para $\sigma^2$
+\item $\hat{p}$ para $p$ (Bernoulli)
+\end{itemize}
+
+\subsection{Distribuciones muestrales importantes}
+Si $X_1,\ldots,X_n\stackrel{iid}{\sim}N(\mu,\sigma)$:
+\begin{formulabox}
+$\bar{X}\sim N\left(\mu,\frac{\sigma}{\sqrt{n}}\right)$\\[3pt]
+$\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$\\[3pt]
+$\frac{\bar{X}-\mu}{\tilde{S}_X/\sqrt{n}}\sim t_{n-1}$\\[3pt]
+$\frac{(n-1)\tilde{S}^2_X}{\sigma^2}\sim\chi^2_{n-1}$
+\end{formulabox}
+
+%===============================================
+\section{INTERVALOS DE CONFIANZA}
+%===============================================
+
+\subsection{Definición}
+Un \textbf{IC del $(1-\alpha)\cdot 100\%$} para $\theta$ es $(A,B)$ tal que $P(A<\theta<B)=1-\alpha$
+\begin{itemize}[leftmargin=*]
+\item $1-\alpha$: nivel de confianza (típicamente 0.95)
+\item $\alpha$: nivel de significación
+\item $\alpha/2$: probabilidad en cada cola (IC bilateral)
+\end{itemize}
+
+\subsection{IC para $\mu$ de población normal, $\sigma$ conocida}
+\begin{formulabox}
+$\left(\bar{X}-z_{1-\alpha/2}\frac{\sigma}{\sqrt{n}},\; \bar{X}+z_{1-\alpha/2}\frac{\sigma}{\sqrt{n}}\right)$\\[3pt]
+Abreviado: $\bar{X}\pm z_{1-\alpha/2}\frac{\sigma}{\sqrt{n}}$
+\end{formulabox}
+
+\textbf{Amplitud}: $A=2z_{1-\alpha/2}\frac{\sigma}{\sqrt{n}}$
+
+\textbf{Tamaño muestral para amplitud máxima $A_0$}:\\
+$n\geq\left(\frac{2z_{1-\alpha/2}\sigma}{A_0}\right)^2$
+
+\subsection{IC para $\mu$ de población normal, $\sigma$ desconocida}
+\begin{formulabox}
+$\bar{X}\pm t_{n-1,1-\alpha/2}\frac{\tilde{S}_X}{\sqrt{n}}$
+\end{formulabox}
+
+\R\texttt{t.test(X,conf.level=0.95)\$conf.int}
+
+\subsection{IC para $\mu$ de población cualquiera ($n$ grande)}
+Si $n\geq 40$, por TCL:
+\begin{formulabox}
+$\bar{X}\pm z_{1-\alpha/2}\frac{\tilde{S}_X}{\sqrt{n}}$
+\end{formulabox}
+
+\subsection{IC para proporción $p$}
+
+\textbf{Método de Laplace} (aproximación normal):\\
+Condiciones: $n\geq 100$, $n\hat{p}\geq 10$, $n(1-\hat{p})\geq 10$
+\begin{formulabox}
+$\hat{p}\pm z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$
+\end{formulabox}
+\R\texttt{binom.approx(x,n,conf.level)} (paquete epitools)
+
+\textbf{Método de Wilson} (mejor para muestras pequeñas):
+\begin{formulabox}
+$\frac{\hat{p}+\frac{z^2}{2n}\pm z\sqrt{\frac{\hat{p}(1-\hat{p})}{n}+\frac{z^2}{4n^2}}}{1+\frac{z^2}{n}}$
+\end{formulabox}
+donde $z=z_{1-\alpha/2}$\\
+\R\texttt{binom.wilson(x,n,conf.level)} (paquete epitools)
+
+\textbf{Método de Clopper-Pearson} (exacto):\\
+\R\texttt{binom.exact(x,n,conf.level)} (paquete epitools)
+
+\textbf{Tamaño muestral para proporción} (peor caso $\hat{p}=0.5$):
+\begin{formulabox}
+$n\geq\left\lceil\frac{z_{1-\alpha/2}^2}{A^2}\right\rceil$ donde $A$ es semi-amplitud deseada
+\end{formulabox}
+
+\begin{exbox}
+\textbf{Ej}: IC 95\% con error máximo 0.05: $n\geq\lceil\frac{1.96^2}{0.1^2}\rceil=385$
+\end{exbox}
+
+\subsection{IC para varianza $\sigma^2$ (población normal)}
+\begin{formulabox}
+$\left(\frac{(n-1)\tilde{S}^2_X}{\chi^2_{n-1,1-\alpha/2}},\;\frac{(n-1)\tilde{S}^2_X}{\chi^2_{n-1,\alpha/2}}\right)$
+\end{formulabox}
+
+\textbf{IC para $\sigma$}: tomar raíces cuadradas de los extremos.
+
+\R\texttt{varTest(X,conf.level)\$conf.int} (paquete EnvStats)
+
+\subsection{IC para diferencia de medias (muestras indep.)}
+\textbf{Varianzas conocidas}:
+$(\bar{X}_1-\bar{X}_2)\pm z_{1-\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$
+
+\textbf{Varianzas desconocidas iguales}:
+$(\bar{X}_1-\bar{X}_2)\pm t_{n_1+n_2-2,1-\alpha/2}\cdot S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$\\
+donde $S_p^2=\frac{(n_1-1)\tilde{S}_1^2+(n_2-1)\tilde{S}_2^2}{n_1+n_2-2}$
+
+\textbf{Varianzas desconocidas distintas (Welch)}:
+$(\bar{X}_1-\bar{X}_2)\pm t_{\nu,1-\alpha/2}\sqrt{\frac{\tilde{S}_1^2}{n_1}+\frac{\tilde{S}_2^2}{n_2}}$
+
+%===============================================
+\section{CONTRASTE DE HIPÓTESIS}
+%===============================================
+
+\subsection{Conceptos básicos}
+\begin{itemize}[leftmargin=*]
+\item $H_0$: \textbf{Hipótesis nula} (lo que se contrasta, status quo)
+\item $H_1$: \textbf{Hipótesis alternativa} (lo que queremos demostrar)
+\item \textbf{Estadístico de contraste}: función de la muestra para tomar decisión
+\item \textbf{p-valor}: prob. de obtener resultado tan extremo o más, si $H_0$ es cierta
+\item \textbf{Región crítica}: valores del estadístico que llevan a rechazar $H_0$
+\end{itemize}
+
+\textbf{Método de los 6 pasos}:
+\begin{enumerate}[leftmargin=*]
+\item Establecer $H_0$ y $H_1$
+\item Fijar nivel de significación $\alpha$
+\item Seleccionar estadístico de contraste
+\item Calcular valor del estadístico con los datos
+\item Calcular p-valor
+\item Tomar decisión: rechazar $H_0$ si p-valor $<\alpha$
+\end{enumerate}
+
+\textbf{Tipos de hipótesis alternativa}:
+\begin{itemize}[leftmargin=*]
+\item \textbf{Unilateral derecha}: $H_1:\theta>\theta_0$
+\item \textbf{Unilateral izquierda}: $H_1:\theta<\theta_0$
+\item \textbf{Bilateral}: $H_1:\theta\neq\theta_0$
+\end{itemize}
+
+\begin{alertbox}
+\textbf{Regla de decisión con p-valor}:\\
+$p<0.05$: Rechazar $H_0$ (significativo *)\\
+$p<0.01$: Rechazar $H_0$ (muy significativo **)\\
+$p<0.001$: Rechazar $H_0$ (altamente significativo ***)\\
+$p>0.1$: No rechazar $H_0$\\
+$0.05\leq p\leq 0.1$: Zona de penumbra (más datos)\\[3pt]
+\textbf{¡OJO!} p-valor $\neq$ $P(H_0\text{ cierta})$
+\end{alertbox}
+
+\subsection{Tipos de errores}
+\begin{center}
+\begin{tabular}{@{}l|cc@{}}
+& $H_0$ cierta & $H_0$ falsa\\
+\hline
+Aceptar $H_0$ & Correcto & Error Tipo II ($\beta$)\\
+Rechazar $H_0$ & Error Tipo I ($\alpha$) & Correcto (Potencia $1-\beta$)
+\end{tabular}
+\end{center}
+$\alpha$: nivel de significación\\
+$1-\beta$: potencia del test
+
+\subsection{Contraste para $\mu$ ($\sigma$ conocida) - Z-test}
+$H_0:\mu=\mu_0$\\
+Estadístico: $Z=\frac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}\sim N(0,1)$ bajo $H_0$
+
+\begin{center}
+\begin{tabular}{@{}l|l@{}}
+$H_1$ & p-valor\\
+\hline
+$\mu>\mu_0$ & $P(Z\geq z_0)=1-\Phi(z_0)$\\
+$\mu<\mu_0$ & $P(Z\leq z_0)=\Phi(z_0)$\\
+$\mu\neq\mu_0$ & $2P(Z\geq|z_0|)=2(1-\Phi(|z_0|))$
+\end{tabular}
+\end{center}
+
+\subsection{Contraste para $\mu$ ($\sigma$ desconocida) - t-test}
+$H_0:\mu=\mu_0$\\
+Estadístico: $T=\frac{\bar{X}-\mu_0}{\tilde{S}_X/\sqrt{n}}\sim t_{n-1}$ bajo $H_0$
+
+\begin{center}
+\begin{tabular}{@{}l|l@{}}
+$H_1$ & p-valor\\
+\hline
+$\mu>\mu_0$ & $P(t_{n-1}\geq t_0)$\\
+$\mu<\mu_0$ & $P(t_{n-1}\leq t_0)$\\
+$\mu\neq\mu_0$ & $2P(t_{n-1}\geq|t_0|)$
+\end{tabular}
+\end{center}
+
+\R\texttt{t.test(X,mu=mu0,alternative="two.sided/greater/less")}
+
+\subsection{Contraste para proporción $p$}
+$H_0:p=p_0$
+
+\textbf{Exacto (binomial)}:\\
+Estadístico: $X\sim B(n,p_0)$ bajo $H_0$\\
+\R\texttt{binom.test(x,n,p=p0,alternative=...)}
+
+\textbf{Aproximado ($n$ grande)}:\\
+Estadístico: $Z=\frac{\hat{p}-p_0}{\sqrt{p_0(1-p_0)/n}}\sim N(0,1)$\\
+\R\texttt{prop.test(x,n,p=p0,alternative=...)}
+
+\subsection{Contraste para $\sigma^2$ - $\chi^2$-test}
+$H_0:\sigma^2=\sigma_0^2$\\
+Estadístico: $\chi^2=\frac{(n-1)\tilde{S}^2_X}{\sigma_0^2}\sim\chi^2_{n-1}$ bajo $H_0$
+
+\begin{center}
+\begin{tabular}{@{}l|l@{}}
+$H_1$ & p-valor\\
+\hline
+$\sigma>\sigma_0$ & $P(\chi^2_{n-1}\geq\chi^2_0)$\\
+$\sigma<\sigma_0$ & $P(\chi^2_{n-1}\leq\chi^2_0)$\\
+$\sigma\neq\sigma_0$ & $2\min\{P(\leq\chi^2_0),P(\geq\chi^2_0)\}$
+\end{tabular}
+\end{center}
+
+\R\texttt{sigma.test(X,sigma=sigma0,...)} (paquete TeachingDemos)
+
+\subsection{Contraste para dos medias independientes}
+$H_0:\mu_1=\mu_2$
+
+\textbf{Varianzas iguales}:
+\begin{formulabox}
+$T=\frac{\bar{X}_1-\bar{X}_2}{S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\sim t_{n_1+n_2-2}$\\[5pt]
+$S_p^2=\frac{(n_1-1)\tilde{S}_1^2+(n_2-1)\tilde{S}_2^2}{n_1+n_2-2}$
+\end{formulabox}
+
+\textbf{Varianzas distintas (Welch)}:
+\begin{formulabox}
+$T=\frac{\bar{X}_1-\bar{X}_2}{\sqrt{\frac{\tilde{S}_1^2}{n_1}+\frac{\tilde{S}_2^2}{n_2}}}\sim t_\nu$
+\end{formulabox}
+(grados de libertad $\nu$ aproximados por fórmula de Welch)
+
+\R\texttt{t.test(X,Y,var.equal=TRUE/FALSE,alternative=...)}
+
+\subsection{Contraste para dos proporciones}
+$H_0:p_1=p_2$
+\begin{formulabox}
+$Z=\frac{\hat{p}_1-\hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(\frac{1}{n_1}+\frac{1}{n_2})}}\sim N(0,1)$\\[5pt]
+donde $\hat{p}=\frac{x_1+x_2}{n_1+n_2}$ (proporción combinada)
+\end{formulabox}
+
+\R\texttt{prop.test(c(x1,x2),c(n1,n2),alternative=...)}
+
+\textbf{Test exacto de Fisher}: \texttt{fisher.test(tabla,...)}
+
+\subsection{Contraste para dos varianzas - F-test}
+$H_0:\sigma_1^2=\sigma_2^2$ (equiv. $\frac{\sigma_1^2}{\sigma_2^2}=1$)\\
+Estadístico: $F=\frac{\tilde{S}_1^2}{\tilde{S}_2^2}\sim F_{n_1-1,n_2-1}$ bajo $H_0$
+
+\begin{center}
+\begin{tabular}{@{}l|l@{}}
+$H_1$ & p-valor\\
+\hline
+$\sigma_1>\sigma_2$ & $P(F_{n_1-1,n_2-1}\geq f_0)$\\
+$\sigma_1<\sigma_2$ & $P(F_{n_1-1,n_2-1}\leq f_0)$\\
+$\sigma_1\neq\sigma_2$ & $2\min\{P(\leq f_0),P(\geq f_0)\}$
+\end{tabular}
+\end{center}
+
+\R\texttt{var.test(X,Y,alternative=...)}
+
+\textbf{Test no paramétrico (si normalidad dudosa)}:\\
+\R\texttt{fligner.test(list(X,Y))} (solo bilateral)
+
+\subsection{Muestras emparejadas}
+Para datos pareados $(X_i,Y_i)$: calcular diferencias $D_i=X_i-Y_i$.
+
+$H_0:\mu_1=\mu_2$ equiv. $H_0:\mu_D=0$
+\begin{formulabox}
+$T=\frac{\bar{D}}{\tilde{S}_D/\sqrt{n}}\sim t_{n-1}$ bajo $H_0$
+\end{formulabox}
+
+\textbf{IC para $\mu_D=\mu_1-\mu_2$}: $\bar{D}\pm t_{n-1,1-\alpha/2}\frac{\tilde{S}_D}{\sqrt{n}}$
+
+\R\texttt{t.test(X,Y,paired=TRUE,alternative=...)}
+
+\begin{alertbox}
+\textbf{¿Cuándo usar emparejadas?}\\
+Mismos individuos antes/después, gemelos, medidas repetidas.\\
+El diseño experimental se fija \textbf{ANTES} de recoger datos.
+\end{alertbox}
+
+%===============================================
+\section{BONDAD DE AJUSTE}
+%===============================================
+
+\subsection{Test $\chi^2$ de Pearson}
+$H_0$: La muestra proviene de la distribución teórica especificada.
+
+\begin{formulabox}
+$\chi^2=\sum_{i=1}^{k}\frac{(O_i-E_i)^2}{E_i}\sim\chi^2_{k-1-r}$
+\end{formulabox}
+donde:
+\begin{itemize}[leftmargin=*]
+\item $O_i$: frecuencia observada de la clase $i$
+\item $E_i=n\cdot p_i$: frecuencia esperada
+\item $k$: número de clases
+\item $r$: número de parámetros estimados de los datos
+\end{itemize}
+
+\textbf{Condiciones de aplicación}:
+\begin{itemize}[leftmargin=*]
+\item $n\geq 30$
+\item $E_i\geq 5$ para todo $i$ (si no, agrupar clases)
+\end{itemize}
+
+p-valor $=P(\chi^2_{g.l.}\geq\chi^2_0)$ donde g.l.$=k-1-r$
+
+\R\texttt{chisq.test(x,p=probabilidades)}\\
+Para simular: \texttt{chisq.test(...,simulate.p.value=TRUE,B=5000)}
+
+\begin{exbox}
+\textbf{Ej}: Dado lanzado 120 veces. Observaciones: 20,22,17,18,19,24.\\
+$H_0$: dado equilibrado ($p_i=1/6$). $E_i=120/6=20$.\\
+$\chi^2=\frac{(20-20)^2}{20}+\frac{(22-20)^2}{20}+\cdots=1.7$\\
+p-valor $=P(\chi^2_5\geq 1.7)\approx 0.89$. No rechazar $H_0$.
+\end{exbox}
+
+%===============================================
+\section{TEST DE INDEPENDENCIA}
+%===============================================
+
+\subsection{Tabla de contingencia}
+Datos bivariados categóricos en tabla $I\times J$.
+
+$H_0$: Las variables $A$ y $B$ son independientes.\\
+$H_1$: Las variables están relacionadas.
+
+\begin{formulabox}
+$\chi^2=\sum_{i=1}^{I}\sum_{j=1}^{J}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\sim\chi^2_{(I-1)(J-1)}$\\[5pt]
+$E_{ij}=\frac{n_{i\bullet}\cdot n_{\bullet j}}{n}$ (frec. esperada bajo independencia)
+\end{formulabox}
+
+\textbf{Condiciones}: $E_{ij}\geq 5$ para todas las celdas.
+
+\R\texttt{chisq.test(tabla.contingencia)}
+
+\subsection{Test de homogeneidad}
+Misma fórmula. Contrasta si la distribución de una variable es igual en varias poblaciones.
+
+%===============================================
+\section{REGRESIÓN LINEAL SIMPLE}
+%===============================================
+
+\subsection{Modelo}
+$Y_i=\beta_0+\beta_1 X_i+\varepsilon_i$ donde $\varepsilon_i\stackrel{iid}{\sim}N(0,\sigma_\varepsilon)$
+
+\textbf{Hipótesis del modelo}:
+\begin{itemize}[leftmargin=*]
+\item Linealidad: relación lineal entre $X$ e $Y$
+\item Independencia: errores independientes
+\item Homocedasticidad: varianza constante de errores
+\item Normalidad: errores normales
+\end{itemize}
+
+\subsection{Estimadores por mínimos cuadrados}
+\begin{formulabox}
+$b_1=\frac{\tilde{s}_{xy}}{\tilde{s}_x^2}=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^n(x_i-\bar{x})^2}$\\[5pt]
+$b_0=\bar{y}-b_1\bar{x}$
+\end{formulabox}
+
+\textbf{Fórmulas alternativas} (para cálculo directo con sumatorios):
+\begin{formulabox}
+$b_1=\frac{n\sum x_i y_i - \sum x_i \sum y_i}{n\sum x_i^2-(\sum x_i)^2}$\\[5pt]
+$b_0=\frac{\sum y_i - b_1\sum x_i}{n}=\bar{y}-b_1\bar{x}$
+\end{formulabox}
+
+\textbf{Recta de regresión}: $\hat{y}=b_0+b_1 x$
+
+\textbf{Residuos}: $e_i=y_i-\hat{y}_i$
+
+\subsection{Propiedades}
+\begin{itemize}[leftmargin=*]
+\item La recta pasa por $(\bar{x},\bar{y})$
+\item $\sum_{i=1}^n e_i=0$ (media de residuos = 0)
+\item $\sum_{i=1}^n x_i e_i=0$
+\item $b_0,b_1$ son estimadores insesgados de $\beta_0,\beta_1$
+\end{itemize}
+
+\subsection{Descomposición de variabilidad}
+\begin{formulabox}
+$SS_T=SS_R+SS_E$\\[3pt]
+$\sum(y_i-\bar{y})^2=\sum(\hat{y}_i-\bar{y})^2+\sum(y_i-\hat{y}_i)^2$
+\end{formulabox}
+\begin{itemize}[leftmargin=*]
+\item $SS_T$: suma de cuadrados total
+\item $SS_R$: suma de cuadrados de regresión (explicada)
+\item $SS_E$: suma de cuadrados del error (residual)
+\end{itemize}
+
+\subsection{Coeficiente de determinación}
+\begin{formulabox}
+$R^2=\frac{SS_R}{SS_T}=1-\frac{SS_E}{SS_T}=r_{xy}^2$
+\end{formulabox}
+
+\begin{itemize}[leftmargin=*]
+\item $0\leq R^2\leq 1$
+\item $R^2$ cercano a 1: buen ajuste
+\item $R^2=$ proporción de variabilidad de $Y$ explicada por $X$
+\end{itemize}
+
+\subsection{Coeficiente de correlación lineal}
+\begin{formulabox}
+$r_{xy}=\frac{\tilde{s}_{xy}}{\tilde{s}_x\cdot\tilde{s}_y}=\frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2}\sqrt{\sum(y_i-\bar{y})^2}}$
+\end{formulabox}
+$-1\leq r_{xy}\leq 1$. \quad $r_{xy}=\pm 1$: perfecta correlación lineal.
+
+\subsection{Estimación de $\sigma_\varepsilon^2$}
+\begin{formulabox}
+$S^2=\frac{SS_E}{n-2}=\frac{\sum e_i^2}{n-2}$ (estimador insesgado)
+\end{formulabox}
+
+\subsection{Contraste sobre $\beta_1$}
+$H_0:\beta_1=0$ (no hay relación lineal)
+\begin{formulabox}
+$T=\frac{b_1}{\text{SE}(b_1)}=\frac{b_1}{S/\sqrt{\sum(x_i-\bar{x})^2}}\sim t_{n-2}$
+\end{formulabox}
+
+p-valor $=2P(t_{n-2}>|t_0|)$
+
+\textbf{Interpretación}:
+\begin{itemize}[leftmargin=*]
+\item $p<0.05$: regresión significativa, $\beta_1\neq 0$
+\item $p>0.1$: no hay evidencia de relación lineal
+\end{itemize}
+
+\subsection{R: Regresión lineal}
+\begin{verbatim}
+modelo <- lm(Y ~ X, data=datos)
+summary(modelo)
+\end{verbatim}
+
+\textbf{Elementos del summary}:
+\begin{itemize}[leftmargin=*]
+\item \texttt{Coefficients}: $b_0$, $b_1$, errores estándar, t-valor, p-valor
+\item \texttt{Residual standard error}: $S$
+\item \texttt{Multiple R-squared}: $R^2$
+\item \texttt{F-statistic}: test global del modelo
+\end{itemize}
+
+\textbf{Otras funciones}:
+\begin{itemize}[leftmargin=*]
+\item \texttt{coef(modelo)}: coeficientes
+\item \texttt{residuals(modelo)}: residuos
+\item \texttt{fitted(modelo)}: valores ajustados $\hat{y}_i$
+\item \texttt{predict(modelo,newdata=...)}: predicción
+\item \texttt{confint(modelo)}: IC para coeficientes
+\end{itemize}
+
+%===============================================
+\section{GUÍA RÁPIDA R}
+%===============================================
+
+\subsection{Distribuciones}
+\textbf{Prefijos}: \texttt{d} densidad/prob., \texttt{p} distrib., \texttt{q} cuantil, \texttt{r} aleatorio
+
+\begin{tabular}{@{}ll@{}}
+\texttt{norm(x,$\mu$,$\sigma$)} & Normal\\
+\texttt{t(x,df)} & t de Student\\
+\texttt{chisq(x,df)} & Chi-cuadrado\\
+\texttt{f(x,df1,df2)} & F de Fisher\\
+\texttt{binom(k,n,p)} & Binomial\\
+\texttt{pois(k,$\lambda$)} & Poisson\\
+\texttt{geom(k,p)} & Geométrica\\
+\texttt{nbinom(k,r,p)} & Binomial Negativa\\
+\texttt{hyper(x,m,n,k)} & Hipergeométrica\\
+\texttt{unif(x,a,b)} & Uniforme\\
+\texttt{exp(x,rate)} & Exponencial
+\end{tabular}
+
+\subsection{Tests estadísticos}
+\begin{tabular}{@{}ll@{}}
+\texttt{t.test()} & Media(s)\\
+\texttt{var.test()} & Dos varianzas (F-test)\\
+\texttt{prop.test()} & Proporción(es)\\
+\texttt{binom.test()} & Proporción exacto\\
+\texttt{chisq.test()} & Bondad ajuste / Independencia\\
+\texttt{fisher.test()} & Fisher exacto (2 proporciones)\\
+\texttt{mcnemar.test()} & 2 proporciones emparejadas\\
+\texttt{fligner.test()} & 2 varianzas (no paramétrico)\\
+\texttt{sigma.test()} & Una varianza (TeachingDemos)\\
+\texttt{varTest()} & Una varianza (EnvStats)\\
+\end{tabular}
+
+\subsection{Parámetros comunes en tests}
+\begin{tabular}{@{}ll@{}}
+\texttt{alternative} & \texttt{"two.sided"}, \texttt{"less"}, \texttt{"greater"}\\
+\texttt{conf.level} & Nivel de confianza (0.95 por defecto)\\
+\texttt{mu} & Media a contrastar (t.test)\\
+\texttt{var.equal} & ¿Varianzas iguales? (t.test)\\
+\texttt{paired} & ¿Muestras emparejadas? (t.test)\\
+\texttt{p} & Proporción a contrastar\\
+\end{tabular}
+
+\subsection{Cuantiles más usados}
+\begin{center}
+\begin{tabular}{c|ccccc}
+Confianza & 80\% & 90\% & 95\% & 98\% & 99\%\\
+\hline
+$\alpha$ & 0.20 & 0.10 & 0.05 & 0.02 & 0.01\\
+$z_{1-\alpha/2}$ & 1.282 & 1.645 & 1.960 & 2.326 & 2.576
+\end{tabular}
+\end{center}
+
+\subsection{Paquetes útiles}
+\begin{itemize}[leftmargin=*]
+\item \texttt{epitools}: intervalos para proporciones
+\item \texttt{TeachingDemos}: \texttt{sigma.test}
+\item \texttt{EnvStats}: \texttt{varTest}
+\item \texttt{boot}: bootstrap
+\end{itemize}
+
+\subsection{Fórmulas de cálculo rápido}
+\begin{formulabox}
+\textbf{Media}: $\bar{x}=\frac{\sum x_i}{n}$\\[3pt]
+\textbf{Varianza muestral}: $\tilde{s}^2=\frac{\sum x_i^2-n\bar{x}^2}{n-1}$\\[3pt]
+\textbf{Covarianza}: $\tilde{s}_{xy}=\frac{\sum x_iy_i-n\bar{x}\bar{y}}{n-1}$\\[3pt]
+\textbf{Correlación}: $r=\frac{\tilde{s}_{xy}}{\tilde{s}_x\tilde{s}_y}$\\[3pt]
+\textbf{Pendiente regresión}: $b_1=\frac{\tilde{s}_{xy}}{\tilde{s}_x^2}=r\frac{\tilde{s}_y}{\tilde{s}_x}$
+\end{formulabox}
+
+\end{multicols}
+\end{document}
